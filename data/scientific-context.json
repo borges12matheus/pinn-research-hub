@@ -1,0 +1,45 @@
+{
+  "phases": [
+    {"id":"bfs_2d_pinn_corrector","title":{"pt":"BFS 2D · k–ε","en":"BFS 2D · k–ε"}},
+    {"id":"bfs-physics-informed-learning","title":{"pt":"Aprendizado informado por física · SST","en":"Physics-informed learning · SST"}},
+    {"id":"contexto","title":{"pt":"Contexto da pesquisa","en":"Research context"}}
+  ],
+  "hypotheses": [
+    {"id":"H01","active":true,"title":{"pt":"Restrições físicas podem reduzir a divergência na correção de campos CFD?","en":"Can physical constraints reduce divergence in CFD field correction?"}},
+    {"id":"H02","active":true,"title":{"pt":"O resíduo de momento acrescenta informação à continuidade?","en":"Does the momentum residual add information beyond continuity?"}},
+    {"id":"H03","active":true,"title":{"pt":"A correção pode generalizar entre condições de Reynolds?","en":"Can field correction generalize across Reynolds conditions?"}},
+    {"id":"H04","active":false,"title":{"pt":"Gradientes de entrada ajudam a correção?","en":"Do input gradients help field correction?"}},
+    {"id":"H05","active":true,"title":{"pt":"É possível reduzir a dependência de dados de alta fidelidade?","en":"Can reliance on high-fidelity data be reduced?"}},
+    {"id":"H06","active":true,"title":{"pt":"Como o operador numérico afeta a avaliação da consistência física?","en":"How does the numerical operator affect physical consistency evaluation?"}}
+  ],
+  "decisions": [
+    {"id":"DEC-01","title":{"pt":"Adotar o caso BFS","en":"Adopt the BFS case"}},
+    {"id":"DEC-02","title":{"pt":"Usar campos RANS coarse e fine","en":"Use coarse and fine RANS fields"}},
+    {"id":"DEC-03","title":{"pt":"Aprender a correção de campos","en":"Learn field correction"}},
+    {"id":"DEC-04","title":{"pt":"Definir um baseline MLP","en":"Establish an MLP baseline"}},
+    {"id":"DEC-05","title":{"pt":"Acrescentar continuidade","en":"Add continuity"}},
+    {"id":"DEC-06","title":{"pt":"Investigar o termo de momento","en":"Investigate the momentum term"}},
+    {"id":"DEC-07","title":{"pt":"Investigar generalização em Reynolds","en":"Investigate Reynolds generalization"}},
+    {"id":"DEC-08","title":{"pt":"Revisar o escalonamento","en":"Review scaling"}},
+    {"id":"DEC-09","title":{"pt":"Avaliar gradientes de entrada","en":"Evaluate input gradients"}},
+    {"id":"DEC-10","title":{"pt":"Revisar o cálculo da divergência","en":"Review divergence calculation"}},
+    {"id":"DEC-11","title":{"pt":"Definir critérios de consistência física","en":"Define physical consistency criteria"}},
+    {"id":"DEC-12","title":{"pt":"Investigar adimensionalização","en":"Investigate nondimensionalization"}},
+    {"id":"DEC-13","title":{"pt":"Investigar pesos de perdas","en":"Investigate loss weights"}},
+    {"id":"DEC-14","title":{"pt":"Testar redução de supervisão","en":"Test reduced supervision"}},
+    {"id":"DEC-15","title":{"pt":"Avaliar regimes com pouca supervisão","en":"Evaluate low-supervision regimes"}},
+    {"id":"DEC-16","title":{"pt":"Caracterizar a referência externa","en":"Characterize the external reference"}},
+    {"id":"DEC-17","title":{"pt":"Preparar a comunicação científica","en":"Prepare scientific reporting"}},
+    {"id":"DEC-18","title":{"pt":"Auditar as evidências disponíveis","en":"Audit available evidence"}}
+  ],
+  "groups": [
+    {"id":"baseline-sst","priority":"P0","title":{"pt":"Baseline SST","en":"SST baseline"}},
+    {"id":"replicas-ke","priority":"P0","title":{"pt":"Replicação k–ε","en":"k–ε replication"}},
+    {"id":"supervisao-sst","priority":"P0","title":{"pt":"Redução de supervisão","en":"Reduced supervision"}},
+    {"id":"gradientes-sst","priority":"P1","title":{"pt":"Gradientes de entrada","en":"Input gradients"}},
+    {"id":"momento-ke","priority":"P1","title":{"pt":"Continuidade e momento","en":"Continuity and momentum"}},
+    {"id":"multicaso-ke","priority":"P1","title":{"pt":"Avaliação multicaso","en":"Multi-case evaluation"}},
+    {"id":"re32000-ke","priority":"P1","title":{"pt":"Caso isolado Re 32.000","en":"Standalone Re 32,000 case"}}
+  ],
+  "baselineComparisonId":"cmp-sst-20261113-212942"
+}

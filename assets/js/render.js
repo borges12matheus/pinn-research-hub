@@ -31,7 +31,7 @@ const messages = {
     showLess: 'Mostrar menos',
     statuses: {
       planned: 'Planejado', in_progress: 'Em andamento', completed: 'Concluído', blocked: 'Bloqueado',
-      open: 'Aberta', draft: 'Rascunho', submitted: 'Submetida', accepted: 'Aceita', published: 'Publicada',
+      open: 'Aberta', draft: 'Rascunho', internal_review: 'Em revisão interna', submitted: 'Submetida', accepted: 'Aceita', published: 'Publicada',
     },
   },
   en: {
@@ -64,7 +64,7 @@ const messages = {
     showLess: 'Show fewer',
     statuses: {
       planned: 'Planned', in_progress: 'In progress', completed: 'Completed', blocked: 'Blocked',
-      open: 'Open', draft: 'Draft', submitted: 'Submitted', accepted: 'Accepted', published: 'Published',
+      open: 'Open', draft: 'Draft', internal_review: 'In internal review', submitted: 'Submitted', accepted: 'Accepted', published: 'Published',
     },
   },
 };
@@ -153,6 +153,13 @@ function renderOverview({ data, errors }, locale, copy) {
   byId('stats').hidden = false;
 }
 
+function editorialLinks(collection, record) {
+  const group = element('div');
+  group.dataset.editorialLinks = collection;
+  group.dataset.record = record.id;
+  return group;
+}
+
 function renderCollection(name, records, errors, copy, emptyText, renderItem, listTag = 'ul') {
   const region = byId(`${name}-content`);
   if (errors.has(name)) {
@@ -218,6 +225,7 @@ export function renderPage(result, locale, updatesExpanded) {
       target.append(dateElement(record.targetDate, locale));
       item.append(target);
     }
+    item.append(editorialLinks('roadmap', record));
     return item;
   }, 'ol');
 
@@ -244,6 +252,7 @@ export function renderPage(result, locale, updatesExpanded) {
       link.href = `#${milestone.anchor}`;
       item.append(link);
     }
+    item.append(editorialLinks('priorities', record));
     return item;
   }, 'ol');
 
@@ -257,7 +266,8 @@ export function renderPage(result, locale, updatesExpanded) {
 
   renderCollection('publications', data.publications, errors, copy, copy.emptyPublications, record => {
     const item = element('li', undefined, 'entry-heading');
-    item.append(externalTitle(localized(record, 'title', locale), record.url), statusElement(record.status, copy.statuses));
+    item.append(externalTitle(localized(record, 'title', locale), record.url), statusElement(record.status, copy.statuses),
+      editorialLinks('publications', record));
     return item;
   });
 

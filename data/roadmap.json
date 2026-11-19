@@ -21,7 +21,12 @@
     "en": {
       "title": "Current phase · bfs-physics-informed-learning",
       "description": "Set up the investigation of continuity, momentum terms, optimization strategies and loss balancing."
-    }
+    },
+    "hypothesisIds": [
+      "H01",
+      "H02",
+      "H06"
+    ]
   },
   {
     "id": "roadmap-03",
@@ -33,6 +38,10 @@
     "en": {
       "title": "Generalization and data requirements",
       "description": "Plan evaluations of physical consistency and generalization across Reynolds numbers with reduced high-fidelity supervision."
-    }
+    },
+    "hypothesisIds": [
+      "H03",
+      "H05"
+    ]
   }
 ]

@@ -1,0 +1,63 @@
+# All paths are relative to this file. CLI --output is relative to the working directory.
+staging_output: ../.experiment-import/staging
+public_output: ../public
+public_reports: ../.experiment-import/public-audit
+timeline: ../RESEARCH_TIMELINE.md
+selection: timeline
+verify_predictions: true
+
+repositories:
+  bfs_2d_pinn_corrector:
+    root: ../../lab_experimentos/experiments/bfs_2d_pinn_corrector
+    id_prefix: ke
+    figure_directory: phase_01
+    legacy_divergence_operator: openfoam_plus_autograd
+    # Documented legacy accuracy exports on split v1. Suffix alone never establishes scope.
+    legacy_accuracy_suffixes: [_seed42, _seed123, _seed456]
+  bfs-physics-informed-learning:
+    root: ../../lab_experimentos/experiments/bfs-physics-informed-learning
+    id_prefix: sst
+    figure_directory: phase_02
+    legacy_divergence_operator: etl_grid_differences_plus_autograd
+    legacy_edge_order: 2
+
+cases:
+  dataset_bfs_2d_kepsilon_Re36000_full.parquet:
+    id: bfs-ke-re36000
+    reynolds: [36000]
+    turbulence: k_epsilon
+    rows: 100589
+    test_rows: 20118
+    normalization: dataset_native
+    units:
+      velocity: m/s
+      pressure: m²/s²
+      divergence: s⁻¹
+  dataset_bfs_2d_kepsilon_Re32000_full.parquet:
+    id: bfs-ke-re32000
+    reynolds: [32000]
+    turbulence: k_epsilon
+    rows: 100589
+    test_rows: 20118
+    normalization: dataset_native
+  dataset_bfs_2d_kepsilon_Re20000_28000_36000_full.parquet:
+    id: bfs-ke-multi-re
+    reynolds: [20000, 28000, 36000]
+    turbulence: k_epsilon
+    rows: 301767
+    test_rows: 60353
+    normalization: dataset_native
+  dataset_bfs_2d_sst_Re5100_full.parquet:
+    id: bfs-sst-re5100
+    reynolds: [5100]
+    turbulence: k_sst
+    rows: 49941
+    test_rows: 9988
+    normalization: dataset_native
+
+# No scientific artifact or timeline entry has publication approval by default.
+figures: []
+public_approvals:
+  experiments: []
+  timeline: []
+  figures: []

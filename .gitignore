@@ -5,3 +5,8 @@
 .codex/
 PRD.md
 SPEC.md
+
+.experiment-import/
+__pycache__/
+
+/dist/

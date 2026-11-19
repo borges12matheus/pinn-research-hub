@@ -18,9 +18,11 @@
       </div>
       <nav aria-label="Navegação principal" id="navigation">
         <a href="#overview" data-ui="overview">Visão geral</a>
+        <a href="#timeline" data-science="timeline">Evolução</a>
+        <a href="#experiments" data-science="experiments">Experimentos</a>
+        <a href="#comparison" data-science="comparison">Comparador</a>
+        <a href="#figures" data-science="figures">Galeria</a>
         <a href="#roadmap" data-ui="roadmap">Roadmap</a>
-        <a href="#updates" data-ui="updates">Atualizações</a>
-        <a href="#priorities" data-ui="priorities">Prioridades</a>
         <a href="#resources" data-ui="resources">Recursos</a>
       </nav>
       <button id="language" type="button" lang="en" aria-label="Switch to English" hidden>EN</button>
@@ -37,11 +39,44 @@
           <span data-ui="phase">Fase atual</span>
           <strong id="current-phase" class="phase-badge"></strong>
         </div>
+        <div class="hero-actions">
+          <a class="action primary-action" href="#experiments" data-science="explore">Explorar resultados</a>
+          <a class="action" href="#timeline" data-science="timelineLink">Ver evolução</a>
+        </div>
       </div>
       <p id="project-error" class="notice error" role="alert" hidden></p>
       <p id="demo-notice" class="notice" data-ui="demo" hidden>Dados iniciais demonstrativos — revise antes de divulgar.</p>
       <noscript><p class="notice error">Ative o JavaScript para carregar os dados da pesquisa.</p></noscript>
       <p id="loading" role="status" data-ui="loading">Carregando dados da pesquisa…</p>
+      <div id="scientific-dashboard" aria-live="polite"></div>
+    </section>
+
+    <section id="timeline" class="panel science-panel" aria-labelledby="timeline-title" tabindex="-1">
+      <h2 id="timeline-title" data-science="timeline">Evolução da pesquisa</h2>
+      <div data-science-region="timeline"></div>
+    </section>
+
+    <section id="experiments" class="panel science-panel" aria-labelledby="experiments-title" tabindex="-1">
+      <h2 id="experiments-title" data-science="experiments">Experimentos</h2>
+      <div data-science-region="experiments"></div>
+    </section>
+
+    <section id="comparison" class="panel science-panel" aria-labelledby="comparison-title" tabindex="-1">
+      <h2 id="comparison-title" data-science="comparison">Comparador</h2>
+      <div data-science-region="comparison"></div>
+    </section>
+
+    <section id="figures" class="panel science-panel" aria-labelledby="figures-title" tabindex="-1">
+      <h2 id="figures-title" data-science="figures">Galeria</h2>
+      <div data-science-region="figures"></div>
+    </section>
+
+    <section id="roadmap" class="panel" aria-labelledby="roadmap-title">
+      <h2 id="roadmap-title" data-ui="roadmap">Roadmap</h2>
+      <div class="reference-list">
+        <a href="#updates" data-ui="updates">Atualizações</a>
+        <a href="#priorities" data-ui="priorities">Prioridades</a>
+      </div>
       <div class="stats" id="stats" hidden>
         <article class="stat">
           <h2 data-ui="milestones">Marcos concluídos</h2>
@@ -56,10 +91,6 @@
           <p id="publication-count"></p>
         </article>
       </div>
-    </section>
-
-    <section id="roadmap" class="panel" aria-labelledby="roadmap-title">
-      <h2 id="roadmap-title" data-ui="roadmap">Roadmap</h2>
       <div id="roadmap-content"></div>
     </section>
 
@@ -79,7 +110,11 @@
     <section id="resources" class="panel" aria-labelledby="resources-title">
       <h2 id="resources-title" data-ui="resources">Recursos</h2>
       <div id="resources-content"></div>
-      <div class="publications">
+      <div class="publications" id="literature">
+        <h3 data-science="literature">Literatura</h3>
+        <div data-science-region="literature"></div>
+      </div>
+      <div class="publications" id="publications">
         <h3 data-ui="publications">Publicações</h3>
         <div id="publications-content"></div>
       </div>
