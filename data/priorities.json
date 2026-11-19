@@ -1,0 +1,18 @@
+[
+  {
+    "id": "priority-01",
+    "order": 1,
+    "title": "Revisar os marcos oficiais do roadmap",
+    "status": "open",
+    "roadmapId": "roadmap-02",
+    "en": { "title": "Review the official roadmap milestones" }
+  },
+  {
+    "id": "priority-02",
+    "order": 2,
+    "title": "Definir informações aptas à publicação",
+    "status": "open",
+    "roadmapId": null,
+    "en": { "title": "Identify information suitable for publication" }
+  }
+]

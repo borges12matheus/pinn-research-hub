@@ -1,0 +1,228 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, sans-serif;
+  color: #172c37;
+  background: #f3f6f7;
+  line-height: 1.55;
+  --ink: #172c37;
+  --muted: #4d636e;
+  --accent: #075e60;
+  --border: #d9e3e7;
+  --white: #fff;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; overflow-wrap: anywhere; }
+h1, h2, h3, p { margin: 0; }
+a { color: var(--accent); text-underline-offset: .2em; }
+a:hover { text-decoration-thickness: .14em; }
+:focus-visible {
+  outline: 3px solid #087476;
+  outline-offset: 4px;
+}
+section, [tabindex] { scroll-margin-top: 1.5rem; }
+
+.wrap {
+  width: min(100% - 2rem, 75rem);
+  margin-inline: auto;
+}
+.skip-link {
+  position: fixed;
+  inset: .75rem auto auto 1rem;
+  z-index: 1;
+  padding: .65rem 1rem;
+  background: var(--white);
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+.site-header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner, .footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-block: 1rem;
+}
+.brand a {
+  display: inline-block;
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 750;
+  letter-spacing: -.035em;
+  text-decoration: none;
+}
+.brand span { display: block; color: var(--muted); font-size: .875rem; }
+nav { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; }
+nav a {
+  color: var(--ink);
+  padding-block: .35rem;
+  font-weight: 600;
+  font-size: .875rem;
+  text-decoration: none;
+}
+nav a:hover, nav a[aria-current="location"] { color: var(--accent); text-decoration: underline; }
+
+main { padding-block: 2rem 3rem; }
+.hero {
+  background: #103039;
+  color: var(--white);
+  border-radius: 1rem;
+  padding: clamp(1.25rem, 5vw, 3.5rem);
+}
+.hero h1 {
+  max-width: 25ch;
+  font-size: clamp(1.95rem, 4.4vw, 3.5rem);
+  line-height: 1.12;
+  letter-spacing: -.04em;
+  text-wrap: balance;
+}
+.research-summary {
+  color: #d2e3e7;
+  max-width: 68ch;
+  margin-top: 1rem;
+  font-size: 1.0625rem;
+}
+.research-summary:empty { display: none; }
+.last-updated { margin-bottom: .85rem; color: #d2e3e7; font-size: .875rem; }
+.phase-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem .75rem;
+  margin-top: 1.35rem;
+  font-size: .875rem;
+}
+.phase-badge {
+  padding: .28rem .75rem;
+  border-radius: .5rem;
+  background: #d7f1eb;
+  color: #124647;
+}
+.notice {
+  margin-top: 1rem;
+  border-inline-start: 3px solid #aa771a;
+  border-radius: .25rem;
+  padding: .65rem .9rem;
+  background: #fff6dd;
+  color: #5e400d;
+}
+.error { background: #fbe9eb; color: #792e38; border-color: #a64653; }
+#loading { margin-top: 1rem; color: var(--muted); }
+
+.stats {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.stat, .panel {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: .85rem;
+  background: var(--white);
+}
+.stat { padding: 1rem 1.25rem; }
+.stat h2 { color: var(--muted); font-size: .875rem; font-weight: 650; }
+.stat p { margin-top: .2rem; font-size: 1.875rem; font-weight: 750; line-height: 1.2; }
+.stat small { display: block; margin-top: .25rem; color: var(--muted); font-size: .875rem; font-weight: 500; }
+
+.panel {
+  margin-top: 1rem;
+  padding: clamp(1rem, 3vw, 1.75rem);
+}
+.panel h2 {
+  font-size: 1.35rem;
+  line-height: 1.25;
+  letter-spacing: -.025em;
+}
+.panel h3 { font-size: 1rem; line-height: 1.4; }
+.entries { margin: .85rem 0 0; padding: 0; list-style: none; }
+.entries > li { padding-block: .9rem; }
+.entries > li + li { border-top: 1px solid var(--border); }
+.entries > li:last-child { padding-bottom: 0; }
+#roadmap-list { padding-inline-start: 1rem; border-inline-start: 2px solid #d6e7e8; }
+#roadmap-list > :target { outline: 2px solid var(--accent); outline-offset: .35rem; border-radius: .2rem; }
+.entry-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .35rem .85rem;
+}
+.status, .category {
+  display: inline-block;
+  padding: .18rem .55rem;
+  border-radius: .4rem;
+  background: #edf1f3;
+  color: #3b515d;
+  font-size: .875rem;
+  font-weight: 650;
+}
+.status-completed, .status-published, .status-accepted { background: #e2f3e8; color: #225b37; }
+.status-in_progress, .status-submitted { background: #e3f0f9; color: #205674; }
+.status-blocked { background: #fbe9eb; color: #792e38; }
+.detail { margin-top: .3rem; color: var(--muted); }
+.metadata { font-size: .875rem; }
+p.metadata, .update-meta { color: var(--muted); }
+li > .metadata { margin-top: .4rem; }
+a.metadata { display: inline-block; }
+.update-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem .7rem;
+  margin-bottom: .4rem;
+}
+.publications { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+.empty { margin-top: .65rem; color: var(--muted); }
+
+button {
+  border: 1px solid #a9c4c8;
+  border-radius: .45rem;
+  padding: .45rem .8rem;
+  min-height: 2.75rem;
+  color: var(--accent);
+  background: var(--white);
+  font: inherit;
+  font-size: .875rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+button:hover { background: #e9f4f4; }
+#updates-toggle { margin-top: 1rem; }
+.site-footer {
+  background: #e9eff1;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: .875rem;
+}
+.footer-inner { gap: .4rem 2rem; padding-block: 1.25rem; }
+
+@media (min-width: 40rem) {
+  .wrap { width: min(100% - 3rem, 75rem); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .activity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 58rem) {
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 57.99rem) {
+  .header-inner { gap: .5rem 1rem; }
+  .header-inner nav { flex: 1 1 13rem; gap: .2rem .75rem; }
+  .brand { flex-basis: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}

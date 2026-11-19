@@ -1,0 +1,18 @@
+[
+  {
+    "id": "resource-current",
+    "title": "BFS Physics-Informed Learning",
+    "description": "Repositório técnico de referência da etapa atual da pesquisa.",
+    "url": "https://github.com/borges12matheus/bfs-physics-informed-learning",
+    "type": "repository",
+    "en": { "description": "Technical reference repository for the current phase of the research." }
+  },
+  {
+    "id": "resource-first",
+    "title": "PINN Hybrid Experiments",
+    "description": "Repositório de referência da primeira fase de experimentos.",
+    "url": "https://github.com/borges12matheus/pinn_hybrid_experiments",
+    "type": "repository",
+    "en": { "description": "Reference repository for the first phase of experiments." }
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "id": "bfs-pinn-masters",
+  "name": "PINN Research Hub",
+  "researchTitle": "Aprendizado informado por física para correção de campos CFD",
+  "summary": "Restrições físicas e estratégias de otimização podem reduzir a dependência de dados de alta fidelidade na correção de escoamentos sobre um degrau descendente (BFS), preservando a precisão preditiva e a consistência física? A pesquisa investiga essa questão com modelos MLP e PINN.",
+  "currentPhase": "bfs-physics-informed-learning",
+  "lastUpdated": "2026-11-19",
+  "isDemoData": true,
+  "repositoryUrl": "https://github.com/borges12matheus/bfs-physics-informed-learning",
+  "en": {
+    "researchTitle": "Physics-informed learning for CFD flow field correction",
+    "summary": "Can physical constraints and optimization strategies reduce reliance on high-fidelity data when correcting backward-facing step (BFS) flows while preserving predictive accuracy and physical consistency? The research investigates this question with MLP and PINN models."
+  }
+}

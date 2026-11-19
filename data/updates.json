@@ -1,0 +1,14 @@
+[
+  {
+    "id": "update-01",
+    "date": "2026-11-19",
+    "title": "Estruturação do portal de acompanhamento",
+    "summary": "Definição do painel estático e registro editorial da primeira fase e da etapa atual da pesquisa.",
+    "category": "Planejamento",
+    "en": {
+      "title": "Setting up the research hub",
+      "summary": "Defined the static dashboard and documented the first and current phases of the research.",
+      "category": "Planning"
+    }
+  }
+]

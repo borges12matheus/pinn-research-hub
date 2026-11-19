@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Acompanhamento da pesquisa de mestrado em aprendizado informado por física para CFD.">
+  <title>PINN Research Hub</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <script type="module" src="./assets/js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content" data-ui="skip">Pular para conteúdo</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <a href="#overview" id="brand-name">PINN Research Hub</a>
+        <span>Research progress · Physics-Informed Learning for CFD</span>
+      </div>
+      <nav aria-label="Navegação principal" id="navigation">
+        <a href="#overview" data-ui="overview">Visão geral</a>
+        <a href="#roadmap" data-ui="roadmap">Roadmap</a>
+        <a href="#updates" data-ui="updates">Atualizações</a>
+        <a href="#priorities" data-ui="priorities">Prioridades</a>
+        <a href="#resources" data-ui="resources">Recursos</a>
+      </nav>
+      <button id="language" type="button" lang="en" aria-label="Switch to English" hidden>EN</button>
+    </div>
+  </header>
+
+  <main class="wrap" id="main-content" tabindex="-1">
+    <section id="overview" aria-labelledby="research-title">
+      <div class="hero">
+        <p class="last-updated" id="last-updated" hidden></p>
+        <h1 id="research-title">PINN Research Hub</h1>
+        <p class="research-summary" id="research-summary"></p>
+        <div class="phase-group" id="phase-group" hidden>
+          <span data-ui="phase">Fase atual</span>
+          <strong id="current-phase" class="phase-badge"></strong>
+        </div>
+      </div>
+      <p id="project-error" class="notice error" role="alert" hidden></p>
+      <p id="demo-notice" class="notice" data-ui="demo" hidden>Dados iniciais demonstrativos — revise antes de divulgar.</p>
+      <noscript><p class="notice error">Ative o JavaScript para carregar os dados da pesquisa.</p></noscript>
+      <p id="loading" role="status" data-ui="loading">Carregando dados da pesquisa…</p>
+      <div class="stats" id="stats" hidden>
+        <article class="stat">
+          <h2 data-ui="milestones">Marcos concluídos</h2>
+          <p id="milestone-count"></p>
+        </article>
+        <article class="stat">
+          <h2 data-ui="activePriorities">Atividades abertas</h2>
+          <p id="priority-count"></p>
+        </article>
+        <article class="stat">
+          <h2 data-ui="registeredPublications">Publicações registradas</h2>
+          <p id="publication-count"></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="roadmap" class="panel" aria-labelledby="roadmap-title">
+      <h2 id="roadmap-title" data-ui="roadmap">Roadmap</h2>
+      <div id="roadmap-content"></div>
+    </section>
+
+    <div class="activity-grid">
+      <section id="updates" class="panel" aria-labelledby="updates-title">
+        <h2 id="updates-title" data-ui="updates">Atualizações</h2>
+        <div id="updates-content"></div>
+        <button type="button" id="updates-toggle" aria-controls="updates-list" aria-expanded="false" hidden>Ver todas</button>
+      </section>
+
+      <section id="priorities" class="panel" aria-labelledby="priorities-title">
+        <h2 id="priorities-title" data-ui="priorities">Prioridades</h2>
+        <div id="priorities-content"></div>
+      </section>
+    </div>
+
+    <section id="resources" class="panel" aria-labelledby="resources-title">
+      <h2 id="resources-title" data-ui="resources">Recursos</h2>
+      <div id="resources-content"></div>
+      <div class="publications">
+        <h3 data-ui="publications">Publicações</h3>
+        <div id="publications-content"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p><strong id="footer-name">PINN Research Hub</strong> · <time id="footer-year" datetime="2026">2026</time></p>
+      <p data-ui="footer">Este portal documenta a evolução da pesquisa. A validação dos resultados ocorre nos trabalhos científicos.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "roadmap-01",
+    "order": 1,
+    "title": "Primeira fase · bfs_2d_pinn_corrector",
+    "description": "Estruturar um pipeline experimental para comparar a correção de campos CFD com MLP e PINN híbrida em um caso BFS bidimensional.",
+    "status": "completed",
+    "targetDate": null,
+    "en": {
+      "title": "First phase · bfs_2d_pinn_corrector",
+      "description": "Set up an experimental pipeline to compare CFD flow field correction with an MLP and a hybrid PINN on a two-dimensional BFS case."
+    }
+  },
+  {
+    "id": "roadmap-02",
+    "order": 2,
+    "title": "Etapa atual · bfs-physics-informed-learning",
+    "description": "Estruturar a investigação de continuidade, termos de momento e estratégias de otimização e balanceamento de perdas.",
+    "status": "in_progress",
+    "targetDate": null,
+    "en": {
+      "title": "Current phase · bfs-physics-informed-learning",
+      "description": "Set up the investigation of continuity, momentum terms, optimization strategies and loss balancing."
+    }
+  },
+  {
+    "id": "roadmap-03",
+    "order": 3,
+    "title": "Generalização e dependência de dados",
+    "description": "Planejar avaliações de consistência física e generalização entre números de Reynolds com menor supervisão de alta fidelidade.",
+    "status": "planned",
+    "targetDate": null,
+    "en": {
+      "title": "Generalization and data requirements",
+      "description": "Plan evaluations of physical consistency and generalization across Reynolds numbers with reduced high-fidelity supervision."
+    }
+  }
+]
