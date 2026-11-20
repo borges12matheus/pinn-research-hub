@@ -245,7 +245,7 @@ def has_public_identity(run):
 def build(config, public=False):
     audit = Audit()
     featured = config.get("selection") == "featured"
-    if featured and public:
+    if featured and public and not config.get("public_approvals", {}).get("timeline"):
         raise ValueError("featured collection is pending review and restricted to private staging")
     verify = pq is not None and config.get("verify_predictions", True)
     if not verify:
@@ -302,8 +302,9 @@ def build(config, public=False):
     approvals = config.get("public_approvals", {})
     excluded_identity = set()
     if public:
+        catalog = selection if featured else all_records.keys()
         selection = set(approvals.get("experiments", []))
-        for identifier in sorted(selection - all_records.keys()):
+        for identifier in sorted(selection - catalog):
             audit.add("error", "unknown_experiment_approval", identifier, "experiment could not be discovered")
         for identifier in sorted(set(approvals.get("timeline", [])) - timeline.keys()):
             audit.add("error", "unknown_timeline_approval", identifier, "event could not be discovered")
@@ -333,12 +334,14 @@ def build(config, public=False):
                        or removed_pairs.intersection(event.get("comparisonIds", []))):
             audit.add("warning", "event_with_incomplete_identity", event["id"], "dependent event retained in private catalog")
             continue
-        if public and (event["visibility"] != "public" or not set(event["experimentIds"]) <= selected.keys()):
+        if public and ((not featured and event["visibility"] != "public") or not set(event["experimentIds"]) <= selected.keys()):
             audit.add("error", "unpublishable_event", event["id"], "review visibility and linked experiment approvals")
             continue
         if public and not set(event.get("comparisonIds", [])) <= comparisons.keys():
             audit.add("error", "unpublishable_event", event["id"], "linked comparison requires public approval")
             continue
+        if public and featured:
+            event = {**event, "visibility": "public", "curationStatus": "approved"}
         events.append(event)
     if public:
         for record in selected.values():
@@ -383,7 +386,7 @@ def build(config, public=False):
         record.pop("_standalone")
         record.pop("_archived")
         record["curationStatus"] = (
-            "pending_review" if featured else "archived" if record["id"] in archived else "supporting" if public else "staged"
+            "pending_review" if featured and not public else "archived" if record["id"] in archived else "supporting" if public else "staged"
         )
         for metric in record.pop("_metrics"):
             metric["visibility"] = record["visibility"]
@@ -400,7 +403,7 @@ def build(config, public=False):
     for record in comparisons.values():
         record["protocol"].pop("pairFolder", None)
         if featured:
-            record["curationStatus"] = "pending_review"
+            record["curationStatus"] = "approved" if public else "pending_review"
 
     payloads = {
         "experiments": list(selected.values()), "metrics": sorted(metrics, key=lambda metric: metric["id"]),

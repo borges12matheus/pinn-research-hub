@@ -249,7 +249,9 @@ async function main() {
   const options = process.argv.slice(2);
   if (options.some(option => option !== '--approved')) throw new Error('Usage: node scripts/build_site.mjs [--approved]');
   const approved = options.includes('--approved');
-  const approvals = approved ? JSON.parse(await readWithin(root, '.experiment-import/public-audit/managed.json')) : null;
+  const releaseManifest = 'config/public_release_manifest.json';
+  const manifest = await exists(join(root, releaseManifest)) ? releaseManifest : '.experiment-import/public-audit/managed.json';
+  const approvals = approved ? JSON.parse(await readWithin(root, manifest)) : null;
   const files = await collectSite({ release: approved ? join(root, 'public') : null, approvals });
   await writeSite(resolve(root, 'dist'), files);
   process.stdout.write(`dist/ · ${files.size} files · ${approved ? 'approved scientific data' : 'editorial site'}\n`);

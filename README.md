@@ -46,16 +46,26 @@ O português é o idioma padrão. Para traduzir um texto, inclua um objeto opcio
 
 ## Publicar no GitHub Pages
 
-O workflow [Publicar no GitHub Pages](./.github/workflows/pages.yml) executa o typecheck, os testes e o build editorial. O artefato enviado ao Pages é `dist/`. A revisão local e a exportação científica aprovada usam fluxos separados.
+O workflow [Publicar no GitHub Pages](./.github/workflows/pages.yml) executa o typecheck, os testes e o build com as coleções aprovadas em `public/`. O artefato enviado ao Pages é `dist/`. O build verifica os hashes de `config/public_release_manifest.json`. Os dados e relatórios da revisão local permanecem em `.experiment-import/`.
 
 1. Integre a versão revisada à branch padrão do repositório (`main`).
 2. Em **Settings → Pages**, no próprio repositório, selecione **GitHub Actions** como source.
 3. Em **Actions → Publicar no GitHub Pages → Run workflow**, selecione `main`.
 4. Abra o endereço informado na etapa de deploy ou em **Settings → Pages**.
 
-Para conferir o pacote antes de enviar, execute `npm run build` e abra `dist/` por um servidor HTTP local. Se optar por publicar via branch, use uma branch dedicada com o conteúdo de `dist/` na raiz, incluindo `.nojekyll`, e configure essa branch como source.
+Para conferir o pacote antes de enviar, execute `npm run build -- --approved` e abra `dist/` por um servidor HTTP local. Se optar por publicar via branch, use uma branch dedicada com o conteúdo de `dist/` na raiz, incluindo `.nojekyll`, e configure essa branch como source.
 
 O site usa URLs relativas e navegação por fragmento para funcionar no subdiretório do repositório. [Documentação oficial do GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+
+O recorte público atual inclui seis investigações. A investigação isolada de Re 32.000 permanece na revisão local. Para regenerar os arquivos públicos após atualizar as aprovações em `config/public_experiments.yaml`, rode os comandos a seguir a partir da raiz.
+
+```sh
+python scripts/import_experiments.py export --config config/public_experiments.yaml --public
+cp .experiment-import/public-audit/managed.json config/public_release_manifest.json
+npm run build -- --approved
+```
+
+Versione `public/` e o manifesto juntos. A branch utilizada no GitHub Actions precisa conter ambos. Na primeira exportação feita em outro checkout, o importador exige o índice de propriedade local para atualizar arquivos públicos já existentes. O manifesto versionado pode ser usado como índice em `.experiment-import/public-audit/managed.json` para essa atualização.
 
 ## Escopo dos dados iniciais
 

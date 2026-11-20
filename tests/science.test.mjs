@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { approvedFigures, figurePath, index, measureComparison, validateCollection } from '../assets/js/science/contracts.mjs';
 import { byRunTime, catalogFilters, catalogURL, matchesRun, reynoldsGroup, runTime, runsOverTime, validTimestamp } from '../assets/js/science/catalog-data.mjs';
@@ -179,4 +180,21 @@ test('public build removes incomplete runs and dependent measurements, compariso
   assert(!String(files.get('data/comparisons.json')).includes(pair.id));
   assert(!files.has(images[0].path));
   assert.equal(JSON.parse(files.get('data/overview.json')).selectionCount, 2);
+});
+
+test('approved release contains six investigations with public artifacts and omits Re 32,000', async () => {
+  const release = new URL('../public/', import.meta.url);
+  const approvals = JSON.parse(await readFile(new URL('../config/public_release_manifest.json', import.meta.url)));
+  const files = await collectSite({ release: fileURLToPath(release), approvals });
+  const read = name => JSON.parse(files.get(`data/${name}.json`));
+  assert.deepEqual(read('overview').groups.map(group => group.id).sort(),
+    ['baseline-sst', 'gradientes-sst', 'momento-ke', 'multicaso-ke', 'replicas-ke', 'supervisao-sst']);
+  for (const name of ['experiments', 'comparisons', 'metrics', 'timeline', 'figures', 'evaluations']) {
+    assert(read(name).length > 0);
+    assert(read(name).every(record => record.visibility === 'public'));
+  }
+  assert.equal(read('figures').length, 7);
+  assert(read('experiments').every(run => !run.reynolds.includes(32000)));
+  assert.deepEqual(read('training'), []);
+  assert(![...files.keys()].some(path => /managed|public_release_manifest|reports|\.experiment-import/.test(path)));
 });

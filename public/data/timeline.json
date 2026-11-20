@@ -1,0 +1,426 @@
+[
+  {
+    "category": "validation",
+    "comparisonIds": [
+      "cmp-sst-20261113-212942"
+    ],
+    "conclusion": "O resultado sustenta uma comparação dentro do par. Atribuir a ele 100% de supervisão por semelhança com outro run ampliaria a evidência disponível.",
+    "curationGroupId": "baseline-sst",
+    "curationStatus": "approved",
+    "date": "2026-11-13",
+    "decisionIds": [
+      "DEC-04",
+      "DEC-05",
+      "DEC-10"
+    ],
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-sst-mlp-base-20261113-212943",
+      "exp-sst-pinn-cont-base-20261113-213258"
+    ],
+    "hypothesis": "Um par rastreável serve de referência para novas ablações e para a primeira exibição no Hub.",
+    "hypothesisIds": [
+      "H01",
+      "H06"
+    ],
+    "id": "evt-baseline-curadoria-sst",
+    "metricFamilies": [
+      "AC no teste de 9.988 pontos.",
+      "DIV no domínio completo de 49.941 pontos, mínimos quadrados locais."
+    ],
+    "nextStep": "Vincular os JSONs e as figuras do manifesto e confirmar as unidades do SST antes da visualização pública.",
+    "observation": "Neste par, a PINN tem menor RMSE de velocidade e pressão no teste e menor RMSE de divergência no domínio completo. A configuração registra cinco entradas básicas, seed 42 e ausência de fração supervisionada explícita.",
+    "period": null,
+    "phaseId": "bfs-physics-informed-learning",
+    "priority": "P0",
+    "sourceRefs": [
+      {
+        "id": "src-f9b0318d2a1a86bce93445d0",
+        "kind": "timeline_evidence",
+        "sha256": "61b9418c4b6abea296b32a069cb35b43777cdff62fcefa086634dab7ae92f29f"
+      },
+      {
+        "id": "src-7f87a3bdd24e645e95c368c4",
+        "kind": "timeline_evidence",
+        "sha256": "7910078f64366ab29d16458c27b80e66fe87cede0a39810ace906ec5e4a70c83"
+      }
+    ],
+    "sources": [],
+    "summary": {
+      "en": "Pair 212942 combines an aligned accuracy test with a common full-domain divergence operator.",
+      "pt": "O par 212942 reúne teste de acurácia alinhado e avaliação de divergência com operador comum no domínio completo."
+    },
+    "title": {
+      "en": "SST reference pair for the catalog",
+      "pt": "Par SST de referência para o catálogo"
+    },
+    "updatedAt": null,
+    "verifiedTestMatches": {},
+    "visibility": "public"
+  },
+  {
+    "category": "validation",
+    "comparisonIds": [
+      "cmp-ke-20260919-024533",
+      "cmp-ke-20260919-031341",
+      "cmp-ke-20260919-033344"
+    ],
+    "conclusion": "O padrão é localizado neste protocolo. Cada seed muda os pontos de teste. A comparação direta ocorre dentro do par, e a síntese entre seeds pode usar diferenças emparelhadas.",
+    "curationGroupId": "replicas-ke",
+    "curationStatus": "approved",
+    "date": "2026-09-19",
+    "decisionIds": [
+      "DEC-04",
+      "DEC-05"
+    ],
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260919-024535",
+      "exp-ke-mlp-base-20260919-031342",
+      "exp-ke-mlp-base-20260919-033346",
+      "exp-ke-pinn-cont-base-20260919-024952",
+      "exp-ke-pinn-cont-base-20260919-031921",
+      "exp-ke-pinn-cont-base-20260919-033918"
+    ],
+    "hypothesis": "O compromisso entre acurácia e divergência pode persistir em partições diferentes.",
+    "hypothesisIds": [
+      "H01"
+    ],
+    "id": "evt-replicas-ke",
+    "metricFamilies": [
+      "AC e DIV no teste de cada seed, com 20.118 pontos.",
+      "DIV de domínio completo disponível em JSON separado."
+    ],
+    "nextStep": "Promover os três pares como evidência do protocolo replicado e conservar escopos físicos distintos na exportação.",
+    "observation": "Dentro de cada seed, a PINN tem menor RMSE de divergência e maior RMSE de velocidade e pressão no teste que a MLP. O rótulo seed42 na pasta mascara duas seeds diferentes.",
+    "period": null,
+    "phaseId": "bfs_2d_pinn_corrector",
+    "priority": "P0",
+    "sourceRefs": [
+      {
+        "id": "src-f9b0318d2a1a86bce93445d0",
+        "kind": "timeline_evidence",
+        "sha256": "61b9418c4b6abea296b32a069cb35b43777cdff62fcefa086634dab7ae92f29f"
+      },
+      {
+        "id": "src-52b476df3a7653f22e1d837c",
+        "kind": "timeline_evidence",
+        "sha256": "ec844f398e2ef32809bc2b58f80377998dc0d27aac53c673c241f0e3f6926226"
+      },
+      {
+        "id": "src-ef485c52f64458c4ebe1c748",
+        "kind": "timeline_evidence",
+        "sha256": "c47e74a3f609c7dcb003f9d2eba5a3354b973283edf797b0407aad23a19f3888"
+      },
+      {
+        "id": "src-ce9facef92c7474585dae68c",
+        "kind": "timeline_evidence",
+        "sha256": "f8517c4f63f3f3cf05985c02d095bd8a8b8c382cc4bec17bfd647a26d27d19a6"
+      }
+    ],
+    "sources": [],
+    "summary": {
+      "en": "The Re 36,000 k–ε pairs were repeated with seeds 42, 123 and 456 under split v2.",
+      "pt": "Os pares k–ε de Re 36.000 foram repetidos nas seeds 42, 123 e 456 com o split v2."
+    },
+    "title": {
+      "en": "Paired replication and test-set divergence",
+      "pt": "Replicação por seed e divergência no teste"
+    },
+    "updatedAt": null,
+    "verifiedTestMatches": {},
+    "visibility": "public"
+  },
+  {
+    "category": "experiment",
+    "comparisonIds": [
+      "cmp-sst-20261113-201333",
+      "cmp-sst-20261113-204940"
+    ],
+    "conclusion": "As duas frações são evidência piloto. A identidade do subconjunto usado pela MLP de 50% e a robustez entre seeds ainda não estão confirmadas.",
+    "curationGroupId": "supervisao-sst",
+    "curationStatus": "approved",
+    "date": "2026-11-13",
+    "decisionIds": [
+      "DEC-14",
+      "DEC-15"
+    ],
+    "evidenceStatus": "preliminary",
+    "experimentIds": [
+      "exp-sst-mlp-base-20261113-201335",
+      "exp-sst-mlp-base-20261113-204942",
+      "exp-sst-pinn-cont-base-20261113-201648",
+      "exp-sst-pinn-cont-base-20261113-205327"
+    ],
+    "hypothesis": "A continuidade pode reduzir a quantidade de referência fine necessária para uma qualidade predefinida.",
+    "hypothesisIds": [
+      "H05"
+    ],
+    "id": "evt-supervisao-sst",
+    "metricFamilies": [
+      "AC no teste comum.",
+      "DIV no domínio completo por mínimos quadrados.",
+      "Contagens de supervisão e pontos físicos nos logs da PINN."
+    ],
+    "nextStep": "Registrar os índices supervisionados, replicar as frações e definir limiares de acurácia e consistência antes de estimar economia de dados.",
+    "observation": "Nos logs da PINN, o conjunto físico é mantido e o número de pontos supervisionados muda. A rodada preliminar 183034 ficou parcial; os pares concluídos são 201333 e 204940.",
+    "period": null,
+    "phaseId": "bfs-physics-informed-learning",
+    "priority": "P0",
+    "sourceRefs": [
+      {
+        "id": "src-da31f2b953195648cf1a8932",
+        "kind": "timeline_evidence",
+        "sha256": "b9cd670f59214a36af00cd592594e321c03b2843e32a5c6db4886bcfc39ec129"
+      },
+      {
+        "id": "src-f9b0318d2a1a86bce93445d0",
+        "kind": "timeline_evidence",
+        "sha256": "61b9418c4b6abea296b32a069cb35b43777cdff62fcefa086634dab7ae92f29f"
+      },
+      {
+        "id": "src-176af4cdc3910c45fa1f1bdf",
+        "kind": "timeline_evidence",
+        "sha256": "c385a2e5fa549c054fe9b026729ffa16f9322b1e612b854a66711d915d7eccd4"
+      },
+      {
+        "id": "src-752c603c859e31a24f310c4d",
+        "kind": "timeline_evidence",
+        "sha256": "dec4c12aca688f4e8b285c383c260690140a41d760d0f747686dd5f83d9b4d0b"
+      }
+    ],
+    "sources": [],
+    "summary": {
+      "en": "MLP versus PINN pairs were completed at two declared supervision budgets on the same test set.",
+      "pt": "Foram concluídos pares MLP × PINN com dois orçamentos declarados de dados supervisionados e o mesmo teste."
+    },
+    "title": {
+      "en": "First comparison with 50% and 100% fine supervision",
+      "pt": "Primeira comparação com 50% e 100% de supervisão fine"
+    },
+    "updatedAt": null,
+    "verifiedTestMatches": {},
+    "visibility": "public"
+  },
+  {
+    "category": "experiment",
+    "comparisonIds": [
+      "cmp-sst-20261113-022350",
+      "cmp-sst-20261113-030752"
+    ],
+    "conclusion": "O relato de melhora visual localizada pode coexistir com piora global. A ablação auditada é de seed única e não confirma o uso de gradientes de pressão nem um ganho regional quantitativo.",
+    "curationGroupId": "gradientes-sst",
+    "curationStatus": "approved",
+    "date": "2026-11-13",
+    "decisionIds": [
+      "DEC-09"
+    ],
+    "evidenceStatus": "preliminary",
+    "experimentIds": [
+      "exp-sst-mlp-base-20261113-022351",
+      "exp-sst-mlp-base-20261113-030754",
+      "exp-sst-pinn-cont-base-20261113-022703",
+      "exp-sst-pinn-cont-base-20261113-031017"
+    ],
+    "hypothesis": "Gradientes locais podem ajudar a correção em regiões críticas do BFS.",
+    "hypothesisIds": [
+      "H04"
+    ],
+    "id": "evt-gradientes-sst",
+    "metricFamilies": [
+      "AC no mesmo teste SST.",
+      "DIV no domínio completo, mínimos quadrados locais."
+    ],
+    "nextStep": "Pré-definir regiões de análise e repetir a ablação com múltiplas seeds.",
+    "observation": "A configuração auditada acrescenta `du_dx_log`, `du_dy_log`, `dv_dx_log` e `dv_dy_log`. Os JSONs mostram aumento dos RMSEs globais de velocidade e pressão para ambas as famílias na rodada com gradientes.",
+    "period": null,
+    "phaseId": "bfs-physics-informed-learning",
+    "priority": "P1",
+    "sourceRefs": [
+      {
+        "id": "src-b0e396054c01f1446b74a8ec",
+        "kind": "timeline_evidence",
+        "sha256": "20edce0029433b0fa76598451c3e53717dfaff7817d9f7944a9d29c761fd7988"
+      },
+      {
+        "id": "src-f9b0318d2a1a86bce93445d0",
+        "kind": "timeline_evidence",
+        "sha256": "61b9418c4b6abea296b32a069cb35b43777cdff62fcefa086634dab7ae92f29f"
+      },
+      {
+        "id": "src-cb44c41e6c9a31bbf764ded6",
+        "kind": "timeline_evidence",
+        "sha256": "a855def1b2637d50e00dd18a3eb8ae430f4cfdf67cc793981a5dd8088d5a6545"
+      },
+      {
+        "id": "src-cb53d5f77209804f7afb9d55",
+        "kind": "timeline_evidence",
+        "sha256": "042d1331fc017f447936c733e9edc995be8a5470f191e24ee49978b524e1bf32"
+      }
+    ],
+    "sources": [],
+    "summary": {
+      "en": "The five-input pair and the pair with four additional gradients use the same SST test set.",
+      "pt": "Os pares com cinco entradas básicas e com quatro gradientes adicionais usam o mesmo teste SST."
+    },
+    "title": {
+      "en": "Ablation of velocity-gradient inputs",
+      "pt": "Ablar gradientes de velocidade nas entradas"
+    },
+    "updatedAt": null,
+    "verifiedTestMatches": {},
+    "visibility": "public"
+  },
+  {
+    "category": "experiment",
+    "comparisonIds": [
+      "cmp-ke-20260826-003110",
+      "cmp-ke-20260827-014545"
+    ],
+    "conclusion": "A avaliação é descritiva. Entradas, pesos e etapas de treino variam, e as variantes com momento usam seed 42. O resíduo de momento entra no treino e carece de métrica independente de avaliação.",
+    "curationGroupId": "momento-ke",
+    "curationStatus": "approved",
+    "date": "2026-08-25",
+    "decisionIds": [
+      "DEC-06",
+      "DEC-13"
+    ],
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260729-192246",
+      "exp-ke-mlp-base-20260826-003112",
+      "exp-ke-mlp-base-20260826-185718",
+      "exp-ke-mlp-base-20260827-014547",
+      "exp-ke-pinn-cont-base-20260729-192724",
+      "exp-ke-pinn-cont-base-20260826-190205",
+      "exp-ke-pinn-cont-mom-base-20260826-003555",
+      "exp-ke-pinn-cont-mom-base-20260827-015025",
+      "exp-ke-pinn-mom-base-20260825-215647"
+    ],
+    "hypothesis": "O termo de momento pode agregar benefício à correção em regiões de separação.",
+    "hypothesisIds": [
+      "H01",
+      "H02"
+    ],
+    "id": "evt-variantes-momento-ke",
+    "metricFamilies": [
+      "AC no teste legado v1, 20.118 pontos.",
+      "DIV no domínio completo, OpenFOAM + autograd."
+    ],
+    "nextStep": "Ablação com as mesmas entradas e orçamento, várias seeds e diagnóstico independente do resíduo de momento.",
+    "observation": "Os arquivos registram PINNs de momento e continuidade + momento, além dos comparadores MLP e continuidade. O relatório registra a comparação de divergência e acurácia desses pipelines.",
+    "period": "25 a 27 de agosto de 2026",
+    "phaseId": "bfs_2d_pinn_corrector",
+    "priority": "P1",
+    "sourceRefs": [
+      {
+        "id": "src-e94444041b33e5b6b6ac195e",
+        "kind": "timeline_evidence",
+        "sha256": "ea612dd60276c4b2edf226542c6f031462dfa87a96f0ad75e00276c8b25ae3e9"
+      },
+      {
+        "id": "src-f9b0318d2a1a86bce93445d0",
+        "kind": "timeline_evidence",
+        "sha256": "61b9418c4b6abea296b32a069cb35b43777cdff62fcefa086634dab7ae92f29f"
+      },
+      {
+        "id": "src-71dcfdfd41476b911e6bdd67",
+        "kind": "timeline_evidence",
+        "sha256": "965daad9dff1dc7d3091ac6ff7ae0b1dfbeeb4642fbfb6d59579996e43c8cac3"
+      },
+      {
+        "id": "src-59c610975af4a6d4236b5eee",
+        "kind": "timeline_evidence",
+        "sha256": "e44c42f3a8989510f76214030cf1b0040e0f14a0e0f8ba09d15e6c2159140727"
+      },
+      {
+        "id": "src-a5bced68ce05da205114f471",
+        "kind": "timeline_evidence",
+        "sha256": "2fed749c41d8834bd6801f31de54b58a87bdc995ff6a5898ccc0336fb737f391"
+      }
+    ],
+    "sources": [],
+    "summary": {
+      "en": "The study adds two physical formulations to the Re 36,000 comparison on a shared legacy test set.",
+      "pt": "O estudo acrescenta duas formulações à comparação em Re 36.000, com teste legado compartilhado."
+    },
+    "title": {
+      "en": "Momentum alone and momentum with continuity",
+      "pt": "Momento isolado e momento com continuidade"
+    },
+    "updatedAt": null,
+    "verifiedTestMatches": {},
+    "visibility": "public"
+  },
+  {
+    "category": "experiment",
+    "comparisonIds": [
+      "cmp-ke-20260908-152958",
+      "cmp-ke-20260909-013552"
+    ],
+    "conclusion": "A evidência confirma teste espacial sobre casos combinados. A avaliação por Reynolds não visto relatada no relatório mestre exige um split que retenha um caso inteiro. O dataset original do manifesto está ausente no checkout.",
+    "curationGroupId": "multicaso-ke",
+    "curationStatus": "approved",
+    "date": "2026-09-08",
+    "decisionIds": [
+      "DEC-06",
+      "DEC-07"
+    ],
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260908-153000",
+      "exp-ke-mlp-base-20260909-013554",
+      "exp-ke-pinn-cont-base-20260908-154133",
+      "exp-ke-pinn-cont-base-20260909-014707"
+    ],
+    "hypothesis": "Uma entrada que represente Reynolds pode ajudar um modelo a aprender em mais de uma condição de escoamento.",
+    "hypothesisIds": [
+      "H02",
+      "H03"
+    ],
+    "id": "evt-multicaso-ke",
+    "metricFamilies": [
+      "AC no teste multicaso comum.",
+      "DIV no domínio agregado de 301.767 linhas para os pares, OpenFOAM + autograd."
+    ],
+    "nextStep": "Recuperar IDs de caso por linha antes de gerar mapas por Reynolds e executar um teste leave-one-Re-out.",
+    "observation": "Os dois pares MLP × continuidade e os runs com momento vinculados avaliam acurácia nos mesmos 60.353 pontos.",
+    "period": "8 a 9 de setembro de 2026",
+    "phaseId": "bfs_2d_pinn_corrector",
+    "priority": "P1",
+    "sourceRefs": [
+      {
+        "id": "src-f9b0318d2a1a86bce93445d0",
+        "kind": "timeline_evidence",
+        "sha256": "61b9418c4b6abea296b32a069cb35b43777cdff62fcefa086634dab7ae92f29f"
+      },
+      {
+        "id": "src-b0e396054c01f1446b74a8ec",
+        "kind": "timeline_evidence",
+        "sha256": "20edce0029433b0fa76598451c3e53717dfaff7817d9f7944a9d29c761fd7988"
+      },
+      {
+        "id": "src-3ebdb0f3fac8fb14de4c6566",
+        "kind": "timeline_evidence",
+        "sha256": "84b236293ea21dafffdf4c3e131e4b5161f9d9799e0f4710ae22504947690b47"
+      },
+      {
+        "id": "src-8e7f347265b29a13ebaa7624",
+        "kind": "timeline_evidence",
+        "sha256": "73d955d1f643ace1b79e002f39ec63f87ab469cefc1fe367a32723734dcf9733"
+      }
+    ],
+    "sources": [],
+    "summary": {
+      "en": "The dataset combines Re 20,000, 28,000 and 36,000 and evaluates variants on a common spatial split.",
+      "pt": "O conjunto combina Re 20.000, 28.000 e 36.000 e permite medir as variantes em uma partição espacial comum."
+    },
+    "title": {
+      "en": "Spatial test with multiple Reynolds numbers",
+      "pt": "Teste espacial com múltiplos Reynolds"
+    },
+    "updatedAt": null,
+    "verifiedTestMatches": {},
+    "visibility": "public"
+  }
+]

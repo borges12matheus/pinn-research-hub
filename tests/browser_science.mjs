@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -15,6 +15,9 @@ let server;
 let review;
 try {
   const original = await collectSite();
+  const approved = process.argv.includes('--approved')
+    ? await collectSite({ release: 'public', approvals: JSON.parse(await readFile('config/public_release_manifest.json')) })
+    : null;
   const sample = example();
   const source = sample.comparisons[0];
   sample.comparisons.push({ ...source, id: 'cmp-compatible', status: 'compatible', figures: [],
@@ -25,11 +28,11 @@ try {
     : path.endsWith('.css') ? 'text/css' : path.endsWith('.png') ? 'image/png' : 'text/html';
   server = createServer((request, response) => {
     const path = new URL(request.url, 'http://localhost').pathname;
-    const match = path.match(/^\/(pinn-research-hub|partial)\/(.*)$/);
-    const files = match ? fixture : original;
+    const match = path.match(/^\/(pinn-research-hub|partial|release)\/(.*)$/);
+    const files = match?.[1] === 'release' ? approved : match ? fixture : original;
     const key = (match ? match[2] : path.slice(1)) || 'index.html';
     if (match?.[1] === 'partial' && key === 'data/metrics.json') { response.writeHead(404).end(); return; }
-    if (!files.has(key)) { response.writeHead(404).end(); return; }
+    if (!files?.has(key)) { response.writeHead(404).end(); return; }
     response.writeHead(200, { 'content-type': contentType(key) }).end(files.get(key));
   });
   server.listen(0, '127.0.0.1');
@@ -235,6 +238,19 @@ try {
   assert([...requests].filter(url => /^https?:/.test(url)).every(url => url.startsWith(origin + '/')), [...requests]);
   assert.deepEqual(exceptions, []);
   console.log('Project subpath, scientific links, filtering, descriptive and blocked comparison, gallery and PT/EN');
+
+  if (approved) {
+    await open('/release/');
+    await click('nav a[href="#/evolucao"]');
+    await until("document.querySelectorAll('#timeline .milestone-card').length === 6");
+    await click('#event-evt-replicas-ke a[href="#/resultados/replicas-ke"]');
+    await until("document.querySelector('#investigation figure img') !== null");
+    await evaluate("document.querySelector('#investigation figure').scrollIntoView()");
+    await until("document.querySelector('#investigation figure img')?.naturalWidth > 0");
+    assert(await evaluate("!document.documentElement.hasAttribute('data-local-review')"));
+    assert.deepEqual(exceptions, []);
+    console.log('Approved public release: six timeline milestones, investigation link and curated figures');
+  }
 
   if (process.argv.includes('--local-review')) {
     review = await startLocalReview({ port: 0 });
