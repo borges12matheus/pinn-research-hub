@@ -31,7 +31,7 @@ export function routeFor(hash) {
 
 async function json(name) {
   const response = await fetch(`./data/${name}.json`, { cache: 'no-cache' });
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  if (!response.ok) throw Object.assign(new Error(`HTTP ${response.status}`), { status: response.status });
   return response.json();
 }
 
@@ -39,16 +39,16 @@ export function createSciencePortal(editorial) {
   const localReview = document.documentElement.hasAttribute('data-local-review') && location.hostname === '127.0.0.1';
   const data = Object.fromEntries(collections.map(name => [name, []]));
   const requests = new Map();
-  const errors = new Set();
+  const errors = new Map();
   const loaded = new Set();
   const state = { catalog: {}, timeline: {}, gallery: {}, investigations: {} };
   let context = emptyContext;
   let locale = 'pt-BR';
   let routeVersion = 0;
-  const requestContext = json('overview').then(validateOverview).then(result => { context = result; }, () => { errors.add('overview'); });
+  const requestContext = json('overview').then(validateOverview).then(result => { context = result; }, error => { errors.set('overview', error.status); });
   const get = name => {
     if (!requests.has(name)) requests.set(name, json(name).then(result => validateCollection(name, result, { localReview }))
-      .then(result => { data[name] = result; }, () => { errors.add(name); }));
+      .then(result => { data[name] = result; }, error => { errors.set(name, error.status); }));
     return requests.get(name);
   };
 
@@ -64,13 +64,21 @@ export function createSciencePortal(editorial) {
   })[section] ?? [];
   const primary = section => section === 'comparison' ? 'comparisons' : section;
 
+  function failure(message, names) {
+    const files = names.filter(name => errors.has(name)).map(name => {
+      const status = errors.get(name);
+      return `${name}.json${status ? ` (HTTP ${status})` : ''}`;
+    });
+    const problem = blank(`${message} ${files.join(', ')}`);
+    problem.setAttribute('role', 'status');
+    return problem;
+  }
+
   function render(section) {
     const region = document.querySelector(`[data-science-region="${section}"]`);
     const ui = copy(locale);
     if (errors.has(primary(section))) {
-      const problem = blank(ui.unavailable);
-      problem.setAttribute('role', 'status');
-      region.replaceChildren(problem);
+      region.replaceChildren(failure(ui.unavailable, [primary(section)]));
       return;
     }
     if (section === 'timeline') renderTimeline(region, data, context, state, locale);
@@ -84,11 +92,8 @@ export function createSciencePortal(editorial) {
     if (section === 'comparison') renderComparator(region, data, state, locale, context);
     if (section === 'figures') renderGallery(region, data, state, locale, context);
     if (section === 'literature') renderLiterature(region, data, context, locale);
-    if (required(section, state.runId).some(name => errors.has(name))) {
-      const problem = blank(ui.partialData);
-      problem.setAttribute('role', 'status');
-      region.prepend(problem);
-    }
+    const dependencies = required(section, state.runId);
+    if (dependencies.some(name => errors.has(name))) region.prepend(failure(ui.partialData, dependencies));
   }
 
   function renderEditorialLinks() {
@@ -140,11 +145,11 @@ export function createSciencePortal(editorial) {
     const target = document.getElementById('scientific-dashboard');
     const feature = document.getElementById('overview-visual');
     renderDashboard(target, context, editorial.priorities, locale);
-    const analytics = errors.has('experiments') ? blank(copy(locale).unavailable)
+    const analytics = errors.has('experiments') ? failure(copy(locale).unavailable, ['experiments'])
       : data.experiments.length || requests.has('experiments') ? renderAnalytics(data.experiments, context,
         catalogFilters(location.hash), localReview, locale) : blank(copy(locale).loading);
     target.prepend(analytics, feature);
-    if (errors.has('overview')) target.prepend(blank(copy(locale).partialData));
+    if (errors.has('overview')) target.prepend(failure(copy(locale).partialData, ['overview']));
     const phase = context.currentPhaseId ?? editorial.project?.currentPhase;
     document.getElementById('current-phase').textContent = phaseOf(context, phase, locale);
     const review = document.getElementById('review-badge');

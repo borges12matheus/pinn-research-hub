@@ -28,10 +28,11 @@ try {
     : path.endsWith('.css') ? 'text/css' : path.endsWith('.png') ? 'image/png' : 'text/html';
   server = createServer((request, response) => {
     const path = new URL(request.url, 'http://localhost').pathname;
-    const match = path.match(/^\/(pinn-research-hub|partial|release)\/(.*)$/);
+    const match = path.match(/^\/(pinn-research-hub|partial|partial-runs|release)\/(.*)$/);
     const files = match?.[1] === 'release' ? approved : match ? fixture : original;
     const key = (match ? match[2] : path.slice(1)) || 'index.html';
-    if (match?.[1] === 'partial' && key === 'data/metrics.json') { response.writeHead(404).end(); return; }
+    if ((match?.[1] === 'partial' && key === 'data/metrics.json')
+      || (match?.[1] === 'partial-runs' && key === 'data/experiments.json')) { response.writeHead(404).end(); return; }
     if (!files?.has(key)) { response.writeHead(404).end(); return; }
     response.writeHead(200, { 'content-type': contentType(key) }).end(files.get(key));
   });
@@ -235,6 +236,11 @@ try {
   await until("document.querySelector('#run-exp-pinn') !== null");
   assert(await evaluate("document.querySelector('#experiments').textContent.includes('Parte dos dados está indisponível')"));
   assert.equal(await evaluate("document.querySelectorAll('#run-exp-pinn table').length"), 0);
+  assert(await evaluate("document.querySelector('#experiments').textContent.includes('metrics.json (HTTP 404)')"));
+  await open('/partial-runs/');
+  await evaluate("location.hash = '#/comparacoes/cmp-compatible'");
+  await until("document.querySelector('#comparison').textContent.includes('experiments.json (HTTP 404)')");
+  assert.equal(await evaluate("document.querySelectorAll('#comparison .measure-chart').length"), 0);
   assert([...requests].filter(url => /^https?:/.test(url)).every(url => url.startsWith(origin + '/')), [...requests]);
   assert.deepEqual(exceptions, []);
   console.log('Project subpath, scientific links, filtering, descriptive and blocked comparison, gallery and PT/EN');
@@ -331,6 +337,21 @@ try {
     assert.deepEqual(exceptions, []);
     console.log('Private profiles: 32 featured runs and 7 curated figures; 70 historical runs and 14 distinct reevaluations');
   }
+  if (process.argv.includes('--production')) {
+    exceptions.length = 0;
+    const base = 'https://borges12matheus.github.io/pinn-research-hub/';
+    await cdp('Page.navigate', { url: `${base}#/evolucao` });
+    await until("location.host === 'borges12matheus.github.io' && document.querySelectorAll('#timeline .milestone-card').length === 6");
+    await click('#event-evt-replicas-ke a[href="#/resultados/replicas-ke"]');
+    await until("document.querySelector('#investigation figure img') !== null");
+    await evaluate("document.querySelector('#investigation figure').scrollIntoView()");
+    await until("document.querySelector('#investigation figure img')?.naturalWidth > 0");
+    await cdp('Page.reload');
+    await until("document.activeElement.id === 'group-replicas-ke'");
+    assert.deepEqual(exceptions, []);
+    console.log('Production: timeline, investigation, linked figure, deep link reload and no JavaScript exceptions');
+  }
+
 } finally {
   if (browser?.exitCode === null) {
     const exited = once(browser, 'exit');

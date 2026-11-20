@@ -130,15 +130,35 @@ export function measureComparison(pair, condition, metrics, experiments) {
   const runs = pair.experimentIds.map(key => experiments.get(key));
   if (runs.some(run => !run || run.referenceType !== records[0].referenceType)) return null;
   const equal = values => new Set(values.filter(value => value != null).map(value => JSON.stringify(canonical(value)))).size <= 1;
+  if (records[0].referenceType !== 'fine_rans') return null;
+  const operatorParam = {
+    local_least_squares_kdtree: 'neighbors',
+    etl_grid_differences_plus_autograd: 'edgeOrder',
+  }[condition.operator];
+  const masks = records.map(metric => metric.validityMask);
   const caseFields = ['phaseId', 'caseId', 'reynolds', 'turbulenceModel', 'datasetHash', 'normalization'];
   if (caseFields.some(key => runs.some(run => run[key] == null) || !equal(runs.map(run => run[key])))
     || (condition.scope === 'test' && (runs.some(run => !run.splitVersion)
       || ['splitId', 'splitHash', 'splitVersion'].some(key => !equal(runs.map(run => run[key])))))
-    || records.some(metric => !positive(metric.pointCount) || !text(metric.validityMask?.fingerprint)
-      || !text(metric.validityMask?.evaluationFingerprint))
+    || records.some(metric => !positive(metric.pointCount) || !object(metric.operatorParameters)
+      || (operatorParam && !positive(metric.operatorParameters[operatorParam])))
+    || masks.some(mask => !text(mask?.fingerprint) || !text(mask?.evaluationFingerprint)
+      || !text(mask?.policy) || !positive(mask?.validCount))
     || !equal(records.map(metric => metric.operatorParameters)) || !equal(records.map(metric => metric.pointCount))
-    || !equal(records.map(metric => metric.validityMask?.fingerprint))
-    || !equal(records.map(metric => metric.validityMask?.evaluationFingerprint))) return null;
+    || ['fingerprint', 'evaluationFingerprint', 'policy', 'validCount'].some(key => !equal(masks.map(mask => mask[key])))) return null;
+  if (condition.status === 'compatible') {
+    const budgets = runs.map(run => run.trainingBudget ?? {});
+    const documentedAndEqual = values => values.every(value => value != null
+      && (!object(value) || Object.values(value).every(field => field != null))) && equal(values);
+    const controls = ['seed', 'features', 'targets', 'architecture'];
+    const budgetControls = ['supervisedFraction', 'supervisedEpochLimit', 'batchSize', 'learningRate',
+      'weightDecay', 'earlyStoppingPatience', 'schedulerPatience', 'schedulerFactor'];
+    if (controls.some(key => !documentedAndEqual(runs.map(run => run[key])))
+      || budgetControls.some(key => !documentedAndEqual(budgets.map(budget => budget[key])))
+      || budgets.some(budget => budget.supervisedFraction > 0 && budget.supervisedFraction < 1)
+      || ['physicsEpochLimit', 'lossWeights'].some(key => !equal(budgets.map(budget => budget[key] ?? null))
+        || budgets.some(budget => budget[key] != null) && budgets.some(budget => budget[key] == null))) return null;
+  }
   const direction = records[0].lowerIsBetter;
   const descriptive = pair.status === 'descriptive_only' || condition.status === 'descriptive_only';
   const ranked = !descriptive && records.every(metric => typeof direction === 'boolean' && metric.lowerIsBetter === direction);
@@ -206,6 +226,8 @@ export function validateReferences(data, context) {
     check(value.hypothesisIds, hypotheses, value.id);
     check(value.decisionIds, decisions, value.id);
   }
+  const milestones = index(data.roadmap);
+  for (const priority of data.priorities) check(priority.roadmapId ? [priority.roadmapId] : [], milestones, priority.id);
   for (const image of data.figures) {
     check(image.experimentId ? [image.experimentId] : [image.comparisonId], image.experimentId ? runs : pairs, image.id);
   }

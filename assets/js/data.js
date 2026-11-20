@@ -13,7 +13,7 @@ function isDate(value) {
 
 const schemas = {
   project: record => hasText(record, ['id', 'name', 'researchTitle', 'summary', 'currentPhase', 'repositoryUrl'])
-    && isDate(record.lastUpdated) && typeof record.isDemoData === 'boolean',
+    && isDate(record.lastUpdated),
   roadmap: record => hasText(record, ['id', 'title', 'description'])
     && Number.isFinite(record.order)
     && ['planned', 'in_progress', 'completed', 'blocked'].includes(record.status)
@@ -28,30 +28,32 @@ const schemas = {
     && (record.url == null || isText(record.url)),
 };
 
-async function loadFile(name, schema) {
-  const response = await fetch(`./data/${name}.json`, { cache: 'no-store' });
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-  const data = await response.json();
+export function validateEditorial(name, data) {
+  const schema = schemas[name];
   const validRecord = record => isRecord(record) && schema(record);
   const valid = name === 'project'
     ? validRecord(data)
     : Array.isArray(data)
       && data.every(validRecord)
       && new Set(data.map(record => record.id)).size === data.length;
-
   if (!valid) throw new Error(`Estrutura inválida em ${name}.json`);
   return data;
 }
 
+async function loadFile(name) {
+  const response = await fetch(`./data/${name}.json`, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return validateEditorial(name, await response.json());
+}
+
 export async function loadData() {
-  const files = Object.entries(schemas);
-  const results = await Promise.allSettled(files.map(([name, schema]) => loadFile(name, schema)));
+  const files = Object.keys(schemas);
+  const results = await Promise.allSettled(files.map(loadFile));
   const data = {};
   const errors = new Set();
 
   results.forEach((result, index) => {
-    const [name] = files[index];
+    const name = files[index];
     if (result.status === 'fulfilled') {
       data[name] = result.value;
     } else {

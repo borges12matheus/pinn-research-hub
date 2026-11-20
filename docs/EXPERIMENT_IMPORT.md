@@ -1,6 +1,6 @@
 # Importação experimental
 
-O utilitário Python lê os dois checkouts locais do laboratório e gera os contratos de dados da SPEC v0.2. A curadoria padrão seleciona os runs vinculados em `RESEARCH_TIMELINE.md`. O scan também descobre execuções fora da seleção, reavaliações e pares incompletos. O Hub atual pode continuar servindo os JSONs editoriais da v0.1 enquanto os novos dados são revisados.
+O utilitário Python lê os dois checkouts locais do laboratório e gera os contratos de dados da SPEC v0.2 e suas extensões até a v0.5. A curadoria padrão seleciona os runs vinculados em `RESEARCH_TIMELINE.md`. O scan também descobre execuções fora da seleção, reavaliações e pares incompletos.
 
 ## Executar offline
 
@@ -21,10 +21,10 @@ python -B -m unittest discover -s tests -v
 
 ## Curadoria para publicação
 
-A configuração entregue está sem aprovações. Informar `--public` ativa a seleção pública explícita do YAML. A opção grava arquivos estáticos em `public/` e guarda o relatório local em `.experiment-import/public-audit/`.
+A configuração base está sem aprovações. O perfil `config/public_experiments.yaml` seleciona seis investigações para a distribuição atual. Informar `--public` ativa a seleção pública explícita do YAML. A opção grava arquivos estáticos em `public/` e guarda o relatório local em `.experiment-import/public-audit/`.
 
 1. Adicione a `public_approvals.experiments` apenas IDs de execuções autorizadas. Comparações exigem autorização para os dois participantes.
-2. Adicione a `public_approvals.timeline` apenas eventos revisados com `visibility: public` na fonte editorial. Todos os experimentos vinculados precisam de aprovação. Links locais são representados por IDs opacos. Use URLs públicas verificadas durante a curadoria. A validação offline detecta referências locais quebradas e esquemas/hosts inseguros. A disponibilidade HTTP deve ser verificada na curadoria.
+2. Adicione a `public_approvals.timeline` apenas eventos revisados. No perfil base, a fonte editorial também exige `visibility: public`. No perfil derivado da coleção prioritária, a lista explícita promove apenas os eventos selecionados para a saída pública. Todos os experimentos vinculados precisam de aprovação. Links locais são representados por IDs opacos. Use URLs públicas verificadas durante a curadoria. A validação offline detecta referências locais quebradas e esquemas/hosts inseguros. A disponibilidade HTTP deve ser verificada na curadoria.
 3. Para cada PNG, inclua uma entrada em `figures` com os campos abaixo. Marque `approved: true` depois de revisar o gráfico. Para publicação, inclua também o ID em `public_approvals.figures`.
 
 | Campo de figura | Conteúdo |
@@ -38,8 +38,8 @@ A configuração entregue está sem aprovações. Informar `--public` ativa a se
 PNG é a única mídia aceita. O importador verifica o hash e os chunks e remove metadados embutidos preservando os dados de imagem. A figura recebe um caminho estático sob `figures/phase_01/` ou `figures/phase_02/`. O hash registrado em `source` identifica a imagem original aprovada.
 
 ```sh
-python scripts/import_experiments.py export --config config/experiment_import.yaml --public --dry-run
-python scripts/import_experiments.py export --config config/experiment_import.yaml --public
+python scripts/import_experiments.py export --config config/public_experiments.yaml --public --dry-run
+python scripts/import_experiments.py export --config config/public_experiments.yaml --public
 ```
 
 Ao remover aprovações, execute a exportação pública novamente para atualizar os JSONs e remover as figuras antes geradas que ficaram sem autorização. A primeira exportação pública exige pelo menos um registro aprovado. A geração preserva arquivos alheios e recusa sobrescrever saídas editadas manualmente. O índice de propriedade e o registro de uma exportação interrompida ficam no diretório de auditoria. Reexecutar o comando conclui uma gravação parcial sem perder a proteção dos arquivos.
@@ -77,7 +77,7 @@ python scripts/import_experiments.py export --config config/featured_experiments
 
 A saída fica em `.experiment-import/featured/`. O relatório `reports/curation_summary.md` lista os sete grupos, as fontes e as pendências de cada figura. A configuração fixa as imagens por SHA-256. Nos mapas por par, os limites de cor vêm do relatório original. Nos mapas individuais de velocidade da seed 42, a curadoria reproduz os limites a partir dos três campos ou dos erros no Parquet de teste conforme a rotina de plotagem original. A seleção inclui somente PNGs com escopo e escala sustentados. Os candidatos retidos continuam no YAML e no relatório, sem cópias de imagem.
 
-O perfil é exclusivo para staging privado. O JSON da timeline inclui `comparisonIds`, `experimentIds`, `curationGroupId`, prioridade e estado de revisão. A síntese dos pares k–ε resume os deltas por seed no relatório, preservando a distinção entre partições. Para validar o run complementar e as figuras com comparação, use um ambiente Python com PyArrow.
+O perfil `featured_experiments.yaml` é exclusivo para staging privado. O perfil público derivado exige aprovações próprias. O JSON da timeline inclui `comparisonIds`, `experimentIds`, `curationGroupId`, prioridade e estado de revisão. A síntese dos pares k–ε resume os deltas por seed no relatório, preservando a distinção entre partições. Para validar o run complementar e as figuras com comparação, use um ambiente Python com PyArrow.
 
 ## Identidade e projeções na v0.5
 
@@ -92,3 +92,5 @@ O perfil é exclusivo para staging privado. O JSON da timeline inclui `compariso
 Os dois projetos declaram `execution_timezone: UTC`. Timestamps sem offset usam UTC e timestamps com offset explícito são convertidos para UTC. A confiança de um horário recuperado do nome permanece `inferred`.
 
 A projeção pública requer identificador do run, fase, família, caso CFD, Reynolds, modelo de turbulência e seed. Runs com esses campos incompletos ficam na revisão local. O build público também aplica a regra a exportações aprovadas anteriores e retira as métricas, avaliações, comparações, figuras e marcos dependentes. A aprovação explícita continua obrigatória.
+
+O Pages lê o pacote versionado de `public/` e o índice de hashes em `config/public_release_manifest.json`. Após regenerar a saída pública, copie somente o índice `managed.json` para esse manifesto. Os relatórios e o acervo privado ficam locais. Consulte os [comandos de publicação](../README.md#publicar-no-github-pages).
