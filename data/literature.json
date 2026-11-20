@@ -1,0 +1,455 @@
+[
+  {
+    "id": "bib-anderson1995computational",
+    "citeKey": "anderson1995computational",
+    "title": "Computational Fluid Dynamics: The Basics with Applications",
+    "authors": [
+      "Anderson, J.D."
+    ],
+    "year": 1995,
+    "venue": "McGraw-Hill",
+    "kind": "book",
+    "isbn": "978-0-07-113210-7",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-brunton2019datadriven",
+    "citeKey": "brunton2019datadriven",
+    "title": "Data-Driven Science and Engineering: Machine Learning, Dynamical Systems, and Control",
+    "authors": [
+      "Brunton, Steven L.",
+      "Kutz, J. Nathan"
+    ],
+    "year": 2019,
+    "venue": "Cambridge University Press",
+    "kind": "book",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-cai:physicsinformedneuralnetworks:2021a",
+    "citeKey": "cai:PhysicsinformedNeuralNetworks:2021a",
+    "title": "Physics-Informed Neural Networks (PINNs) for Fluid Mechanics: A Review",
+    "authors": [
+      "Cai, Shengze",
+      "Mao, Zhiping",
+      "Wang, Zhicheng",
+      "Yin, Minglang",
+      "Karniadakis, George Em"
+    ],
+    "year": 2021,
+    "venue": "arXiv",
+    "kind": "preprint",
+    "doi": "10.48550/arXiv.2105.09506",
+    "number": "arXiv:2105.09506",
+    "url": "https://doi.org/10.48550/arXiv.2105.09506",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-caron2025112229",
+    "citeKey": "CARON2025112229",
+    "title": "Machine Learning to Speed up Computational Fluid Dynamics Engineering Simulations for Built Environments: A Review",
+    "authors": [
+      "Caron, Clément",
+      "Lauret, Philippe",
+      "Bastide, Alain"
+    ],
+    "year": 2025,
+    "venue": "Building and Environment",
+    "kind": "article",
+    "doi": "10.1016/j.buildenv.2024.112229",
+    "volume": "267",
+    "pages": "112229",
+    "url": "https://doi.org/10.1016/j.buildenv.2024.112229",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-cuomo:scientificmachinelearning:2022",
+    "citeKey": "cuomo:ScientificMachineLearning:2022",
+    "title": "Scientific Machine Learning Through Physics–Informed Neural Networks: Where We Are and What's Next",
+    "authors": [
+      "Cuomo, Salvatore",
+      "Di Cola, Vincenzo Schiano",
+      "Giampaolo, Fabio",
+      "Rozza, Gianluigi",
+      "Raissi, Maziar",
+      "Piccialli, Francesco"
+    ],
+    "year": 2022,
+    "venue": "Journal of Scientific Computing",
+    "kind": "article",
+    "doi": "10.1007/s10915-022-01939-z",
+    "volume": "92",
+    "number": "3",
+    "pages": "88",
+    "url": "https://doi.org/10.1007/s10915-022-01939-z",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-driver:featuresreattachingturbulent:1985",
+    "citeKey": "driver:FeaturesReattachingTurbulent:1985",
+    "title": "Features of a Reattaching Turbulent Shear Layer in Divergent Channelflow",
+    "authors": [
+      "Driver, David M.",
+      "Seegmiller, H. Lee"
+    ],
+    "year": 1985,
+    "venue": "AIAA Journal",
+    "kind": "article",
+    "doi": "10.2514/3.8890",
+    "volume": "23",
+    "number": "2",
+    "pages": "163–171",
+    "url": "https://doi.org/10.2514/3.8890",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-duraisamy:perspectivesmachinelearningaugmented:2021a",
+    "citeKey": "duraisamy:PerspectivesMachineLearningaugmented:2021a",
+    "title": "Perspectives on Machine Learning-augmented Reynolds-averaged and Large Eddy Simulation Models of Turbulence",
+    "authors": [
+      "Duraisamy, Karthik"
+    ],
+    "year": 2021,
+    "venue": "Physical Review Fluids",
+    "kind": "article",
+    "doi": "10.1103/PhysRevFluids.6.050504",
+    "volume": "6",
+    "number": "5",
+    "pages": "050504",
+    "url": "https://doi.org/10.1103/PhysRevFluids.6.050504",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-erichson:physicsinformedautoencoderslyapunovstable:2019",
+    "citeKey": "erichson:PhysicsinformedAutoencodersLyapunovstable:2019",
+    "title": "Physics-Informed Autoencoders for Lyapunov-stable Fluid Flow Prediction",
+    "authors": [
+      "Erichson, N. Benjamin",
+      "Muehlebach, Michael",
+      "Mahoney, Michael W."
+    ],
+    "year": 2019,
+    "venue": "arXiv",
+    "kind": "preprint",
+    "doi": "10.48550/ARXIV.1905.10866",
+    "url": "https://doi.org/10.48550/ARXIV.1905.10866",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-gonzalez-sieiroreducingspatialdiscretization2025",
+    "citeKey": "gonzalez-sieiroReducingSpatialDiscretization2025",
+    "title": "Reducing Spatial Discretization Error on Coarse CFD Simulations Using an openFOAM-embedded Deep Learning Framework",
+    "authors": [
+      "Gonzalez-Sieiro, J.",
+      "Pardo, D.",
+      "Nava, V.",
+      "Calo, V. M.",
+      "Towara, M."
+    ],
+    "year": 2025,
+    "venue": "Engineering with Computers",
+    "kind": "article",
+    "doi": "10.1007/s00366-024-02057-0",
+    "volume": "41",
+    "number": "3",
+    "pages": "1699–1720",
+    "url": "https://doi.org/10.1007/s00366-024-02057-0",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-karniadakis:physicsinformedmachinelearning:2021",
+    "citeKey": "karniadakis:PhysicsinformedMachineLearning:2021",
+    "title": "Physics-Informed Machine Learning",
+    "authors": [
+      "Karniadakis, George Em",
+      "Kevrekidis, Ioannis G.",
+      "Lu, Lu",
+      "Perdikaris, Paris",
+      "Wang, Sifan",
+      "Yang, Liu"
+    ],
+    "year": 2021,
+    "venue": "Nature Reviews Physics",
+    "kind": "article",
+    "doi": "10.1038/s42254-021-00314-5",
+    "volume": "3",
+    "number": "6",
+    "pages": "422–440",
+    "url": "https://doi.org/10.1038/s42254-021-00314-5",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-kim:deepfluidsgenerative:2019",
+    "citeKey": "kim:DeepFluidsGenerative:2019",
+    "title": "Deep Fluids: A Generative Network for Parameterized Fluid Simulations",
+    "authors": [
+      "Kim, Byungsoo",
+      "Azevedo, Vinicius C.",
+      "Thuerey, Nils",
+      "Kim, Theodore",
+      "Gross, Markus",
+      "Solenthaler, Barbara"
+    ],
+    "year": 2019,
+    "venue": "Computer Graphics Forum",
+    "kind": "article",
+    "doi": "10.1111/cgf.13619",
+    "volume": "38",
+    "number": "2",
+    "pages": "59–70",
+    "url": "https://doi.org/10.1111/cgf.13619",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-kochkov:machinelearningaccelerated:2021",
+    "citeKey": "kochkov:MachineLearningAccelerated:2021",
+    "title": "Machine Learning–Accelerated Computational Fluid Dynamics",
+    "authors": [
+      "Kochkov, Dmitrii",
+      "Smith, Jamie A.",
+      "Alieva, Ayya",
+      "Wang, Qing",
+      "Brenner, Michael P.",
+      "Hoyer, Stephan"
+    ],
+    "year": 2021,
+    "venue": "Proceedings of the National Academy of Sciences",
+    "kind": "article",
+    "doi": "10.1073/pnas.2101784118",
+    "volume": "118",
+    "number": "21",
+    "pages": "e2101784118",
+    "url": "https://doi.org/10.1073/pnas.2101784118",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-maliska2004transferencia",
+    "citeKey": "maliska2004transferencia",
+    "title": "Transferência de Calor e Mec\\^anica Dos Fluidos Computacional",
+    "authors": [
+      "Maliska, C.R."
+    ],
+    "year": 2004,
+    "venue": "Livros Tecnicos e Cientificos",
+    "kind": "book",
+    "isbn": "978-85-216-1396-1",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-misakadataassimilationphysicsinformed2026",
+    "citeKey": "misakaDataAssimilationPhysicsinformed2026",
+    "title": "Data Assimilation with Physics-Informed Neural Network Surrogates Constructed against Prediction Uncertainty",
+    "authors": [
+      "Misaka, Takashi",
+      "Mizuno, Yusuke",
+      "Nakasumi, Shogo",
+      "Furukawa, Yoshiyuki"
+    ],
+    "year": 2026,
+    "venue": "Journal of Computational Physics",
+    "kind": "article",
+    "doi": "10.1016/j.jcp.2025.114587",
+    "volume": "548",
+    "pages": "114587",
+    "url": "https://doi.org/10.1016/j.jcp.2025.114587",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-openfoam:tutorialguidev2506",
+    "citeKey": "openfoam:TutorialGuideV2506",
+    "title": "OpenFOAM v2506 Tutorial Guide",
+    "authors": [
+      "OpenCFD Ltd."
+    ],
+    "year": 2025,
+    "venue": "OpenCFD Ltd.",
+    "kind": "manual",
+    "url": "https://dl.openfoam.com/source/v2506/TutorialGuide.pdf",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-pioch:turbulencemodelingphysicsinformed:2023",
+    "citeKey": "pioch:TurbulenceModelingPhysicsInformed:2023",
+    "title": "Turbulence Modeling for Physics-Informed Neural Networks: Comparison of Different RANS Models for the Backward-Facing Step Flow",
+    "authors": [
+      "Pioch, Fabian",
+      "Harmening, Jan Hauke",
+      "Müller, Andreas Maximilian",
+      "Peitzmann, Franz-Josef",
+      "Schramm, Dieter",
+      "El Moctar, Ould"
+    ],
+    "year": 2023,
+    "venue": "Fluids",
+    "kind": "article",
+    "doi": "10.3390/fluids8020043",
+    "volume": "8",
+    "number": "2",
+    "pages": "43",
+    "url": "https://doi.org/10.3390/fluids8020043",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-pope2000turbulent",
+    "citeKey": "pope2000turbulent",
+    "title": "Turbulent Flows",
+    "authors": [
+      "Pope, S.B."
+    ],
+    "year": 2000,
+    "venue": "Cambridge University Press",
+    "kind": "book",
+    "isbn": "978-0-521-59886-6",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-raissi:physicsinformedneuralnetworks:2019a",
+    "citeKey": "raissi:PhysicsinformedNeuralNetworks:2019a",
+    "title": "Physics-Informed Neural Networks: A Deep Learning Framework for Solving Forward and Inverse Problems Involving Nonlinear Partial Differential Equations",
+    "authors": [
+      "Raissi, M.",
+      "Perdikaris, P.",
+      "Karniadakis, G.E."
+    ],
+    "year": 2019,
+    "venue": "Journal of Computational Physics",
+    "kind": "article",
+    "doi": "10.1016/j.jcp.2018.10.045",
+    "volume": "378",
+    "pages": "686–707",
+    "url": "https://doi.org/10.1016/j.jcp.2018.10.045",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-sharma:reviewphysicsinformedmachine:2023a",
+    "citeKey": "sharma:ReviewPhysicsInformedMachine:2023a",
+    "title": "A Review of Physics-Informed Machine Learning in Fluid Mechanics",
+    "authors": [
+      "Sharma, Pushan",
+      "Chung, Wai Tong",
+      "Akoush, Bassem",
+      "Ihme, Matthias"
+    ],
+    "year": 2023,
+    "venue": "Energies",
+    "kind": "article",
+    "doi": "10.3390/en16052343",
+    "volume": "16",
+    "number": "5",
+    "pages": "2343",
+    "url": "https://doi.org/10.3390/en16052343",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-subramani2025predictive",
+    "citeKey": "subramani2025predictive",
+    "title": "Predictive Digital Twins for Thermal Management Using Machine Learning and Reduced-Order Models",
+    "authors": [
+      "Subramani, Tamilselvan",
+      "Bartscher, Sebastian"
+    ],
+    "year": 2025,
+    "venue": "arXiv preprint",
+    "kind": "preprint",
+    "doi": "10.48550/arXiv.2505.06849",
+    "volume": "arXiv:2505.06849",
+    "url": "https://doi.org/10.48550/arXiv.2505.06849",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-tao2019digitaltwin",
+    "citeKey": "tao2019digitaltwin",
+    "title": "Digital Twin in Industry: State-of-the-art",
+    "authors": [
+      "Tao, Fei",
+      "Zhang, He",
+      "Liu, Ang",
+      "Nee, Andrew Y. C."
+    ],
+    "year": 2019,
+    "venue": "IEEE Transactions on Industrial Informatics",
+    "kind": "article",
+    "doi": "10.1109/TII.2018.2873186",
+    "volume": "15",
+    "number": "4",
+    "pages": "2405–2415",
+    "url": "https://doi.org/10.1109/TII.2018.2873186",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-versteeg2007introduction",
+    "citeKey": "versteeg2007introduction",
+    "title": "An Introduction to Computational Fluid Dynamics: The Finite Volume Method",
+    "authors": [
+      "Versteeg, H.K.",
+      "Malalasekera, W."
+    ],
+    "year": 2007,
+    "venue": "Pearson Education Limited",
+    "kind": "book",
+    "isbn": "978-0-13-127498-3",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  },
+  {
+    "id": "bib-vinuesa2021enhancing",
+    "citeKey": "vinuesa2021enhancing",
+    "title": "Enhancing Computational Fluid Dynamics with Machine Learning",
+    "authors": [
+      "Vinuesa, Ricardo",
+      "Brunton, Steven L."
+    ],
+    "year": 2021,
+    "venue": "arXiv preprint",
+    "kind": "preprint",
+    "doi": "10.48550/arXiv.2110.02085",
+    "volume": "arXiv:2110.02085",
+    "url": "https://doi.org/10.48550/arXiv.2110.02085",
+    "visibility": "public",
+    "evidenceStatus": "verified",
+    "sources": []
+  }
+]

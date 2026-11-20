@@ -10,5 +10,6 @@
   "en": {
     "researchTitle": "Physics-informed learning for CFD flow field correction",
     "summary": "Can physical constraints and optimization strategies reduce reliance on high-fidelity data when correcting backward-facing step (BFS) flows while preserving predictive accuracy and physical consistency? The research investigates this question with MLP and PINN models."
-  }
+  },
+  "currentPhaseId": "bfs-physics-informed-learning"
 }

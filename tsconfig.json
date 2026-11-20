@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "ES2023",
+    "module": "NodeNext",
+    "lib": ["ES2023", "DOM"]
+  },
+  "files": ["assets/js/science/catalog-data.mjs"]
+}
