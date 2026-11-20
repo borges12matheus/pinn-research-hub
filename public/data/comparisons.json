@@ -1,0 +1,1849 @@
+[
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260826-003112:full_domain:divergence_corrected_rmse",
+          "exp-ke-pinn-cont-mom-base-20260826-003555:full_domain:divergence_corrected_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "features_differs",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260826-003112:full_domain:divergence_error_rmse",
+          "exp-ke-pinn-cont-mom-base-20260826-003555:full_domain:divergence_error_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "features_differs",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260826-003112:test:rmse_p_corrected",
+          "exp-ke-pinn-cont-mom-base-20260826-003555:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "features_differs",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m²/s²"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260826-003112:test:rmse_uv_corrected",
+          "exp-ke-pinn-cont-mom-base-20260826-003555:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "features_differs",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m/s"
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260826-003112",
+      "exp-ke-pinn-cont-mom-base-20260826-003555"
+    ],
+    "figures": [
+      {
+        "alt": {
+          "en": "Three panels show divergence magnitude for fine RANS and the corrected MLP and PINN fields.",
+          "pt": "Três painéis mostram a magnitude da divergência no RANS fine e nos campos corrigidos pela MLP e pela PINN."
+        },
+        "caption": {
+          "en": "Divergence magnitude on a common logarithmic scale.",
+          "pt": "Magnitude da divergência em escala logarítmica comum."
+        },
+        "colorScale": {
+          "max": 739.1888990892666,
+          "min": 0.0014771087999999998,
+          "mode": "absolute_common"
+        },
+        "comparisonId": "cmp-ke-20260826-003110",
+        "evaluationSet": "full_domain",
+        "experimentId": null,
+        "field": "divergence_magnitude",
+        "id": "momento-ke-003110-abs",
+        "operator": "openfoam_plus_autograd",
+        "path": "figures/phase_01/momento-ke-003110-abs.png",
+        "published": true,
+        "referenceType": "fine_rans",
+        "source": {
+          "id": "src-7fb0508c0631a8ad9c345943",
+          "kind": "figure",
+          "sha256": "a17196792cee41390049f44bb5db711e86db38985cb32fd56d45ffe1232c2dcd"
+        },
+        "spatialScale": {
+          "axis_unit": "x/h, y/h",
+          "h": 0.0127
+        },
+        "unit": "s⁻¹"
+      }
+    ],
+    "id": "cmp-ke-20260826-003110",
+    "limitations": [
+      "features_differs",
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-71dcfdfd41476b911e6bdd67",
+      "kind": "pair_manifest",
+      "sha256": "965daad9dff1dc7d3091ac6ff7ae0b1dfbeeb4642fbfb6d59579996e43c8cac3"
+    },
+    "phaseId": "bfs_2d_pinn_corrector",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 739.1888990892666,
+          "min": 0.0014771087999999998
+        },
+        "error_common_abs_vmax": {
+          "max": 999.2439507733875,
+          "min": -999.2439507733875
+        },
+        "signed_common": {
+          "max": 739.1888990892666,
+          "min": 0.0014771087999999998
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "full_domain",
+      "plotHeight": 0.0127,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-71dcfdfd41476b911e6bdd67",
+        "kind": "pair_manifest",
+        "sha256": "965daad9dff1dc7d3091ac6ff7ae0b1dfbeeb4642fbfb6d59579996e43c8cac3"
+      },
+      {
+        "id": "src-0aa36017781d11e1fa4d49ea",
+        "kind": "fairness_report",
+        "sha256": "2973c6142bdb876cd7badecc62028d4b40e687b08f224707e5f2562cf26f5094"
+      },
+      {
+        "id": "src-b0bd05c68eda35381f31c5f3",
+        "kind": "comparison_report",
+        "sha256": "38ff91ab4d136a70d0a7ba8be31969b2187cee14e2c952042dad7da96b1cdf1d"
+      }
+    ],
+    "sources": [],
+    "status": "descriptive_only",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260827-014547:full_domain:divergence_corrected_rmse",
+          "exp-ke-pinn-cont-mom-base-20260827-015025:full_domain:divergence_corrected_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "features_differs",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260827-014547:full_domain:divergence_error_rmse",
+          "exp-ke-pinn-cont-mom-base-20260827-015025:full_domain:divergence_error_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "features_differs",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260827-014547:test:rmse_p_corrected",
+          "exp-ke-pinn-cont-mom-base-20260827-015025:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "features_differs",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m²/s²"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260827-014547:test:rmse_uv_corrected",
+          "exp-ke-pinn-cont-mom-base-20260827-015025:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "features_differs",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m/s"
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260827-014547",
+      "exp-ke-pinn-cont-mom-base-20260827-015025"
+    ],
+    "figures": [
+      {
+        "alt": {
+          "en": "Two panels compare the difference between each corrected divergence field and the fine reference.",
+          "pt": "Dois painéis comparam, no domínio avaliado, a diferença de divergência entre cada campo corrigido e o fine."
+        },
+        "caption": {
+          "en": "Divergence error against fine RANS on a common color scale.",
+          "pt": "Erro de divergência em relação ao RANS fine, com escala de cores comum."
+        },
+        "colorScale": {
+          "max": 999.2439507733875,
+          "min": -999.2439507733875,
+          "mode": "error_common_abs_vmax"
+        },
+        "comparisonId": "cmp-ke-20260827-014545",
+        "evaluationSet": "full_domain",
+        "experimentId": null,
+        "field": "divergence_error",
+        "id": "momento-ke-014545-error",
+        "operator": "openfoam_plus_autograd",
+        "path": "figures/phase_01/momento-ke-014545-error.png",
+        "published": true,
+        "referenceType": "fine_rans",
+        "source": {
+          "id": "src-726e7c2b36c8416297305829",
+          "kind": "figure",
+          "sha256": "a9e6333d4a37432aabc0b515b67ae41fcfd04bd02f5ea1f84262e434dee8f90e"
+        },
+        "spatialScale": {
+          "axis_unit": "x/h, y/h",
+          "h": 0.0127
+        },
+        "unit": "s⁻¹"
+      }
+    ],
+    "id": "cmp-ke-20260827-014545",
+    "limitations": [
+      "features_differs",
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-a5bced68ce05da205114f471",
+      "kind": "pair_manifest",
+      "sha256": "2fed749c41d8834bd6801f31de54b58a87bdc995ff6a5898ccc0336fb737f391"
+    },
+    "phaseId": "bfs_2d_pinn_corrector",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 739.1888990892666,
+          "min": 0.0014762324
+        },
+        "error_common_abs_vmax": {
+          "max": 999.2439507733875,
+          "min": -999.2439507733875
+        },
+        "signed_common": {
+          "max": 739.1888990892666,
+          "min": 0.0014762324
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "full_domain",
+      "plotHeight": 0.0127,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-a5bced68ce05da205114f471",
+        "kind": "pair_manifest",
+        "sha256": "2fed749c41d8834bd6801f31de54b58a87bdc995ff6a5898ccc0336fb737f391"
+      },
+      {
+        "id": "src-f55ab2ab0ce909fa34129739",
+        "kind": "fairness_report",
+        "sha256": "ed2331cba45728ac05f8696293d9d47293afedb515879231afce5b91e876cba5"
+      },
+      {
+        "id": "src-613eba68d6e1654f2c0ffce8",
+        "kind": "comparison_report",
+        "sha256": "b65728be45f0d07191b61199886fe9a70c38f70d1562cb8aaf042548f7c20006"
+      }
+    ],
+    "sources": [],
+    "status": "descriptive_only",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260908-153000:full_domain:divergence_corrected_rmse",
+          "exp-ke-pinn-cont-base-20260908-154133:full_domain:divergence_corrected_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260908-153000:full_domain:divergence_error_rmse",
+          "exp-ke-pinn-cont-base-20260908-154133:full_domain:divergence_error_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260908-153000:test:rmse_p_corrected",
+          "exp-ke-pinn-cont-base-20260908-154133:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260908-153000:test:rmse_uv_corrected",
+          "exp-ke-pinn-cont-base-20260908-154133:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260908-153000",
+      "exp-ke-pinn-cont-base-20260908-154133"
+    ],
+    "figures": [],
+    "id": "cmp-ke-20260908-152958",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified",
+      "unit_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-3ebdb0f3fac8fb14de4c6566",
+      "kind": "pair_manifest",
+      "sha256": "84b236293ea21dafffdf4c3e131e4b5161f9d9799e0f4710ae22504947690b47"
+    },
+    "phaseId": "bfs_2d_pinn_corrector",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 765.692770019202,
+          "min": 0.0012642244000000001
+        },
+        "error_common_abs_vmax": {
+          "max": 1073.2117025674781,
+          "min": -1073.2117025674781
+        },
+        "signed_common": {
+          "max": 765.692770019202,
+          "min": 0.0012642244000000001
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "full_domain",
+      "plotHeight": 0.0127,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-3ebdb0f3fac8fb14de4c6566",
+        "kind": "pair_manifest",
+        "sha256": "84b236293ea21dafffdf4c3e131e4b5161f9d9799e0f4710ae22504947690b47"
+      },
+      {
+        "id": "src-bfd52d1d9eaf8ff41e5450f0",
+        "kind": "fairness_report",
+        "sha256": "70f7d74c24ed688cf0503aa23608ee11586026b09e33a5e21bcea7d0fec52629"
+      },
+      {
+        "id": "src-04fc7ee1d079d31a6aedbcf4",
+        "kind": "comparison_report",
+        "sha256": "2ef05a3091303ac9b248dfa9e8b04febb8f32ff72a703c8ccc75942a56573896"
+      }
+    ],
+    "sources": [],
+    "status": "blocked",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260909-013554:full_domain:divergence_corrected_rmse",
+          "exp-ke-pinn-cont-base-20260909-014707:full_domain:divergence_corrected_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260909-013554:full_domain:divergence_error_rmse",
+          "exp-ke-pinn-cont-base-20260909-014707:full_domain:divergence_error_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260909-013554:test:rmse_p_corrected",
+          "exp-ke-pinn-cont-base-20260909-014707:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260909-013554:test:rmse_uv_corrected",
+          "exp-ke-pinn-cont-base-20260909-014707:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260909-013554",
+      "exp-ke-pinn-cont-base-20260909-014707"
+    ],
+    "figures": [],
+    "id": "cmp-ke-20260909-013552",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified",
+      "unit_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-8e7f347265b29a13ebaa7624",
+      "kind": "pair_manifest",
+      "sha256": "73d955d1f643ace1b79e002f39ec63f87ab469cefc1fe367a32723734dcf9733"
+    },
+    "phaseId": "bfs_2d_pinn_corrector",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 844.6340118526488,
+          "min": 0.0012824888
+        },
+        "error_common_abs_vmax": {
+          "max": 1217.7666847500582,
+          "min": -1217.7666847500582
+        },
+        "signed_common": {
+          "max": 844.6340118526488,
+          "min": 0.0012824888
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "full_domain",
+      "plotHeight": 0.0127,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-8e7f347265b29a13ebaa7624",
+        "kind": "pair_manifest",
+        "sha256": "73d955d1f643ace1b79e002f39ec63f87ab469cefc1fe367a32723734dcf9733"
+      },
+      {
+        "id": "src-7120b50f28964b8dc5fecd3d",
+        "kind": "fairness_report",
+        "sha256": "70f7d74c24ed688cf0503aa23608ee11586026b09e33a5e21bcea7d0fec52629"
+      },
+      {
+        "id": "src-7b3e41b69e3468f40d974660",
+        "kind": "comparison_report",
+        "sha256": "bb1d26ce88149abd551afc54dc8a2da401a4596562c76d23e0616a88c09d0fff"
+      }
+    ],
+    "sources": [],
+    "status": "blocked",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-024535:test:divergence_corrected_rmse",
+          "exp-ke-pinn-cont-base-20260919-024952:test:divergence_corrected_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-024535:test:divergence_error_rmse",
+          "exp-ke-pinn-cont-base-20260919-024952:test:divergence_error_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-024535:test:rmse_p_corrected",
+          "exp-ke-pinn-cont-base-20260919-024952:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m²/s²"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-024535:test:rmse_uv_corrected",
+          "exp-ke-pinn-cont-base-20260919-024952:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m/s"
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260919-024535",
+      "exp-ke-pinn-cont-base-20260919-024952"
+    ],
+    "figures": [
+      {
+        "alt": {
+          "en": "Three panels show divergence magnitude for fine RANS and the corrected MLP and PINN fields.",
+          "pt": "Três painéis mostram a magnitude da divergência no RANS fine e nos campos corrigidos pela MLP e pela PINN."
+        },
+        "caption": {
+          "en": "Divergence magnitude on a common logarithmic scale.",
+          "pt": "Magnitude da divergência em escala logarítmica comum."
+        },
+        "colorScale": {
+          "max": 749.9806750731586,
+          "min": 0.0014973917,
+          "mode": "absolute_common"
+        },
+        "comparisonId": "cmp-ke-20260919-024533",
+        "evaluationSet": "test",
+        "experimentId": null,
+        "field": "divergence_magnitude",
+        "id": "replicas-ke-024533-abs",
+        "operator": "openfoam_plus_autograd",
+        "path": "figures/phase_01/replicas-ke-024533-abs.png",
+        "published": true,
+        "referenceType": "fine_rans",
+        "source": {
+          "id": "src-f6e0ac4bc262d5b4f23e5860",
+          "kind": "figure",
+          "sha256": "c43845cebd55578cae900e26a89629bf402ac041a1213954060de2a232d223b6"
+        },
+        "spatialScale": {
+          "axis_unit": "x/h, y/h",
+          "h": 0.0127
+        },
+        "unit": "s⁻¹"
+      }
+    ],
+    "id": "cmp-ke-20260919-024533",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-52b476df3a7653f22e1d837c",
+      "kind": "pair_manifest",
+      "sha256": "ec844f398e2ef32809bc2b58f80377998dc0d27aac53c673c241f0e3f6926226"
+    },
+    "phaseId": "bfs_2d_pinn_corrector",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 749.9806750731586,
+          "min": 0.0014973917
+        },
+        "error_common_abs_vmax": {
+          "max": 986.0713387128928,
+          "min": -986.0713387128928
+        },
+        "signed_common": {
+          "max": 749.9806750731586,
+          "min": 0.0014973917
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "test",
+      "plotHeight": 0.0127,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-52b476df3a7653f22e1d837c",
+        "kind": "pair_manifest",
+        "sha256": "ec844f398e2ef32809bc2b58f80377998dc0d27aac53c673c241f0e3f6926226"
+      },
+      {
+        "id": "src-7a16a6b3b136511b3e18c8bd",
+        "kind": "fairness_report",
+        "sha256": "ac96ae6641485accee309dd7ae93d1c7be276fcf1642944864ea1d12354b9ec3"
+      },
+      {
+        "id": "src-b06d6b12500035f4a117a02a",
+        "kind": "comparison_report",
+        "sha256": "80a4091ca711cebb573f0a40f745240a7e7e0e8124e95aca5c5e10efe434fbaa"
+      }
+    ],
+    "sources": [],
+    "status": "descriptive_only",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-031342:test:divergence_corrected_rmse",
+          "exp-ke-pinn-cont-base-20260919-031921:test:divergence_corrected_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-031342:test:divergence_error_rmse",
+          "exp-ke-pinn-cont-base-20260919-031921:test:divergence_error_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-031342:test:rmse_p_corrected",
+          "exp-ke-pinn-cont-base-20260919-031921:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m²/s²"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-031342:test:rmse_uv_corrected",
+          "exp-ke-pinn-cont-base-20260919-031921:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m/s"
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260919-031342",
+      "exp-ke-pinn-cont-base-20260919-031921"
+    ],
+    "figures": [
+      {
+        "alt": {
+          "en": "Three panels show divergence magnitude for fine RANS and the corrected MLP and PINN fields.",
+          "pt": "Três painéis mostram a magnitude da divergência no RANS fine e nos campos corrigidos pela MLP e pela PINN."
+        },
+        "caption": {
+          "en": "Divergence magnitude on a common logarithmic scale.",
+          "pt": "Magnitude da divergência em escala logarítmica comum."
+        },
+        "colorScale": {
+          "max": 476.366495973649,
+          "min": 0.001496535,
+          "mode": "absolute_common"
+        },
+        "comparisonId": "cmp-ke-20260919-031341",
+        "evaluationSet": "test",
+        "experimentId": null,
+        "field": "divergence_magnitude",
+        "id": "replicas-ke-031341-abs",
+        "operator": "openfoam_plus_autograd",
+        "path": "figures/phase_01/replicas-ke-031341-abs.png",
+        "published": true,
+        "referenceType": "fine_rans",
+        "source": {
+          "id": "src-10e08946a25368f8739367a7",
+          "kind": "figure",
+          "sha256": "6ccb275fdc91b478fbf0b4d683d555c108e39981e5ee0ba61b24fbbe48e24d48"
+        },
+        "spatialScale": {
+          "axis_unit": "x/h, y/h",
+          "h": 0.0127
+        },
+        "unit": "s⁻¹"
+      }
+    ],
+    "id": "cmp-ke-20260919-031341",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-ef485c52f64458c4ebe1c748",
+      "kind": "pair_manifest",
+      "sha256": "c47e74a3f609c7dcb003f9d2eba5a3354b973283edf797b0407aad23a19f3888"
+    },
+    "phaseId": "bfs_2d_pinn_corrector",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 476.366495973649,
+          "min": 0.001496535
+        },
+        "error_common_abs_vmax": {
+          "max": 663.4163285905128,
+          "min": -663.4163285905128
+        },
+        "signed_common": {
+          "max": 476.366495973649,
+          "min": 0.001496535
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "test",
+      "plotHeight": 0.0127,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-ef485c52f64458c4ebe1c748",
+        "kind": "pair_manifest",
+        "sha256": "c47e74a3f609c7dcb003f9d2eba5a3354b973283edf797b0407aad23a19f3888"
+      },
+      {
+        "id": "src-3398e7df509dac9de9d5503e",
+        "kind": "fairness_report",
+        "sha256": "0aeee799d1826fccfc99b9759640ec6f0cbe08c4fd0506b193af6d1ef08c647c"
+      },
+      {
+        "id": "src-f97028efd0b26d9c58a03f60",
+        "kind": "comparison_report",
+        "sha256": "47a90d08e1eddbda7143c252f48519811f126e4b7f49ff0658100813cb641529"
+      }
+    ],
+    "sources": [],
+    "status": "descriptive_only",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-033346:test:divergence_corrected_rmse",
+          "exp-ke-pinn-cont-base-20260919-033918:test:divergence_corrected_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-033346:test:divergence_error_rmse",
+          "exp-ke-pinn-cont-base-20260919-033918:test:divergence_error_rmse"
+        ],
+        "operator": "openfoam_plus_autograd",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "s⁻¹"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-033346:test:rmse_p_corrected",
+          "exp-ke-pinn-cont-base-20260919-033918:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m²/s²"
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": true,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-ke-mlp-base-20260919-033346:test:rmse_uv_corrected",
+          "exp-ke-pinn-cont-base-20260919-033918:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "descriptive_only",
+        "unit": "m/s"
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-ke-mlp-base-20260919-033346",
+      "exp-ke-pinn-cont-base-20260919-033918"
+    ],
+    "figures": [
+      {
+        "alt": {
+          "en": "Three panels show divergence magnitude for fine RANS and the corrected MLP and PINN fields.",
+          "pt": "Três painéis mostram a magnitude da divergência no RANS fine e nos campos corrigidos pela MLP e pela PINN."
+        },
+        "caption": {
+          "en": "Divergence magnitude on a common logarithmic scale.",
+          "pt": "Magnitude da divergência em escala logarítmica comum."
+        },
+        "colorScale": {
+          "max": 616.5250373338556,
+          "min": 0.0014366672999999999,
+          "mode": "absolute_common"
+        },
+        "comparisonId": "cmp-ke-20260919-033344",
+        "evaluationSet": "test",
+        "experimentId": null,
+        "field": "divergence_magnitude",
+        "id": "replicas-ke-033344-abs",
+        "operator": "openfoam_plus_autograd",
+        "path": "figures/phase_01/replicas-ke-033344-abs.png",
+        "published": true,
+        "referenceType": "fine_rans",
+        "source": {
+          "id": "src-669561d6878ad28dfbb0f056",
+          "kind": "figure",
+          "sha256": "d7a5d78f5cecdbaabe75fe48f93ae1aaf53790b933a5af432b1f2dadfabc442e"
+        },
+        "spatialScale": {
+          "axis_unit": "x/h, y/h",
+          "h": 0.0127
+        },
+        "unit": "s⁻¹"
+      }
+    ],
+    "id": "cmp-ke-20260919-033344",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-ce9facef92c7474585dae68c",
+      "kind": "pair_manifest",
+      "sha256": "f8517c4f63f3f3cf05985c02d095bd8a8b8c382cc4bec17bfd647a26d27d19a6"
+    },
+    "phaseId": "bfs_2d_pinn_corrector",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 616.5250373338556,
+          "min": 0.0014366672999999999
+        },
+        "error_common_abs_vmax": {
+          "max": 867.8848553019161,
+          "min": -867.8848553019161
+        },
+        "signed_common": {
+          "max": 616.5250373338556,
+          "min": 0.0014366672999999999
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "test",
+      "plotHeight": 0.0127,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-ce9facef92c7474585dae68c",
+        "kind": "pair_manifest",
+        "sha256": "f8517c4f63f3f3cf05985c02d095bd8a8b8c382cc4bec17bfd647a26d27d19a6"
+      },
+      {
+        "id": "src-492a8d0ae1a276e9e849ad9a",
+        "kind": "fairness_report",
+        "sha256": "8c83c0566c1f445bb275b83e5df0c64f9ae322c41ff83bd0a81fcd0bc5b235fe"
+      },
+      {
+        "id": "src-98a88cbb681b3452e8a675ec",
+        "kind": "comparison_report",
+        "sha256": "6bc83fb28bc02af298d7ca5b58cf745eb0f81482e74df5bd4b1d197d4ec73873"
+      }
+    ],
+    "sources": [],
+    "status": "descriptive_only",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-022351:full_domain:divergence_corrected_rmse",
+          "exp-sst-pinn-cont-base-20261113-022703:full_domain:divergence_corrected_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-022351:full_domain:divergence_error_rmse",
+          "exp-sst-pinn-cont-base-20261113-022703:full_domain:divergence_error_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-022351:test:rmse_p_corrected",
+          "exp-sst-pinn-cont-base-20261113-022703:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-022351:test:rmse_uv_corrected",
+          "exp-sst-pinn-cont-base-20261113-022703:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-sst-mlp-base-20261113-022351",
+      "exp-sst-pinn-cont-base-20261113-022703"
+    ],
+    "figures": [],
+    "id": "cmp-sst-20261113-022350",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified",
+      "unit_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-cb44c41e6c9a31bbf764ded6",
+      "kind": "pair_manifest",
+      "sha256": "a855def1b2637d50e00dd18a3eb8ae430f4cfdf67cc793981a5dd8088d5a6545"
+    },
+    "phaseId": "bfs-physics-informed-learning",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 0.02158110954296005,
+          "min": 1.699303206001675e-06
+        },
+        "error_common_abs_vmax": {
+          "max": 0.02004289512932088,
+          "min": -0.02004289512932088
+        },
+        "signed_common": {
+          "max": 0.02158110954296005,
+          "min": 1.699303206001675e-06
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "full_domain",
+      "plotHeight": 1.0,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-cb44c41e6c9a31bbf764ded6",
+        "kind": "pair_manifest",
+        "sha256": "a855def1b2637d50e00dd18a3eb8ae430f4cfdf67cc793981a5dd8088d5a6545"
+      },
+      {
+        "id": "src-ee4813a2d8cd2e5fde11b9fe",
+        "kind": "fairness_report",
+        "sha256": "b9cd670f59214a36af00cd592594e321c03b2843e32a5c6db4886bcfc39ec129"
+      },
+      {
+        "id": "src-6759c51b429dc21a1a1e7427",
+        "kind": "comparison_report",
+        "sha256": "ed2f88792f5276ff0e13a5bb5bd3ee8c51e07b5d2830a43b5bfdeda2f9c0fb7b"
+      }
+    ],
+    "sources": [],
+    "status": "blocked",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-030754:full_domain:divergence_corrected_rmse",
+          "exp-sst-pinn-cont-base-20261113-031017:full_domain:divergence_corrected_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-030754:full_domain:divergence_error_rmse",
+          "exp-sst-pinn-cont-base-20261113-031017:full_domain:divergence_error_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-030754:test:rmse_p_corrected",
+          "exp-sst-pinn-cont-base-20261113-031017:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-030754:test:rmse_uv_corrected",
+          "exp-sst-pinn-cont-base-20261113-031017:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-sst-mlp-base-20261113-030754",
+      "exp-sst-pinn-cont-base-20261113-031017"
+    ],
+    "figures": [],
+    "id": "cmp-sst-20261113-030752",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified",
+      "unit_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-cb53d5f77209804f7afb9d55",
+      "kind": "pair_manifest",
+      "sha256": "042d1331fc017f447936c733e9edc995be8a5470f191e24ee49978b524e1bf32"
+    },
+    "phaseId": "bfs-physics-informed-learning",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 0.02203221507976468,
+          "min": 1.6760755350954068e-06
+        },
+        "error_common_abs_vmax": {
+          "max": 0.022258929659217188,
+          "min": -0.022258929659217188
+        },
+        "signed_common": {
+          "max": 0.02203221507976468,
+          "min": 1.6760755350954068e-06
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "full_domain",
+      "plotHeight": 1.0,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-cb53d5f77209804f7afb9d55",
+        "kind": "pair_manifest",
+        "sha256": "042d1331fc017f447936c733e9edc995be8a5470f191e24ee49978b524e1bf32"
+      },
+      {
+        "id": "src-02b55167edf3fe271df6c1d8",
+        "kind": "fairness_report",
+        "sha256": "cec4f9a104df7cdef2676fbb030b4812e27d8c53d0bec3a0f7e573e07b784c7b"
+      },
+      {
+        "id": "src-e7fd1757a729914e7c6a9b33",
+        "kind": "comparison_report",
+        "sha256": "8daeac19960e211f8eac1ca51fa47c70d9b0cf42d92ade9df434f1e6118d1805"
+      }
+    ],
+    "sources": [],
+    "status": "blocked",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-201335:full_domain:divergence_corrected_rmse",
+          "exp-sst-pinn-cont-base-20261113-201648:full_domain:divergence_corrected_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ",
+          "supervised_subset_identity_unverified"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-201335:full_domain:divergence_error_rmse",
+          "exp-sst-pinn-cont-base-20261113-201648:full_domain:divergence_error_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ",
+          "supervised_subset_identity_unverified"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-201335:test:rmse_p_corrected",
+          "exp-sst-pinn-cont-base-20261113-201648:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ",
+          "supervised_subset_identity_unverified"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-201335:test:rmse_uv_corrected",
+          "exp-sst-pinn-cont-base-20261113-201648:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ",
+          "supervised_subset_identity_unverified"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-sst-mlp-base-20261113-201335",
+      "exp-sst-pinn-cont-base-20261113-201648"
+    ],
+    "figures": [],
+    "id": "cmp-sst-20261113-201333",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervised_subset_identity_unverified",
+      "unit_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-176af4cdc3910c45fa1f1bdf",
+      "kind": "pair_manifest",
+      "sha256": "c385a2e5fa549c054fe9b026729ffa16f9322b1e612b854a66711d915d7eccd4"
+    },
+    "phaseId": "bfs-physics-informed-learning",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 0.028420304014589507,
+          "min": 1.6940997514151097e-06
+        },
+        "error_common_abs_vmax": {
+          "max": 0.03501720049296081,
+          "min": -0.03501720049296081
+        },
+        "signed_common": {
+          "max": 0.028420304014589507,
+          "min": 1.6940997514151097e-06
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "full_domain",
+      "plotHeight": 1.0,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-176af4cdc3910c45fa1f1bdf",
+        "kind": "pair_manifest",
+        "sha256": "c385a2e5fa549c054fe9b026729ffa16f9322b1e612b854a66711d915d7eccd4"
+      },
+      {
+        "id": "src-f03fe26645b7d69897b22760",
+        "kind": "fairness_report",
+        "sha256": "b9cd670f59214a36af00cd592594e321c03b2843e32a5c6db4886bcfc39ec129"
+      },
+      {
+        "id": "src-c317a2ad36c44ebe0186409d",
+        "kind": "comparison_report",
+        "sha256": "bd8d6d8a560eb42ac5748d2893b47c28aece6ae9d72a0bccdd309d83f8e703fd"
+      }
+    ],
+    "sources": [],
+    "status": "blocked",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-204942:full_domain:divergence_corrected_rmse",
+          "exp-sst-pinn-cont-base-20261113-205327:full_domain:divergence_corrected_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-204942:full_domain:divergence_error_rmse",
+          "exp-sst-pinn-cont-base-20261113-205327:full_domain:divergence_error_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-204942:test:rmse_p_corrected",
+          "exp-sst-pinn-cont-base-20261113-205327:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-204942:test:rmse_uv_corrected",
+          "exp-sst-pinn-cont-base-20261113-205327:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-sst-mlp-base-20261113-204942",
+      "exp-sst-pinn-cont-base-20261113-205327"
+    ],
+    "figures": [],
+    "id": "cmp-sst-20261113-204940",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "unit_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-752c603c859e31a24f310c4d",
+      "kind": "pair_manifest",
+      "sha256": "dec4c12aca688f4e8b285c383c260690140a41d760d0f747686dd5f83d9b4d0b"
+    },
+    "phaseId": "bfs-physics-informed-learning",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 0.02098949057270328,
+          "min": 1.7146705541484287e-06
+        },
+        "error_common_abs_vmax": {
+          "max": 0.019690618355776613,
+          "min": -0.019690618355776613
+        },
+        "signed_common": {
+          "max": 0.02098949057270328,
+          "min": 1.7146705541484287e-06
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "full_domain",
+      "plotHeight": 1.0,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-752c603c859e31a24f310c4d",
+        "kind": "pair_manifest",
+        "sha256": "dec4c12aca688f4e8b285c383c260690140a41d760d0f747686dd5f83d9b4d0b"
+      },
+      {
+        "id": "src-66926d9504f8a71072ae3d4c",
+        "kind": "fairness_report",
+        "sha256": "b9cd670f59214a36af00cd592594e321c03b2843e32a5c6db4886bcfc39ec129"
+      },
+      {
+        "id": "src-e978c7e0a3669e3acdfd71e2",
+        "kind": "comparison_report",
+        "sha256": "2f4787d033d3a14ad901b314f7dda83fee68975146cc54e5d008d191f22866cd"
+      }
+    ],
+    "sources": [],
+    "status": "blocked",
+    "updatedAt": null,
+    "visibility": "public"
+  },
+  {
+    "conditions": [
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_corrected_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-212943:full_domain:divergence_corrected_rmse",
+          "exp-sst-pinn-cont-base-20261113-213258:full_domain:divergence_corrected_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "divergence_error_rmse",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-212943:full_domain:divergence_error_rmse",
+          "exp-sst-pinn-cont-base-20261113-213258:full_domain:divergence_error_rmse"
+        ],
+        "operator": "local_least_squares_kdtree",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "full_domain",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_p_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-212943:test:rmse_p_corrected",
+          "exp-sst-pinn-cont-base-20261113-213258:test:rmse_p_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      },
+      {
+        "causalAttribution": false,
+        "measurementCompatible": false,
+        "metric": "rmse_uv_corrected",
+        "metricIds": [
+          "exp-sst-mlp-base-20261113-212943:test:rmse_uv_corrected",
+          "exp-sst-pinn-cont-base-20261113-213258:test:rmse_uv_corrected"
+        ],
+        "operator": "pointwise_field_error",
+        "reasons": [
+          "unit_unverified",
+          "supervisedFraction_unverified",
+          "physics_budget_differs",
+          "loss_weights_differ"
+        ],
+        "scope": "test",
+        "status": "blocked",
+        "unit": null
+      }
+    ],
+    "curationStatus": "approved",
+    "evidenceStatus": "verified",
+    "experimentIds": [
+      "exp-sst-mlp-base-20261113-212943",
+      "exp-sst-pinn-cont-base-20261113-213258"
+    ],
+    "figures": [],
+    "id": "cmp-sst-20261113-212942",
+    "limitations": [
+      "loss_weights_differ",
+      "physics_budget_differs",
+      "supervisedFraction_unverified",
+      "unit_unverified"
+    ],
+    "manifestSource": {
+      "id": "src-7f87a3bdd24e645e95c368c4",
+      "kind": "pair_manifest",
+      "sha256": "7910078f64366ab29d16458c27b80e66fe87cede0a39810ace906ec5e4a70c83"
+    },
+    "phaseId": "bfs-physics-informed-learning",
+    "protocol": {
+      "colorScales": {
+        "absolute_common": {
+          "max": 0.02158110954296005,
+          "min": 1.699303206001675e-06
+        },
+        "error_common_abs_vmax": {
+          "max": 0.02004289512932088,
+          "min": -0.02004289512932088
+        },
+        "signed_common": {
+          "max": 0.02158110954296005,
+          "min": 1.699303206001675e-06
+        }
+      },
+      "fairnessRecorded": true,
+      "physicsScope": "full_domain",
+      "plotHeight": 1.0,
+      "plotPercentile": 99.0
+    },
+    "sourceRefs": [
+      {
+        "id": "src-7f87a3bdd24e645e95c368c4",
+        "kind": "pair_manifest",
+        "sha256": "7910078f64366ab29d16458c27b80e66fe87cede0a39810ace906ec5e4a70c83"
+      },
+      {
+        "id": "src-9592ef33f5edbc7c0ff8648d",
+        "kind": "fairness_report",
+        "sha256": "b9cd670f59214a36af00cd592594e321c03b2843e32a5c6db4886bcfc39ec129"
+      },
+      {
+        "id": "src-2bc519655d160e74cce45df4",
+        "kind": "comparison_report",
+        "sha256": "25edd6eb4af63b37e73d61377afbf9958328de11abd966b443810a65b2f52e97"
+      }
+    ],
+    "sources": [],
+    "status": "blocked",
+    "updatedAt": null,
+    "visibility": "public"
+  }
+]

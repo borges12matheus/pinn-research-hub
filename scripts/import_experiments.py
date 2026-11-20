@@ -54,7 +54,7 @@ def main(argv=None):
 
         data, figures, audit, counts = build(config, public)
         report = report_files(audit, counts, public)
-        if config.get("selection") == "featured":
+        if config.get("selection") == "featured" and not public:
             report["curation_summary.md"] = curation_report(config, data)
         if args.command == "scan":
             print(json_bytes({"counts": counts, "issues": audit.issues}).decode(), end="")

@@ -1,0 +1,60 @@
+extends: featured_experiments.yaml
+public_approvals:
+  experiments:
+    - exp-ke-mlp-base-20260729-192246
+    - exp-ke-mlp-base-20260826-003112
+    - exp-ke-mlp-base-20260826-185718
+    - exp-ke-mlp-base-20260827-014547
+    - exp-ke-mlp-base-20260908-153000
+    - exp-ke-mlp-base-20260909-013554
+    - exp-ke-mlp-base-20260919-024535
+    - exp-ke-mlp-base-20260919-031342
+    - exp-ke-mlp-base-20260919-033346
+    - exp-ke-pinn-cont-base-20260729-192724
+    - exp-ke-pinn-cont-base-20260826-190205
+    - exp-ke-pinn-cont-base-20260908-154133
+    - exp-ke-pinn-cont-base-20260909-014707
+    - exp-ke-pinn-cont-base-20260919-024952
+    - exp-ke-pinn-cont-base-20260919-031921
+    - exp-ke-pinn-cont-base-20260919-033918
+    - exp-ke-pinn-cont-mom-base-20260826-003555
+    - exp-ke-pinn-cont-mom-base-20260827-015025
+    - exp-ke-pinn-mom-base-20260825-215647
+    - exp-sst-mlp-base-20261113-022351
+    - exp-sst-mlp-base-20261113-030754
+    - exp-sst-mlp-base-20261113-201335
+    - exp-sst-mlp-base-20261113-204942
+    - exp-sst-mlp-base-20261113-212943
+    - exp-sst-pinn-cont-base-20261113-022703
+    - exp-sst-pinn-cont-base-20261113-031017
+    - exp-sst-pinn-cont-base-20261113-201648
+    - exp-sst-pinn-cont-base-20261113-205327
+    - exp-sst-pinn-cont-base-20261113-213258
+  timeline:
+    - evt-baseline-curadoria-sst
+    - evt-gradientes-sst
+    - evt-multicaso-ke
+    - evt-replicas-ke
+    - evt-supervisao-sst
+    - evt-variantes-momento-ke
+  comparisons:
+    - cmp-ke-20260826-003110
+    - cmp-ke-20260827-014545
+    - cmp-ke-20260908-152958
+    - cmp-ke-20260909-013552
+    - cmp-ke-20260919-024533
+    - cmp-ke-20260919-031341
+    - cmp-ke-20260919-033344
+    - cmp-sst-20261113-022350
+    - cmp-sst-20261113-030752
+    - cmp-sst-20261113-201333
+    - cmp-sst-20261113-204940
+    - cmp-sst-20261113-212942
+  figures:
+    - momento-ke-003110-abs
+    - momento-ke-014545-error
+    - replicas-ke-024533-abs
+    - replicas-ke-024952-u-error-compare
+    - replicas-ke-024952-u-field-compare
+    - replicas-ke-031341-abs
+    - replicas-ke-033344-abs

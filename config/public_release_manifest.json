@@ -1,0 +1,15 @@
+{
+  "data/comparisons.json": "3706350d7f51a07ce2f5a24fc9cf48c37dfc97fb5fa15e96fa3a5f8ebf0f2484",
+  "data/evaluations.json": "9558a53b4df56f7e33f5c8d8dccf8796bff12c4ee359d500a6209848351f1d11",
+  "data/experiments.json": "eead9b249fd559fb0aea6cb3c273ef013ff0a10fa7d9baaef7a3566db322b64d",
+  "data/metrics.json": "09c5e4ddd7030b31be12c345888b6c3fbc8fea206d2d8562a9abd5d6c5765f99",
+  "data/timeline.json": "e6fe47feaca7664c7cbf41465f015dd70bc190f981bbece0952c38dcdba3df0d",
+  "data/training.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "figures/phase_01/momento-ke-003110-abs.png": "e55f1477d6f5665b73822d3cf9656b232a32e33cfbd5fbd52ff1776e4584910f",
+  "figures/phase_01/momento-ke-014545-error.png": "338563cd06a33ff8f178bdde7499a6d928e13ddd10e5d45ecc831243d4f8700e",
+  "figures/phase_01/replicas-ke-024533-abs.png": "15ad682c3b76c6b6070d593c9d2ea5f9ff007badd8d0694cdfd535185121f956",
+  "figures/phase_01/replicas-ke-024952-u-error-compare.png": "e4ec377e193e078918187710503e03633fa6c9e9a17de4eed4ac5b746e7512b0",
+  "figures/phase_01/replicas-ke-024952-u-field-compare.png": "c95e117e92899a623c36d5c9f5ed23f264b32b3d0cfea0a4287ae43abe5bf7a1",
+  "figures/phase_01/replicas-ke-031341-abs.png": "1489516298178cdfe253d6f134b635797ee5c4953bee99a95b9c4909163ee91e",
+  "figures/phase_01/replicas-ke-033344-abs.png": "73d4b0e8c3570d1c7f3a5a5f0d3918015eed5fc33717e49611f92a1e84b1884b"
+}
