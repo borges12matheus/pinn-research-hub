@@ -18,16 +18,23 @@ class ConfigLoader(yaml.SafeLoader):
         return result
 
 
-def load_config(path):
+def read_config(path, seen):
+    if path in seen:
+        raise ValueError("cyclic import configuration")
     config = yaml.load(path.read_text(encoding="utf-8"), Loader=ConfigLoader)
     if isinstance(config, dict) and "extends" in config:
         base_name = config.pop("extends")
         if not token(base_name) or Path(base_name).suffix not in {".yaml", ".yml"}:
             raise ValueError("extends must name a sibling YAML file")
-        base = yaml.load(path.with_name(base_name).read_text(encoding="utf-8"), Loader=ConfigLoader)
-        if not isinstance(base, dict) or "extends" in base:
-            raise ValueError("expected a single base configuration")
-        config = {**base, **config}
+        base = read_config(path.with_name(base_name), {*seen, path})
+        if not isinstance(base, dict):
+            raise ValueError("invalid base configuration")
+        return {**base, **config}
+    return config
+
+
+def load_config(path):
+    config = read_config(path, set())
     if not isinstance(config, dict) or not isinstance(config.get("repositories"), dict) or not config["repositories"]:
         raise ValueError("repositories must be a nonempty mapping")
 
@@ -35,6 +42,8 @@ def load_config(path):
         if not token(phase) or not isinstance(repo, dict) or not token(repo.get("id_prefix")):
             raise ValueError("invalid phase or run ID prefix")
         repo["root"] = (path.parent / repo["root"]).resolve()
+        if repo.get("execution_timezone") not in (None, "UTC"):
+            raise ValueError("execution_timezone must be UTC when configured")
         if not token(repo.get("figure_directory")):
             raise ValueError("invalid figure directory")
     prefixes = [repo["id_prefix"] for repo in config["repositories"].values()]
@@ -57,10 +66,12 @@ def load_config(path):
     approvals = config.get("public_approvals", {})
     if not isinstance(approvals, dict):
         raise ValueError("invalid publication policy")
-    for key in ("experiments", "timeline", "figures"):
+    for key in ("experiments", "comparisons", "timeline", "figures", "training"):
         ids = approvals.get(key, [])
         if not isinstance(ids, list) or not all(token(value) for value in ids) or len(ids) != len(set(ids)):
             raise ValueError(f"invalid public approvals for {key}")
+    if type(config.get("show_all_featured_metrics", False)) is not bool:
+        raise ValueError("show_all_featured_metrics must be a boolean")
     if config.get("selection") == "featured":
         validate_groups(config)
     return config

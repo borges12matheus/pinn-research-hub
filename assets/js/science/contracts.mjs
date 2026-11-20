@@ -1,4 +1,6 @@
-export const collections = ['experiments', 'comparisons', 'metrics', 'timeline', 'figures', 'literature'];
+import { validTimestamp } from './catalog-data.mjs';
+
+export const collections = ['experiments', 'comparisons', 'metrics', 'timeline', 'figures', 'literature', 'evaluations', 'training'];
 const evidence = ['verified', 'preliminary', 'planned', 'unknown'];
 const comparisonStates = ['compatible', 'descriptive_only', 'blocked'];
 const presentation = ['featured', 'validated', 'historical', 'partial', 'excluded'];
@@ -43,11 +45,22 @@ const figure = (value, visibility) => object(value) && id(value.id) && figurePat
   && ((id(value.experimentId) && value.comparisonId == null) || (id(value.comparisonId) && value.experimentId == null))
   && optional(value.evaluationSet, scope => enumOf(scopes, scope));
 
+const timeInfo = value => object(value)
+  && optional(value.startedAt, validTimestamp) && optional(value.finishedAt, validTimestamp)
+  && optional(value.sourceRef, provenance) && optional(value.timezone, text)
+  && (value.executedAtConfidence === 'confirmed'
+    ? validTimestamp(value.executedAt) && ['run_metadata', 'log', 'manifest'].includes(value.executedAtSource)
+    : value.executedAtConfidence === 'inferred' ? validTimestamp(value.executedAt)
+      && value.executedAtSource === 'run_name' && (
+        value.timezone === 'UTC' && value.executedAt.endsWith('Z')
+        || value.timezone == null && !/(?:Z|[+-]\d\d:\d\d)$/.test(value.executedAt))
+      : value.executedAtConfidence === 'unknown' && value.executedAtSource === 'unknown' && value.executedAt === null);
+
 const schemas = {
   experiments: (value, visibility) => optional(value.phaseId, id) && optional(value.runId, id)
     && optional(value.modelFamily ?? value.model, text) && optional(value.reynolds, values => list(values, positive))
     && optional(value.seed, seed => Number.isInteger(seed) && seed >= 0)
-    && optional(value.splitId, id) && optional(value.date, date)
+    && optional(value.temporal, timeInfo) && optional(value.splitId, id) && optional(value.date, date)
     && ids(value.metrics) && list(value.figures ?? [], image => figure(image, visibility))
     && optional(value.limitations, values => list(values, text)) && optional(value.trainingBudget, object),
   comparisons: (value, visibility) => ids(value.experimentIds) && value.experimentIds.length >= 2
@@ -55,13 +68,22 @@ const schemas = {
     && list(value.conditions, condition => object(condition) && enumOf(comparisonStates, condition.status)
       && enumOf(scopes, condition.scope) && id(condition.metric) && ids(condition.metricIds)
       && typeof condition.measurementCompatible === 'boolean' && list(condition.reasons, text)),
-  metrics: value => id(value.experimentId) && id(value.name) && (value.value === null || Number.isFinite(value.value))
+  metrics: (value, visibility) => (id(value.experimentId) || (visibility === 'private' && value.experimentId === null && id(value.evaluationId)))
+    && optional(value.evaluationId, id) && optional(value.trainingId, id) && !(value.evaluationId && value.trainingId)
+    && optional(value.category, category => ['accuracy', 'physics', 'training', 'other'].includes(category)) && id(value.name) && (value.value === null || Number.isFinite(value.value))
     && optional(value.unit, text) && text(value.definition)
     && optional(value.evaluationSet, scope => enumOf(scopes, scope))
     && optional(value.calculationMethod, text) && optional(value.referenceType, text)
     && optional(value.operatorParameters, object) && optional(value.pointCount, positive)
     && optional(value.validityMask, object)
     && (value.lowerIsBetter === null || typeof value.lowerIsBetter === 'boolean') && provenance(value.source),
+  evaluations: (value, visibility) => (id(value.experimentId) || (value.experimentId === null && visibility === 'private' && value.kind === 'reevaluation'))
+    && id(value.phaseId) && ['evaluation', 'reevaluation'].includes(value.kind) && ids(value.metricIds)
+    && optional(value.evaluatedAt, validTimestamp) && optional(value.scope, scope => enumOf(scopes, scope))
+    && optional(value.operator, text) && value.sourceRefs?.length > 0,
+  training: value => id(value.experimentId) && value.sourceRefs?.length > 0 && list(value.points, row =>
+    object(row) && text(row.stage) && Number.isInteger(row.epoch) && row.epoch >= 0
+    && object(row.values) && Object.values(row.values).every(Number.isFinite)),
   timeline: value => optional(value.date, date) && (date(value.date) || text(value.period))
     && optional(value.phaseId, id)
     && enumOf(['methodology', 'experiment', 'validation', 'publication', 'decision'], value.category)
@@ -69,13 +91,19 @@ const schemas = {
     && ids(value.decisionIds ?? []) && ids(value.hypothesisIds ?? []),
   figures: figure,
   literature: value => localized(value.title) && optional(value.url, external)
+    && optional(value.authors, authors => list(authors, text) && authors.length > 0)
+    && optional(value.year, year => Number.isInteger(year) && year > 0)
+    && optional(value.venue, text) && optional(value.doi, text) && optional(value.isbn, text)
     && ids(value.experimentIds ?? []) && ids(value.hypothesisIds ?? []),
 };
 
 export function validateCollection(name, values, { localReview = false } = {}) {
   const visibility = localReview && name !== 'literature' ? 'private' : 'public';
   if (!Object.hasOwn(schemas, name) || !list(values, value => object(value) && id(value.id)
-    && value.visibility === visibility && enumOf(evidence, value.evidenceStatus) && optional(value.updatedAt, date)
+    && value.visibility === visibility
+    && (visibility === 'private' || !['pending_review', 'excluded'].some(state =>
+      [value.curationStatus, value.presentationStatus].includes(state)))
+    && enumOf(evidence, value.evidenceStatus) && optional(value.updatedAt, date)
     && optional(value.presentationStatus, status => enumOf(presentation, status))
     && list(value.sources ?? [], external) && list(value.sourceRefs ?? [], provenance) && schemas[name](value, visibility))) {
     throw new Error(`Invalid ${visibility} collection: ${name}`);
@@ -112,10 +140,11 @@ export function measureComparison(pair, condition, metrics, experiments) {
     || !equal(records.map(metric => metric.validityMask?.fingerprint))
     || !equal(records.map(metric => metric.validityMask?.evaluationFingerprint))) return null;
   const direction = records[0].lowerIsBetter;
-  const ranked = records.every(metric => typeof direction === 'boolean' && metric.lowerIsBetter === direction);
+  const descriptive = pair.status === 'descriptive_only' || condition.status === 'descriptive_only';
+  const ranked = !descriptive && records.every(metric => typeof direction === 'boolean' && metric.lowerIsBetter === direction);
   const best = ranked ? (direction ? Math.min : Math.max)(...records.map(metric => metric.value)) : null;
   const winners = new Set(best === null ? [] : records.filter(metric => metric.value === best).map(metric => metric.id));
-  return { records, winners, tied: winners.size > 1, descriptive: pair.status === 'descriptive_only' || condition.status === 'descriptive_only' };
+  return { records, winners, tied: winners.size > 1, descriptive };
 }
 
 export function validateReferences(data, context) {
@@ -132,8 +161,29 @@ export function validateReferences(data, context) {
     check(run.metrics, metrics, run.id);
     if (run.metrics.some(key => metrics.get(key).experimentId !== run.id)) throw new Error(`Invalid metric owner: ${run.id}`);
   }
+  const evaluations = index(data.evaluations ?? []);
+  const history = index(data.training ?? []);
+  for (const evaluation of evaluations.values()) {
+    if (evaluation.experimentId && runs.get(evaluation.experimentId)?.phaseId !== evaluation.phaseId) {
+      throw new Error(`Invalid evaluation owner: ${evaluation.id}`);
+    }
+    if (!evaluation.metricIds.length) throw new Error(`Empty evaluation: ${evaluation.id}`);
+    for (const key of evaluation.metricIds) {
+      const metric = metrics.get(key);
+      if (!metric || metric.evaluationId !== evaluation.id || metric.experimentId !== evaluation.experimentId
+        || metric.evaluationSet !== evaluation.scope || metric.calculationMethod !== evaluation.operator
+        || !evaluation.sourceRefs.some(ref => ref.id === metric.source.id && ref.sha256 === metric.source.sha256)) {
+        throw new Error(`Invalid evaluation metric: ${key}`);
+      }
+    }
+  }
+  for (const training of history.values()) check([training.experimentId], runs, training.id);
   for (const metric of metrics.values()) {
-    if (!runs.get(metric.experimentId)?.metrics.includes(metric.id)) throw new Error(`Unlinked metric: ${metric.id}`);
+    if (metric.evaluationId && !evaluations.get(metric.evaluationId)?.metricIds.includes(metric.id)
+      || metric.experimentId !== null && !runs.get(metric.experimentId)?.metrics.includes(metric.id)
+      || metric.trainingId && history.get(metric.trainingId)?.experimentId !== metric.experimentId) {
+      throw new Error(`Unlinked metric: ${metric.id}`);
+    }
   }
   for (const pair of pairs.values()) {
     check(pair.experimentIds, runs, pair.id);
@@ -165,14 +215,21 @@ export function validateContext(value) {
   const entries = items => list(items, item => object(item) && id(item.id) && localized(item.title))
     && ids(items.map(item => item.id));
   if (!object(value) || !entries(value.phases) || !entries(value.hypotheses) || !entries(value.decisions)
-    || !entries(value.groups) || !optional(value.baselineComparisonId, id)) throw new Error('Invalid editorial index');
+    || !entries(value.groups) || !value.groups.every(group => optional(group.eventId, id) && optional(group.question, localized) && optional(group.readingNote, localized)) || !optional(value.baselineComparisonId, id) || !optional(value.featuredFigureId, id)) throw new Error('Invalid editorial index');
   return value;
 }
 
 export function validateOverview(value) {
   validateContext(value);
   if (!list(value.recent, event => object(event) && id(event.id) && date(event.date) && localized(event.title))
-    || !value.groups.every(group => ids(group.eventIds) && group.eventIds.length > 0)
+    || !value.groups.every(group => ids(group.eventIds) && group.eventIds.length > 0
+      && ids(group.comparisonIds) && ids(group.experimentIds))
+    || !optional(value.trainingRunIds, ids)
+    || !optional(value.eligibleGroups, items => list(items, ids))
+    || !optional(value.evaluationCounts, counts => object(counts) && Object.entries(counts).every(([key, n]) => id(key) && Number.isInteger(n) && n >= 0))
+    || !optional(value.manuscript, entry => object(entry) && text(entry.title) && localized(entry.status))
+    || !optional(value.visual, visual => object(visual) && id(visual.id)
+      && ['comparison', 'figure'].includes(visual.type))
     || !optional(value.experimentalDate, date)
     || !optional(value.baseline, baseline => object(baseline) && id(baseline.comparisonId)
       && ids(baseline.experimentIds) && list(baseline.models, text)

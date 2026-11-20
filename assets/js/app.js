@@ -3,9 +3,13 @@ import { renderPage, setUpdatesExpanded } from './render.js';
 import { createSciencePortal, routeFor } from './science/portal.mjs';
 
 function syncNavigation() {
-  const hash = '#' + routeFor(window.location.hash).section;
+  const { section } = routeFor(window.location.hash);
+  const active = ['investigation', 'experiments', 'comparison', 'figures', 'reevaluations'].includes(section) ? 'results'
+    : section === 'justification' ? 'overview'
+      : ['updates', 'priorities'].includes(section) || section.startsWith('roadmap') ? 'roadmap'
+      : ['publications', 'literature'].includes(section) ? 'resources' : section;
   document.querySelectorAll('#navigation a').forEach(link => {
-    if (link.hash === hash) {
+    if (routeFor(link.hash).section === active) {
       link.setAttribute('aria-current', 'location');
     } else {
       link.removeAttribute('aria-current');
@@ -13,6 +17,10 @@ function syncNavigation() {
   });
 }
 
+document.querySelector('.skip-link').addEventListener('click', event => {
+  event.preventDefault();
+  document.getElementById('main-content').focus();
+});
 syncNavigation();
 
 const result = await loadData();

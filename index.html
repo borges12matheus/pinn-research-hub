@@ -14,16 +14,15 @@
     <div class="wrap header-inner">
       <div class="brand">
         <a href="#overview" id="brand-name">PINN Research Hub</a>
-        <span>Research progress · Physics-Informed Learning for CFD</span>
+        <span id="review-badge" class="badge badge-preliminary" hidden></span>
       </div>
       <nav aria-label="Navegação principal" id="navigation">
         <a href="#overview" data-ui="overview">Visão geral</a>
-        <a href="#timeline" data-science="timeline">Evolução</a>
-        <a href="#experiments" data-science="experiments">Experimentos</a>
-        <a href="#comparison" data-science="comparison">Comparador</a>
-        <a href="#figures" data-science="figures">Galeria</a>
+        <a href="#/evolucao" data-science="evolutionNav">Evolução</a>
+        <a href="#/resultados" data-science="results">Resultados</a>
         <a href="#roadmap" data-ui="roadmap">Roadmap</a>
         <a href="#resources" data-ui="resources">Recursos</a>
+        <a href="#/bibliografia-semanal" data-science="weeklyNav">Boletim semanal</a>
       </nav>
       <button id="language" type="button" lang="en" aria-label="Switch to English" hidden>EN</button>
     </div>
@@ -31,24 +30,57 @@
 
   <main class="wrap" id="main-content" tabindex="-1">
     <section id="overview" aria-labelledby="research-title">
-      <div class="hero">
-        <p class="last-updated" id="last-updated" hidden></p>
-        <h1 id="research-title">PINN Research Hub</h1>
-        <p class="research-summary" id="research-summary"></p>
-        <div class="phase-group" id="phase-group" hidden>
-          <span data-ui="phase">Fase atual</span>
-          <strong id="current-phase" class="phase-badge"></strong>
-        </div>
-        <div class="hero-actions">
-          <a class="action primary-action" href="#experiments" data-science="explore">Explorar resultados</a>
-          <a class="action" href="#timeline" data-science="timelineLink">Ver evolução</a>
+      <div class="overview-lead">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="last-updated" id="last-updated" hidden></p>
+            <h1 id="research-title">PINN Research Hub</h1>
+            <p class="research-summary" id="research-summary"></p>
+            <div class="phase-group" id="phase-group" hidden>
+              <span data-ui="phase">Fase atual</span>
+              <strong id="current-phase" class="phase-badge"></strong>
+            </div>
+            <div class="hero-actions">
+              <a class="action primary-action" href="#/evolucao" data-science="timelineLink">Ver evolução</a>
+              <a class="action" href="#/resultados" data-science="explore">Explorar resultados</a>
+            </div>
+            <a class="hero-context-link" href="#justification" data-science="whyTitle">Por que esta pesquisa?</a>
+          </div>
+          <figure class="bfs-diagram">
+            <div class="bfs-channel" aria-hidden="true">
+              <span class="bfs-fluid"></span>
+              <span class="bfs-inlet"></span>
+              <span class="bfs-inlet bfs-inlet-lower"></span>
+              <span class="bfs-shear"></span>
+              <span class="bfs-eddy"></span>
+              <span class="bfs-step-label" data-science="bfsStep">Degrau</span>
+              <span class="bfs-eddy-label" data-science="bfsEddy">Recirculação</span>
+            </div>
+            <figcaption>
+              <strong data-science="bfsTitle">Escoamento sobre um degrau descendente (BFS)</strong>
+              <small data-science="bfsCaption">Esquema fora de escala. O escoamento se separa no degrau e forma uma região de recirculação.</small>
+            </figcaption>
+          </figure>
         </div>
       </div>
       <p id="project-error" class="notice error" role="alert" hidden></p>
-      <p id="demo-notice" class="notice" data-ui="demo" hidden>Dados iniciais demonstrativos — revise antes de divulgar.</p>
       <noscript><p class="notice error">Ative o JavaScript para carregar os dados da pesquisa.</p></noscript>
       <p id="loading" role="status" data-ui="loading">Carregando dados da pesquisa…</p>
       <div id="scientific-dashboard" aria-live="polite"></div>
+      <aside id="overview-visual" hidden></aside>
+      <article class="research-rationale" id="justification" aria-labelledby="justification-title" tabindex="-1">
+        <h2 id="justification-title" data-science="whyTitle">Por que esta pesquisa?</h2>
+        <p class="rationale-lead" data-science="whyLead"></p>
+        <p data-science="whyMethod"></p>
+        <h3 data-science="whyGoals">Objetivos da pesquisa</h3>
+        <ol>
+          <li data-science="whyGoalAccuracy"></li>
+          <li data-science="whyGoalPhysics"></li>
+          <li data-science="whyGoalData"></li>
+        </ol>
+        <p data-science="whyLimits"></p>
+        <a href="#literature" data-science="literatureBasis">Consultar o referencial teórico</a>
+      </article>
     </section>
 
     <section id="timeline" class="panel science-panel" aria-labelledby="timeline-title" tabindex="-1">
@@ -56,9 +88,23 @@
       <div data-science-region="timeline"></div>
     </section>
 
+    <section id="results" class="panel science-panel" aria-labelledby="results-title" tabindex="-1">
+      <h2 id="results-title" data-science="results">Resultados</h2>
+      <div data-science-region="results"></div>
+    </section>
+
+    <section id="investigation" class="panel science-panel" aria-label="Investigação" tabindex="-1">
+      <div data-science-region="investigation"></div>
+    </section>
+
     <section id="experiments" class="panel science-panel" aria-labelledby="experiments-title" tabindex="-1">
       <h2 id="experiments-title" data-science="experiments">Experimentos</h2>
       <div data-science-region="experiments"></div>
+    </section>
+
+    <section id="reevaluations" class="panel science-panel" aria-labelledby="reevaluations-title" tabindex="-1">
+      <h2 id="reevaluations-title" data-science="reevaluations">Reavaliações</h2>
+      <div data-science-region="reevaluations"></div>
     </section>
 
     <section id="comparison" class="panel science-panel" aria-labelledby="comparison-title" tabindex="-1">
@@ -107,9 +153,19 @@
       </section>
     </div>
 
+    <section id="weekly-literature" class="science-panel weekly-page" aria-labelledby="weekly-title" tabindex="-1">
+      <h2 id="weekly-title" data-science="weeklyTitle">Boletim bibliográfico semanal</h2>
+      <p class="badge badge-planned" data-science="construction">Em construção</p>
+      <p data-science="weeklyPurpose"></p>
+      <a class="action" href="#literature" data-science="literatureBasis">Consultar o referencial teórico</a>
+    </section>
+
     <section id="resources" class="panel" aria-labelledby="resources-title">
       <h2 id="resources-title" data-ui="resources">Recursos</h2>
       <div id="resources-content"></div>
+      <div class="reference-list">
+        <a href="#/bibliografia-semanal" data-science="weeklyTitle">Boletim bibliográfico semanal</a>
+      </div>
       <div class="publications" id="literature">
         <h3 data-science="literature">Literatura</h3>
         <div data-science-region="literature"></div>

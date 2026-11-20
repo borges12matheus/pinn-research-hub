@@ -9,7 +9,7 @@ import tempfile
 
 from .parsers import digest, parse_json, relative_path
 
-DATA_FILES = {f"data/{name}.json" for name in ("experiments", "metrics", "comparisons", "timeline")}
+DATA_FILES = {f"data/{name}.json" for name in ("experiments", "metrics", "comparisons", "timeline", "evaluations", "training")}
 
 
 def json_bytes(value):

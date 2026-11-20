@@ -51,11 +51,16 @@ export async function startLocalReview({ port = 8000, staging } = {}) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
+    let port = 8000;
+    let staging;
     const args = process.argv.slice(2);
-    if (args.length && (args.length !== 2 || args[0] !== '--port' || !/^\d{1,5}$/.test(args[1]) || Number(args[1]) > 65535)) {
-      throw new Error('Uso: node scripts/preview_site.mjs [--port 8000]');
+    while (args.length) {
+      const option = args.shift();
+      if (option === '--catalog') staging = resolve(import.meta.dirname, '../.experiment-import/catalog');
+      else if (option === '--port' && /^\d{1,5}$/.test(args[0] ?? '') && Number(args[0]) <= 65535) port = Number(args.shift());
+      else throw new Error('Uso: node scripts/preview_site.mjs [--port 8000] [--catalog]');
     }
-    const server = await startLocalReview({ port: args.length ? Number(args[1]) : 8000 });
+    const server = await startLocalReview({ port, staging });
     process.stdout.write(`Revisão científica privada em http://${host}:${server.address().port}/ (Ctrl+C para sair)\n`);
   } catch (error) {
     process.stderr.write(`Revisão local indisponível: ${error.message}\n`);

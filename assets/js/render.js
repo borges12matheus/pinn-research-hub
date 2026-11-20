@@ -131,11 +131,9 @@ function renderOverview({ data, errors }, locale, copy) {
   byId('research-summary').textContent = project ? localized(project, 'summary', locale) : '';
   byId('phase-group').hidden = !project;
   byId('last-updated').hidden = !project;
-  byId('demo-notice').hidden = !project?.isDemoData;
   byId('project-error').hidden = !errors.has('project');
 
   if (project) {
-    byId('current-phase').textContent = localized(project, 'currentPhase', locale);
     byId('last-updated').replaceChildren(`${copy.updated} · `, dateElement(project.lastUpdated, locale));
     const year = project.lastUpdated.slice(0, 4);
     byId('footer-year').dateTime = year;

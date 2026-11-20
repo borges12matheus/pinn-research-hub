@@ -3,7 +3,7 @@ import { lstat, mkdir, mkdtemp, readFile, rename, rm, writeFile } from 'node:fs/
 import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
-  approvedFigures, collections, date, external, id, validateCollection, validateContext, validateReferences,
+  approvedFigures, collections, date, external, id, index, measureComparison, validateCollection, validateContext, validateReferences,
 } from '../assets/js/science/contracts.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -66,19 +66,63 @@ async function managedFile(release, entries, name) {
   return contents;
 }
 
+function projectIdentifiedRuns(data) {
+  const keep = new Set(data.experiments.filter(run => id(run.phaseId) && id(run.caseId) && id(run.turbulenceModel)
+    && id(run.runId) && id(run.modelFamily ?? run.model) && run.reynolds?.length > 0 && Number.isInteger(run.seed)).map(run => run.id));
+  if (keep.size === data.experiments.length) return;
+  data.experiments = data.experiments.filter(run => keep.has(run.id));
+  data.comparisons = data.comparisons.filter(pair => pair.experimentIds.every(key => keep.has(key)));
+  const pairIds = new Set(data.comparisons.map(pair => pair.id));
+  data.timeline = data.timeline.filter(event => (event.experimentIds ?? []).every(key => keep.has(key))
+    && (event.comparisonIds ?? []).every(key => pairIds.has(key)));
+  const eventIds = new Set(data.timeline.map(event => event.id));
+  for (const name of ['metrics', 'evaluations', 'training']) data[name] = data[name].filter(item => keep.has(item.experimentId));
+  data.figures = data.figures.filter(image => image.experimentId ? keep.has(image.experimentId) : pairIds.has(image.comparisonId));
+  for (const name of ['roadmap', 'priorities', 'publications', 'literature']) {
+    data[name] = data[name].map(item => {
+      const record = { ...item };
+      for (const [key, available] of [['experimentIds', keep], ['comparisonIds', pairIds], ['eventIds', eventIds]]) {
+        if (record[key]) record[key] = record[key].filter(value => available.has(value));
+      }
+      return record;
+    });
+  }
+}
+
 export function dashboard(data, context, project) {
   const groups = context.groups.map(group => {
-    const events = data.timeline.filter(event => event.curationGroupId === group.id);
+    const events = data.timeline.filter(event => event.curationGroupId === group.id || event.id === group.eventId);
+    const experimentIds = [...new Set(events.flatMap(event => event.experimentIds ?? []))];
+    const comparisonIds = events.flatMap(event => event.comparisonIds ?? []);
+    if (events.length && !comparisonIds.length) {
+      const member = new Set(experimentIds);
+      comparisonIds.push(...data.comparisons.filter(pair => pair.experimentIds.every(key => member.has(key))).map(pair => pair.id));
+    }
     return { ...group, eventIds: events.map(event => event.id),
-      comparisonIds: [...new Set(events.flatMap(event => event.comparisonIds ?? []))],
-      experimentIds: [...new Set(events.flatMap(event => event.experimentIds ?? []))] };
+      comparisonIds: [...new Set(comparisonIds)], experimentIds };
   }).filter(group => group.eventIds.length);
   const baseline = data.comparisons.find(pair => pair.id === context.baselineComparisonId);
   const run = baseline && data.experiments.find(experiment => experiment.id === baseline.experimentIds[0]);
   const recent = data.timeline.filter(event => date(event.date))
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id)).slice(0, 3)
     .map(({ id, date, title, evidenceStatus, phaseId }) => ({ id, date, title, evidenceStatus, phaseId }));
+  const metrics = index(data.metrics);
+  const runs = index(data.experiments);
+  const visualPair = data.comparisons.find(pair => pair.status === 'compatible' && pair.conditions.some(condition =>
+    condition.status === 'compatible' && measureComparison(pair, condition, metrics, runs)));
+  const visualFigure = data.figures.find(figure => figure.id === context.featuredFigureId);
+  const visual = visualFigure ? { type: 'figure', id: visualFigure.id }
+    : visualPair ? { type: 'comparison', id: visualPair.id } : null;
   return {
+    visual,
+    eligibleGroups: data.comparisons.filter(pair => pair.status === 'compatible' && pair.conditions.some(condition =>
+      condition.status === 'compatible' && measureComparison(pair, condition, metrics, runs))).map(pair => pair.experimentIds),
+    evaluationCounts: Object.fromEntries(data.experiments.map(run => [run.id,
+      data.evaluations.filter(item => item.experimentId === run.id).length])),
+    reevaluationCounts: { linked: data.evaluations.filter(item => item.kind === 'reevaluation' && item.experimentId).length,
+      pending: data.evaluations.filter(item => item.kind === 'reevaluation' && !item.experimentId).length },
+    trainingRunIds: data.training.filter(item => item.points.length).map(item => item.experimentId),
+    selectionCount: data.experiments.filter(run => run.visibility === 'public').length,
     phases: context.phases, hypotheses: context.hypotheses, decisions: context.decisions, groups,
     currentPhaseId: project.currentPhaseId ?? null,
     experimentalDate: [
@@ -111,7 +155,7 @@ async function collect({ source, release, approvals, localReview }) {
   if (!localReview) files.set('.nojekyll', '');
   const assets = [
     'assets/css/style.css', 'assets/js/app.js', 'assets/js/data.js', 'assets/js/render.js',
-    ...['contracts', 'copy', 'dom', 'portal', 'research', 'results'].map(name => `assets/js/science/${name}.mjs`),
+    ...['contracts', 'copy', 'dom', 'portal', 'research', 'results', 'presentation', 'investigation', 'measurements', 'catalog-data', 'analytics'].map(name => `assets/js/science/${name}.mjs`),
   ];
   for (const name of assets) files.set(name, await readWithin(source, name));
 
@@ -121,7 +165,7 @@ async function collect({ source, release, approvals, localReview }) {
     const contents = await readWithin(source, path);
     data[name] = JSON.parse(contents);
     inspect(data[name]);
-    if (name !== 'scientific-context') files.set(path, contents);
+
   }
   for (const name of editorialFiles.filter(name => !['project', 'scientific-context'].includes(name))) {
     if (!Array.isArray(data[name]) || !data[name].every(record => record && id(record.id))
@@ -147,11 +191,21 @@ async function collect({ source, release, approvals, localReview }) {
   data.figures = validateCollection('figures',
     approvedFigures(data.experiments, data.comparisons, data.figures, { localReview }), { localReview });
   validateReferences(data, context);
+  if (!localReview) {
+    projectIdentifiedRuns(data);
+    validateReferences(data, context);
+  }
+  for (const name of editorialFiles.filter(key => key !== 'scientific-context')) files.set(`data/${name}.json`, encode(data[name]));
   for (const image of data.figures) {
     files.set(image.path, await managedFile(release, approvals, image.path));
   }
   for (const name of collections) files.set(`data/${name}.json`, encode(data[name]));
-  files.set('data/overview.json', encode(dashboard(data, context, data.project)));
+  const overview = dashboard(data, context, data.project);
+  if (localReview) overview.manuscript = {
+    title: 'Physics-Informed Correction of RANS-Based CFD Fields for Backward-Facing Step Flow: Accuracy, Continuity, and Current Limitations',
+    status: { pt: 'Manuscrito consultado. Estado editorial não confirmado.', en: 'Manuscript consulted. Editorial status unconfirmed.' },
+  };
+  files.set('data/overview.json', encode(overview));
   return files;
 }
 

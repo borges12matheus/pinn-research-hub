@@ -1,0 +1,7 @@
+extends: featured_experiments.yaml
+selection: all
+staging_output: ../.experiment-import/catalog
+public_approvals:
+  experiments: []
+  timeline: []
+  figures: []

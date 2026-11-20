@@ -34,7 +34,9 @@ export const valueOf = (value, locale) => value == null || value === '' ? copy(l
         : label(value, locale);
 export const titleOf = (value, locale) => translated(value, locale) ?? copy(locale).notInformed;
 export const runTitle = run => run.runId ?? run.id;
-export const fragment = (type, key) => `#${type}-${encodeURIComponent(key)}`;
+const paths = { group: 'resultados', event: 'evolucao', pair: 'comparacoes', run: 'execucoes' };
+export const fragment = (type, key) => paths[type]
+  ? `#/${paths[type]}/${encodeURIComponent(key)}` : `#${type}-${encodeURIComponent(key)}`;
 
 export function definitions(fields, locale) {
   const dl = node('dl', null, 'facts');
@@ -67,20 +69,23 @@ export function select(label, selected, options, onChange) {
   return wrapper;
 }
 
-export function filters(dimensions, state, onChange, locale) {
+export function filters(dimensions, state, onChange, locale, resetExtra) {
   const bar = node('div', null, 'filter-bar');
   for (const { key, title, values } of dimensions) {
     const options = [['', copy(locale).all], ...values];
-    bar.append(select(title, state[key], options, value => {
+    const field = select(title, state[key], options, value => {
       state[key] = value;
       onChange();
-    }));
+    });
+    field.querySelector('select').dataset.filter = key;
+    bar.append(field);
   }
   const clear = node('button', copy(locale).clear);
   clear.type = 'button';
   clear.addEventListener('click', () => {
     for (const key of Object.keys(state)) delete state[key];
-    bar.querySelectorAll('select').forEach(input => { input.value = ''; });
+    bar.querySelectorAll('select[data-filter]').forEach(input => { input.value = ''; });
+    resetExtra?.();
     onChange();
   });
   bar.append(clear);

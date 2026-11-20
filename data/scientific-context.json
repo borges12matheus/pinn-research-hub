@@ -1,4 +1,5 @@
 {
+  "featuredFigureId": "replicas-ke-024533-abs",
   "phases": [
     {"id":"bfs_2d_pinn_corrector","title":{"pt":"BFS 2D · k–ε","en":"BFS 2D · k–ε"}},
     {"id":"bfs-physics-informed-learning","title":{"pt":"Aprendizado informado por física · SST","en":"Physics-informed learning · SST"}},
@@ -33,13 +34,13 @@
     {"id":"DEC-18","title":{"pt":"Auditar as evidências disponíveis","en":"Audit available evidence"}}
   ],
   "groups": [
-    {"id":"baseline-sst","priority":"P0","title":{"pt":"Baseline SST","en":"SST baseline"}},
-    {"id":"replicas-ke","priority":"P0","title":{"pt":"Replicação k–ε","en":"k–ε replication"}},
-    {"id":"supervisao-sst","priority":"P0","title":{"pt":"Redução de supervisão","en":"Reduced supervision"}},
-    {"id":"gradientes-sst","priority":"P1","title":{"pt":"Gradientes de entrada","en":"Input gradients"}},
-    {"id":"momento-ke","priority":"P1","title":{"pt":"Continuidade e momento","en":"Continuity and momentum"}},
-    {"id":"multicaso-ke","priority":"P1","title":{"pt":"Avaliação multicaso","en":"Multi-case evaluation"}},
-    {"id":"re32000-ke","priority":"P1","title":{"pt":"Caso isolado Re 32.000","en":"Standalone Re 32,000 case"}}
+    {"id":"baseline-sst","eventId":"evt-baseline-curadoria-sst","priority":"P0","title":{"pt":"Baseline SST","en":"SST baseline"},"question":{"pt":"O que o par de referência SST permite medir?","en":"What can the SST reference pair measure?"}},
+    {"id":"replicas-ke","eventId":"evt-replicas-ke","priority":"P0","title":{"pt":"Replicação k–ε","en":"k–ε replication"},"question":{"pt":"O padrão observado se mantém entre as réplicas?","en":"Does the observed pattern hold across replicates?"},"readingNote":{"pt":"No protocolo k–ε de Re 36.000, a MLP apresentou menor erro de reconstrução, e a PINN com continuidade reduziu o diagnóstico de divergência. A referência é RANS fine. O diagnóstico de divergência é local; a conservação integral de massa e a transferência entre casos exigem avaliações adicionais.","en":"In the k–ε protocol at Re 36,000, the MLP had lower reconstruction error, and the continuity PINN reduced the divergence diagnostic. The reference is fine RANS. Divergence is a local diagnostic; integrated mass conservation and transfer across cases require further evaluation."}},
+    {"id":"supervisao-sst","eventId":"evt-supervisao-sst","priority":"P0","title":{"pt":"Redução de supervisão","en":"Reduced supervision"},"question":{"pt":"O que muda com a quantidade de supervisão fine?","en":"What changes with the amount of fine supervision?"}},
+    {"id":"gradientes-sst","eventId":"evt-gradientes-sst","priority":"P1","title":{"pt":"Gradientes de entrada","en":"Input gradients"},"question":{"pt":"O que os gradientes de velocidade acrescentam à correção?","en":"What do velocity gradients add to field correction?"}},
+    {"id":"momento-ke","eventId":"evt-variantes-momento-ke","priority":"P1","title":{"pt":"Continuidade e momento","en":"Continuity and momentum"},"question":{"pt":"Como as variantes da restrição de momento se comportam?","en":"How do variants of the momentum constraint behave?"}},
+    {"id":"multicaso-ke","eventId":"evt-multicaso-ke","priority":"P1","title":{"pt":"Avaliação multicaso","en":"Multi-case evaluation"},"question":{"pt":"Como a correção foi avaliada com múltiplos Reynolds?","en":"How was correction evaluated with multiple Reynolds numbers?"}},
+    {"id":"re32000-ke","eventId":"evt-caso-re32000-ke","priority":"P1","title":{"pt":"Caso isolado Re 32.000","en":"Standalone Re 32,000 case"},"question":{"pt":"O que a avaliação em Re 32.000 acrescenta?","en":"What does the Re 32,000 evaluation add?"}}
   ],
   "baselineComparisonId":"cmp-sst-20261113-212942"
 }

@@ -22,6 +22,11 @@ const run = (id, model) => ({
   ...common, id, runId: id, model, phaseId, type: 'baseline', date: '2026-11-13', modelFamily: model, reynolds: [5100], seed: 42,
   splitId: 'split-example', splitVersion: 'v2', caseId: 'case-example', dataset: 'synthetic.parquet',
   datasetHash: 'same', normalization: 'dataset_native', turbulenceModel: 'k_sst', referenceType: 'fine_rans', presentationStatus: 'featured',
+  temporal: id === 'exp-mlp' ? {
+    executedAt: '2026-11-13T08:13:00-03:00', executedAtConfidence: 'confirmed', executedAtSource: 'run_metadata', sourceRef: provenance,
+  } : {
+    executedAt: '2026-11-13T08:22:00', executedAtConfidence: 'inferred', executedAtSource: 'run_name', timezone: null,
+  },
   metrics: [`metric-${id}`], figures: [], trainingBudget: { supervisedFraction: null },
 });
 const condition = {

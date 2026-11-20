@@ -1,19 +1,32 @@
+import { catalogFilters } from './catalog-data.mjs';
+import { renderAnalytics } from './analytics.mjs';
 import { collections, id, index, validateCollection, validateOverview } from './contracts.mjs';
 import { copy } from './copy.mjs';
-import { blank, linked, node, runTitle, titleOf } from './dom.mjs';
-import { renderCatalog, renderComparator } from './results.mjs';
-import { renderDashboard, renderGallery, renderLiterature, renderTimeline } from './research.mjs';
+import { anchor, blank, fragment, linked, node, titleOf, valueOf } from './dom.mjs';
+import { pairName, phaseOf, runName, words } from './presentation.mjs';
+import { renderInvestigations, renderInvestigation } from './investigation.mjs';
+import { comparisonMeasurements, renderCatalog, renderComparator, renderReevaluations } from './results.mjs';
+import { figureCard, renderDashboard, renderGallery, renderLiterature, renderTimeline } from './research.mjs';
 
-const regions = ['timeline', 'experiments', 'comparison', 'figures', 'literature'];
+const regions = ['timeline', 'results', 'investigation', 'experiments', 'comparison', 'figures', 'literature', 'reevaluations'];
 const emptyContext = { phases: [], hypotheses: [], decisions: [], groups: [], recent: [], baseline: null };
-const routePatterns = [['run', 'experiments'], ['pair', 'comparison'], ['event', 'timeline'], ['figure', 'figures'], ['hypothesis', 'overview']];
+const routePatterns = [
+  ['run', 'experiments', 'execucoes'], ['pair', 'comparison', 'comparacoes'], ['event', 'timeline', 'evolucao'],
+  ['group', 'investigation', 'resultados'], ['figure', 'figures', 'figuras'], ['hypothesis', 'overview', 'hipoteses'],
+];
+const entryRoutes = new Map([['/evolucao', 'timeline'], ['/resultados', 'results'], ['/figuras', 'figures'], ['/execucoes', 'experiments'], ['/reavaliacoes', 'reevaluations'], ['/bibliografia-semanal', 'weekly-literature']]);
 
 export function routeFor(hash) {
   let key;
-  try { key = decodeURIComponent(hash.replace(/^#/, '')); } catch { return { section: 'overview', key: 'overview' }; }
-  const match = routePatterns.find(([prefix]) => key.startsWith(`${prefix}-`) && id(key.slice(prefix.length + 1)));
-  return match ? { section: match[1], key, type: match[0], record: key.slice(match[0].length + 1) }
-    : { section: key || 'overview', key: key || 'overview' };
+  try { key = decodeURIComponent(hash.split('?')[0].replace(/^#/, '')); } catch { return { section: 'overview', key: 'overview' }; }
+  for (const [type, section, path] of routePatterns) {
+    const prefix = key.startsWith('/') ? `/${path}/` : `${type}-`;
+    if (!key.startsWith(prefix)) continue;
+    const record = key.slice(prefix.length);
+    if (id(record)) return { section, key: `${type}-${record}`, type, record };
+  }
+  const section = entryRoutes.get(key) ?? (id(key) ? key : 'overview');
+  return { section, key: section };
 }
 
 async function json(name) {
@@ -28,7 +41,7 @@ export function createSciencePortal(editorial) {
   const requests = new Map();
   const errors = new Set();
   const loaded = new Set();
-  const state = { catalog: {}, timeline: {}, gallery: {}, openEvents: new Set() };
+  const state = { catalog: {}, timeline: {}, gallery: {}, investigations: {} };
   let context = emptyContext;
   let locale = 'pt-BR';
   let routeVersion = 0;
@@ -41,9 +54,12 @@ export function createSciencePortal(editorial) {
 
   const required = (section, detail) => ({
     timeline: ['timeline', 'experiments', 'comparisons'],
-    experiments: detail ? ['experiments', 'metrics', 'comparisons', 'figures'] : ['experiments'],
+    results: ['timeline', 'experiments', 'comparisons'],
+    investigation: ['timeline', 'experiments', 'comparisons', 'metrics', 'figures', 'evaluations'],
+    experiments: detail ? ['experiments', 'metrics', 'comparisons', 'figures', 'evaluations'] : ['experiments'],
+    reevaluations: ['evaluations', 'experiments', 'metrics'],
     comparison: ['comparisons', 'experiments', 'metrics', 'figures'],
-    figures: ['figures'],
+    figures: ['figures', 'experiments', 'comparisons'],
     literature: ['literature', 'experiments'],
   })[section] ?? [];
   const primary = section => section === 'comparison' ? 'comparisons' : section;
@@ -58,9 +74,15 @@ export function createSciencePortal(editorial) {
       return;
     }
     if (section === 'timeline') renderTimeline(region, data, context, state, locale);
-    if (section === 'experiments') renderCatalog(region, data, context, state, locale);
-    if (section === 'comparison') renderComparator(region, data, state, locale);
-    if (section === 'figures') renderGallery(region, data, state, locale);
+    if (section === 'results') renderInvestigations(region, data, context, state.investigations, locale);
+    if (section === 'investigation') renderInvestigation(region, data, context, state.groupId, locale);
+    if (section === 'experiments') renderCatalog(region, data, context, state, locale, async runId => {
+      await get('training');
+      return data.training.find(item => item.experimentId === runId);
+    });
+    if (section === 'reevaluations') renderReevaluations(region, data, locale);
+    if (section === 'comparison') renderComparator(region, data, state, locale, context);
+    if (section === 'figures') renderGallery(region, data, state, locale, context);
     if (section === 'literature') renderLiterature(region, data, context, locale);
     if (required(section, state.runId).some(name => errors.has(name))) {
       const problem = blank(ui.partialData);
@@ -77,26 +99,65 @@ export function createSciencePortal(editorial) {
       const ui = copy(locale);
       region.replaceChildren(
         linked(ui.hypothesis, record.hypothesisIds, index(context.hypotheses), 'hypothesis', (item, language) => titleOf(item.title, language), locale),
-        linked(ui.experiments, record.experimentIds, index(data.experiments), 'run', runTitle, locale),
-        linked(ui.comparison, record.comparisonIds, index(data.comparisons), 'pair', item => item.id, locale),
+        linked(ui.experiments, record.experimentIds, index(data.experiments), 'run', runName, locale),
+        linked(ui.comparison, record.comparisonIds, index(data.comparisons), 'pair', item => pairName(item, index(data.experiments), locale), locale),
         linked(ui.timeline, record.eventIds, index(data.timeline), 'event', (item, language) => titleOf(item.title, language), locale),
       );
     });
   }
 
-  function drawOverview() {
-    const target = document.getElementById('scientific-dashboard');
-    renderDashboard(target, context, editorial.project, editorial.priorities, locale, async () => {
-      await get('metrics');
-      return errors.has('metrics') ? null : data.metrics;
-    });
-    if (errors.has('overview')) target.prepend(blank(copy(locale).partialData));
-    if (localReview) target.prepend(node('p', copy(locale).localReview, 'notice'));
+  async function drawOverviewVisual() {
+    const cue = context.visual;
+    const target = document.getElementById('overview-visual');
+    if (!cue) return;
+    const figure = cue.type === 'figure';
+    await Promise.all(['experiments', 'comparisons', figure ? 'figures' : 'metrics'].map(get));
+    const title = words(locale, 'Resultado em destaque', 'Featured result');
+    const runs = index(data.experiments);
+    const pairs = index(data.comparisons);
+    const record = (figure ? index(data.figures) : pairs).get(cue.id);
+    if (!record) return;
+    const body = figure ? figureCard(record, locale, runs, pairs, { anchorId: false, compact: true })
+      : comparisonMeasurements(record, data, locale, { chartsOnly: true, limit: 1 });
+    if (!body.childElementCount) return;
+    const owner = context.groups.find(group => group.comparisonIds.includes(record.comparisonId ?? cue.id)
+      || group.experimentIds.includes(record.experimentId));
+    const link = anchor(copy(locale).explore, owner ? fragment('group', owner.id) : fragment(figure ? 'figure' : 'pair', cue.id));
+    const description = node('div', null, 'featured-reading');
+    description.append(node('h2', title));
+    if (figure) {
+      description.append(node('p', [valueOf(record.evaluationSet, locale), valueOf(record.unit, locale),
+        valueOf(record.operator, locale)].join(' · '), 'metadata'));
+      if (owner?.readingNote) description.append(node('p', titleOf(owner.readingNote, locale)));
+    }
+    description.append(link);
+    target.replaceChildren(description, body);
+    target.className = 'panel overview-visual';
+    target.hidden = false;
   }
 
-  async function show(section, detail) {
+  function drawOverview() {
+    const target = document.getElementById('scientific-dashboard');
+    const feature = document.getElementById('overview-visual');
+    renderDashboard(target, context, editorial.priorities, locale);
+    const analytics = errors.has('experiments') ? blank(copy(locale).unavailable)
+      : data.experiments.length || requests.has('experiments') ? renderAnalytics(data.experiments, context,
+        catalogFilters(location.hash), localReview, locale) : blank(copy(locale).loading);
+    target.prepend(analytics, feature);
+    if (errors.has('overview')) target.prepend(blank(copy(locale).partialData));
+    const phase = context.currentPhaseId ?? editorial.project?.currentPhase;
+    document.getElementById('current-phase').textContent = phaseOf(context, phase, locale);
+    const review = document.getElementById('review-badge');
+    review.hidden = !localReview;
+    review.textContent = localReview ? words(locale, 'Revisão local', 'Local review') : '';
+    review.title = localReview ? copy(locale).localReview : '';
+    if (!document.getElementById('overview').hidden) void drawOverviewVisual();
+  }
+
+  async function show(section, detail, version) {
     const needs = required(section, detail);
     await Promise.all([requestContext, ...needs.map(get)]);
+    if (version !== routeVersion) return;
     loaded.add(section);
     render(section);
     renderEditorialLinks();
@@ -105,35 +166,43 @@ export function createSciencePortal(editorial) {
   async function route(hash) {
     const version = ++routeVersion;
     const destination = routeFor(hash);
-    const typeKeys = { run: 'runId', pair: 'pairId', event: 'eventId', figure: 'figureId' };
-    if (destination.type && typeKeys[destination.type]) {
-      state[typeKeys[destination.type]] = destination.record;
-    } else if (destination.section === 'experiments') {
-      state.runId = null;
-    } else if (destination.section === 'timeline') {
-      state.eventId = null;
-    } else if (destination.section === 'figures') {
-      state.figureId = null;
-    }
+    state.catalog = catalogFilters(hash);
+    const typeKeys = { run: 'runId', pair: 'pairId', event: 'eventId', figure: 'figureId', group: 'groupId' };
+    for (const [type, key] of Object.entries(typeKeys)) state[key] = destination.type === type ? destination.record : null;
 
-    if (regions.includes(destination.section)) await show(destination.section, destination.type === 'run');
-    if (destination.type === 'hypothesis') { await requestContext; drawOverview(); }
-    if (destination.section === 'roadmap' || destination.section === 'priorities' || destination.section === 'resources') {
+    const activity = ['updates', 'priorities'].includes(destination.section);
+    const resource = ['literature', 'publications'].includes(destination.section);
+    const roadmap = destination.section.startsWith('roadmap');
+    const main = document.getElementById('main-content');
+    const view = resource ? 'resources' : roadmap ? 'roadmap'
+      : [...regions, 'overview', 'resources', 'weekly-literature'].includes(destination.section) ? destination.section : 'overview';
+    for (const child of main.children) {
+      child.hidden = child.classList.contains('activity-grid') ? !(activity || roadmap) : activity || child.id !== view;
+    }
+    if (regions.includes(destination.section)) {
+      const region = document.querySelector(`[data-science-region="${destination.section}"]`);
+      if (region) region.replaceChildren(node('p', copy(locale).loading, 'science-placeholder'));
+      await show(destination.section, destination.type === 'run', version);
+    }
+    if (view === 'overview') {
+      await Promise.all([requestContext, get('experiments')]);
+      if (version === routeVersion) drawOverview();
+    }
+    if (roadmap || activity || view === 'resources') {
       const records = [...editorial.roadmap, ...editorial.priorities, ...editorial.publications];
       const dependencies = [['experimentIds', 'experiments'], ['comparisonIds', 'comparisons'], ['eventIds', 'timeline']];
       await Promise.all(dependencies.filter(([field]) => records.some(record => record[field]?.length)).map(([, name]) => get(name)));
+      if (view === 'resources' && destination.section !== 'literature') await show('literature', false, version);
       renderEditorialLinks();
     }
-    if (version === routeVersion && destination.type) {
-      const element = document.getElementById(destination.key);
-      if (element) {
-        element.scrollIntoView({ block: 'start' });
-        element.focus({ preventScroll: true });
-      } else if (regions.includes(destination.section)) {
-        const region = document.querySelector(`[data-science-region="${destination.section}"]`);
-        region.prepend(blank(copy(locale).notInformed));
-        document.getElementById(destination.section).scrollIntoView({ block: 'start' });
-      }
+    if (version !== routeVersion || !hash || destination.section === 'main-content') return;
+    const container = document.getElementById(view);
+    const target = [...main.querySelectorAll(`#${CSS.escape(destination.key)}`)].find(element => !element.closest('[hidden]'))
+      ?? container;
+    if (target && !target.closest('[hidden]')) {
+      target.tabIndex = -1;
+      target.scrollIntoView({ block: 'start' });
+      target.focus({ preventScroll: true });
     }
   }
 
@@ -152,19 +221,6 @@ export function createSciencePortal(editorial) {
     renderEditorialLinks();
   }
 
-  if ('IntersectionObserver' in window) {
-    const watch = new IntersectionObserver(entries => {
-      for (const entry of entries.filter(item => item.isIntersecting)) {
-        const section = entry.target.dataset.scienceRegion;
-        watch.unobserve(entry.target);
-        if (!loaded.has(section)) void show(section, section === 'experiments' && state.runId);
-      }
-    });
-    document.querySelectorAll('[data-science-region]').forEach(region => watch.observe(region));
-  } else {
-    for (const section of regions) void show(section, false);
-  }
-  void requestContext.then(() => { drawOverview(); renderEditorialLinks(); });
   setLocale(locale);
   return { setLocale, route };
 }

@@ -1,5 +1,6 @@
 extends: experiment_import.yaml
 selection: featured
+show_all_featured_metrics: true
 staging_output: ../.experiment-import/featured
 public_approvals:
   experiments: []

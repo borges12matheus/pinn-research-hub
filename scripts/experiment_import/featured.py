@@ -80,12 +80,14 @@ def select_featured(config, runs, comparisons, timeline, audit):
     return selected, pairs, events
 
 
-def filter_metrics(selected_metrics, runs, comparisons):
+def filter_metrics(selected_metrics, runs, comparisons, restrict_runs=True):
+    all_ids = set()
     for identifier, requested in selected_metrics.items():
         record = runs[identifier]
-        record["_metrics"] = [metric for metric in record["_metrics"] if metric_key(metric) in requested]
-
-    all_ids = {metric["id"] for identifier in selected_metrics for metric in runs[identifier]["_metrics"]}
+        accepted = [metric for metric in record["_metrics"] if metric_key(metric) in requested]
+        all_ids.update(metric["id"] for metric in accepted)
+        if restrict_runs:
+            record["_metrics"] = accepted
     for pair in comparisons.values():
         pair["conditions"] = [check for check in pair["conditions"] if set(check["metricIds"]) <= all_ids]
         pair["status"] = summarize_checks(pair["conditions"])

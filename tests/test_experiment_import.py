@@ -191,6 +191,66 @@ class PipelineTest(unittest.TestCase):
         self.assertEqual(record["seed"], 42)
         self.assertIsNone(record["trainingBudget"]["supervisedFraction"])
 
+    def test_canonical_run_time_and_reassessment_are_separate(self):
+        self.config["selection"] = "all"
+        original = self.lab / self.metric
+        copy = self.lab / f"results/metrics/old/{self.name}/{original.name}"
+        copy.parent.mkdir(parents=True, exist_ok=True)
+        copy.write_bytes(original.read_bytes())
+        log = (self.lab / self.metadata).with_suffix(".log")
+        log.write_text("2026-11-13 21:29:44,631 | INFO | Iniciando experimento: mlp_base\n")
+        second = original.parent.parent / "mlp_base_20261113_213019" / original.name
+        self.write(second, {"N": 2, "rmse_uv_corrected_to_fine": 2})
+        path = self.lab / "results/metrics/standalone/mlp/reeval_20261114_110001/metric_eval.json"
+        self.write(path, {"N": 2, "rmse_uv_corrected_to_fine": 3,
+                          "training_run_id": self.name, "evaluated_at": "2026-11-14T11:00:01-03:00"})
+        self.write(path.with_name("other_eval.json"), {"N": 2, "rmse_uv_corrected_to_fine": 10})
+        self.cli("export")
+        runs = json.loads((self.stage / "data/experiments.json").read_text())
+        self.assertEqual(2, len(runs))
+        expected = next(run for run in runs if run["id"] == self.identifier)
+        self.assertEqual(expected["temporal"]["executedAt"], "2026-11-13T21:29:44.631000")
+        self.assertEqual(expected["temporal"]["executedAtSource"], "log")
+        self.assertIsNone(expected["temporal"]["timezone"])
+        inferred = next(run for run in runs if run["id"] != self.identifier)
+        self.assertEqual(inferred["temporal"]["executedAtConfidence"], "inferred")
+        items = json.loads((self.stage / "data/evaluations.json").read_text())
+        linked = next(row for row in items if row["kind"] == "reevaluation" and row["experimentId"])
+        self.assertEqual(linked["experimentId"], self.identifier)
+        self.assertEqual(linked["evaluatedAt"], "2026-11-14T11:00:01-03:00")
+        self.assertEqual(sum(row["experimentId"] is None for row in items), 1)
+        self.assertIn("archived_duplicate_metric", {i["code"] for i in self.audit()["issues"]})
+        self.config["public_approvals"] = {"experiments": [self.identifier]}
+        self.cli("export", "--public")
+        evaluations = json.loads((self.public / "data/evaluations.json").read_text())
+        self.assertEqual(["evaluation"], [item["kind"] for item in evaluations])
+        self.assertEqual([], json.loads((self.public / "data/training.json").read_text()))
+
+    def test_utc_execution_times_and_incomplete_public_identity(self):
+        self.config["repositories"]["phase-one"]["execution_timezone"] = "UTC"
+        path = self.lab / self.metadata
+        metadata = json.loads(path.read_text())
+        metadata.update(start_time="2026-11-13T18:29:44.631-03:00", end_time="2026-11-13T18:30:44-03:00")
+        self.write(path, metadata)
+        self.config["public_approvals"] = {"experiments": [self.identifier]}
+        self.cli("export", "--public")
+        public = self.public / "data"
+        [record] = json.loads((public / "experiments.json").read_text())
+        self.assertEqual(record["temporal"]["executedAt"], "2026-11-13T21:29:44.631000Z")
+        self.assertEqual(record["temporal"]["finishedAt"], "2026-11-13T21:30:44Z")
+        self.assertEqual(record["temporal"]["executedAtConfidence"], "confirmed")
+        metadata.pop("start_time")
+        metadata["config"]["dataset"] = {}
+        metadata["config"]["experiment"].pop("seed")
+        self.write(path, metadata)
+        self.cli("export")
+        [local] = json.loads((self.stage / "data/experiments.json").read_text())
+        self.assertEqual(local["temporal"]["executedAt"], "2026-11-13T21:29:43Z")
+        self.assertEqual(local["temporal"]["executedAtConfidence"], "inferred")
+        self.cli("export", "--public")
+        for name in ("experiments", "metrics", "evaluations"):
+            self.assertEqual([], json.loads((public / f"{name}.json").read_text()))
+
     def test_absent_files_are_audited(self):
         (self.lab / self.metric).unlink()
         self.cli("validate")

@@ -21,7 +21,9 @@ Abra a revisão local com a coleção prioritária de staging:
 node scripts/preview_site.mjs
 ```
 
-Acesse [127.0.0.1:8010](http://127.0.0.1:8010/). A página indica **Revisão local**. O servidor escuta apenas em loopback e serve em memória o frontend e os arquivos gerenciados de `.experiment-import/featured/`, após conferir seus hashes. O comando preserva a visibilidade privada dos registros e usa os mesmos critérios de comparabilidade do portal. `dist/` e `public/` permanecem separados da revisão.
+Acesse [127.0.0.1:8000](http://127.0.0.1:8000/). A página indica **Revisão local**. O servidor escuta apenas em loopback e serve em memória o frontend e os arquivos gerenciados de `.experiment-import/featured/`, após conferir seus hashes. O comando preserva a visibilidade privada dos registros e usa os mesmos critérios de comparabilidade do portal. `dist/` e `public/` permanecem separados da revisão.
+
+Para validar a navegação da v0.4, abra [Evolução](http://127.0.0.1:8000/#/evolucao), escolha um marco e selecione **Explorar resultados**. A investigação reúne as comparações, métricas e figuras vinculadas. Para testar um link direto, abra a [investigação das réplicas k–ε](http://127.0.0.1:8000/#/resultados/replicas-ke).
 
 Para rever dados atualizados, gere novamente o staging com `python scripts/import_experiments.py export --config config/featured_experiments.yaml` e reinicie a prévia. Se necessário, passe `--port 8011` para escolher outra porta. Para testar o fluxo completo no Chromium com o acervo real, use `node tests/browser_science.mjs --local-review`.
 
@@ -44,11 +46,16 @@ O português é o idioma padrão. Para traduzir um texto, inclua um objeto opcio
 
 ## Publicar no GitHub Pages
 
-1. Revise os arquivos editoriais e as aprovações experimentais, quando aplicáveis.
-2. Monte `dist/` e verifique seu conteúdo. Envie exclusivamente esse artefato ao GitHub Pages. Em publicação por branch, use uma branch dedicada com o conteúdo de `dist/` na raiz e selecione-a em **Settings → Pages → Deploy from a branch → /(root)**.
-3. Abra o endereço informado em **Settings → Pages**, normalmente `https://<usuario>.github.io/<repositorio>/`.
+O workflow [Publicar no GitHub Pages](./.github/workflows/pages.yml) executa o typecheck, os testes e o build editorial. O artefato enviado ao Pages é `dist/`. A revisão local e a exportação científica aprovada usam fluxos separados.
 
-Os caminhos de CSS, JavaScript e JSON são relativos ao site. Recursos e publicações geram links somente para URLs HTTP ou HTTPS, em nova aba. Consulte a [documentação de configuração da origem no GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
+1. Integre a versão revisada à branch padrão do repositório (`main`).
+2. Em **Settings → Pages**, no próprio repositório, selecione **GitHub Actions** como source.
+3. Em **Actions → Publicar no GitHub Pages → Run workflow**, selecione `main`.
+4. Abra o endereço informado na etapa de deploy ou em **Settings → Pages**.
+
+Para conferir o pacote antes de enviar, execute `npm run build` e abra `dist/` por um servidor HTTP local. Se optar por publicar via branch, use uma branch dedicada com o conteúdo de `dist/` na raiz, incluindo `.nojekyll`, e configure essa branch como source.
+
+O site usa URLs relativas e navegação por fragmento para funcionar no subdiretório do repositório. [Documentação oficial do GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 
 ## Escopo dos dados iniciais
 
@@ -71,3 +78,29 @@ node tests/browser_science.mjs
 ```
 
 O teste de navegador exige Chromium Headless ou Google Chrome e acesso ao loopback. Se necessário, defina `CHROME_BIN` com o executável disponível. Ele serve em memória o pacote editorial e um pacote sintético isolado, com verificação na raiz e no subdiretório de projeto. [Plano de migração](./docs/MIGRACAO_V0.3.md)
+
+A auditoria e o registro de implementação da v0.4 estão em [UX_AUDIT_v0.4.md](./docs/UX_AUDIT_v0.4.md).
+
+## Validar o catálogo analítico v0.5
+
+A prévia sem argumentos usa a coleção prioritária com figuras curadas. O perfil `--catalog` inclui o histórico importado dos dois projetos, as figuras curadas e os registros de reavaliação separados. Ambos escutam somente em loopback.
+
+```sh
+python scripts/import_experiments.py export --config config/featured_experiments.yaml
+python scripts/import_experiments.py export --config config/catalog_experiments.yaml
+node scripts/preview_site.mjs --catalog
+```
+
+Consulte [Visão geral](http://127.0.0.1:8000/#overview), [Execuções](http://127.0.0.1:8000/#/execucoes) ou [Reavaliações](http://127.0.0.1:8000/#/reavaliacoes). O dashboard exclui horários inferidos da série temporal. O catálogo conserva a origem de cada horário. Os relatórios de cobertura ficam sob `.experiment-import/<perfil>/reports/`.
+
+```sh
+npm ci
+npm run typecheck
+npm test
+npm run build
+node tests/browser_science.mjs --local-review
+```
+
+O typecheck verifica os seletores e tipos da camada analítica em módulos ES. O build usa o empacotador estático existente e o TypeScript é uma dependência de desenvolvimento. [Auditoria e migração v0.5](./docs/MIGRACAO_V0.5.md)
+
+As 23 referências fornecidas em `references.bib` são mantidas como metadados bibliográficos em `data/literature.json`. A seção Literatura oferece busca por título, autor, ano ou DOI. O boletim bibliográfico semanal tem uma rota própria e está em construção.

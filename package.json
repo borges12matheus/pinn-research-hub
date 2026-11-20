@@ -1,0 +1,12 @@
+{
+  "name": "pinn-research-hub",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build_site.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test --test-isolation=none tests/science.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

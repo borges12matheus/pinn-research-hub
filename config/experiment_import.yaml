@@ -10,6 +10,7 @@ repositories:
   bfs_2d_pinn_corrector:
     root: ../../lab_experimentos/experiments/bfs_2d_pinn_corrector
     id_prefix: ke
+    execution_timezone: UTC
     figure_directory: phase_01
     legacy_divergence_operator: openfoam_plus_autograd
     # Documented legacy accuracy exports on split v1. Suffix alone never establishes scope.
@@ -17,6 +18,7 @@ repositories:
   bfs-physics-informed-learning:
     root: ../../lab_experimentos/experiments/bfs-physics-informed-learning
     id_prefix: sst
+    execution_timezone: UTC
     figure_directory: phase_02
     legacy_divergence_operator: etl_grid_differences_plus_autograd
     legacy_edge_order: 2

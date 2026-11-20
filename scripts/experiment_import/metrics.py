@@ -46,7 +46,7 @@ def accuracy_specs():
     return specs
 
 
-ACCURACY = accuracy_specs()
+ACCURACY = {**accuracy_specs(), "N": ("evaluation_points", "Quantidade de linhas avaliadas.", "points", None)}
 
 
 def metric_scope(path):
@@ -170,6 +170,10 @@ def extract_metrics(record, data, path, ref, case, repo, audit, verify_predictio
                 result.append(make(field, field.lower(), data[field], "%" if pct else "1",
                                    "Redução relativa da magnitude da divergência corrigida frente à magnitude de referência especificada pela chave.",
                                    None, False))
+        for field, unit in (("n_valid_common", "points"), ("valid_fraction_common", "1")):
+            if field in data:
+                result.append(make(field, field, data[field], unit, "Cobertura da máscara comum do operador.",
+                                   None, None))
     else:
         detail = mask("accuracy", observed_n, 1.0 if observed_n is not None else None)
         for original, (name, definition, unit, lower) in ACCURACY.items():
@@ -177,6 +181,8 @@ def extract_metrics(record, data, path, ref, case, repo, audit, verify_predictio
                 result.append(make(original, name, data[original], unit, definition, detail, lower))
     if not result:
         audit.add("error", "empty_metric_file", record["id"], path.name)
+    for metric in result:
+        metric["category"] = "physics" if physical else "accuracy"
     # Unknown scope may occur more than once in historical runs. Its source ID disambiguates it.
     result = [item for item in result if item is not None]
     if scope is None:

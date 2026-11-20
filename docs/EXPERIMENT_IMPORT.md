@@ -78,3 +78,17 @@ python scripts/import_experiments.py export --config config/featured_experiments
 A saída fica em `.experiment-import/featured/`. O relatório `reports/curation_summary.md` lista os sete grupos, as fontes e as pendências de cada figura. A configuração fixa as imagens por SHA-256. Nos mapas por par, os limites de cor vêm do relatório original. Nos mapas individuais de velocidade da seed 42, a curadoria reproduz os limites a partir dos três campos ou dos erros no Parquet de teste conforme a rotina de plotagem original. A seleção inclui somente PNGs com escopo e escala sustentados. Os candidatos retidos continuam no YAML e no relatório, sem cópias de imagem.
 
 O perfil é exclusivo para staging privado. O JSON da timeline inclui `comparisonIds`, `experimentIds`, `curationGroupId`, prioridade e estado de revisão. A síntese dos pares k–ε resume os deltas por seed no relatório, preservando a distinção entre partições. Para validar o run complementar e as figuras com comparação, use um ambiente Python com PyArrow.
+
+## Identidade e projeções na v0.5
+
+`config/catalog_experiments.yaml` gera o catálogo histórico em `.experiment-import/catalog`. A configuração prioritária continua gerando `.experiment-import/featured`, com todas as medições reconhecidas dos runs selecionados. O recorte das condições usado nas comparações prioritárias permanece curado.
+
+- `experiments.json` mantém o ID anterior de cada treinamento. `temporal.executedAt` representa o início e registra origem e confiança. Datas de atualização, importação e publicação são independentes.
+- `evaluations.json` vincula medições por fonte, escopo e operador. Reavaliações exigem evidência do run original. Quando não houver vínculo confirmado, ficam no catálogo local com `experimentId: null`.
+- `metrics.json` preserva chaves originais, máscaras e unidades documentadas. `training.json` contém somente campos numéricos permitidos do histórico, separados por etapa e época. O portal carrega o histórico ao abrir o painel de perdas.
+- `public_approvals.experiments`, `comparisons`, `timeline` e `figures` controlam a divulgação. A aprovação de um par também exige os dois runs aprovados. `public_approvals.training` autoriza histórico estruturado somente para runs aprovados. Reavaliações ficam locais.
+- O relatório separa runs, avaliações e reavaliações, com contagens por fase, família, confiança temporal, arquivamento e publicação.
+
+Os dois projetos declaram `execution_timezone: UTC`. Timestamps sem offset usam UTC e timestamps com offset explícito são convertidos para UTC. A confiança de um horário recuperado do nome permanece `inferred`.
+
+A projeção pública requer identificador do run, fase, família, caso CFD, Reynolds, modelo de turbulência e seed. Runs com esses campos incompletos ficam na revisão local. O build público também aplica a regra a exportações aprovadas anteriores e retira as métricas, avaliações, comparações, figuras e marcos dependentes. A aprovação explícita continua obrigatória.
