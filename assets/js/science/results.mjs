@@ -297,14 +297,17 @@ export function comparisonMeasurements(pair, data, locale, { chartsOnly = false,
     if (chartsOnly && (!measured || measured.descriptive)) continue;
     const pane = node('section', null, 'condition');
     const caption = `${label(condition.metric, locale)} · ${label(condition.scope, locale)}`;
-    pane.append(node('h4', caption), badge(condition.status, locale));
-    const individual = condition.metricIds.map(key => metrics.get(key)).filter(Boolean);
+    pane.append(node('h4', caption), badge(measured ? condition.status : 'blocked', locale));
+    const individual = condition.metricIds.map(key => metrics.get(key)).filter(metric => metric
+      && pair.experimentIds.includes(metric.experimentId) && metric.name === condition.metric
+      && metric.evaluationSet === condition.scope);
     if (!measured && !individual.length) continue;
     const labelFor = metric => runName(runs.get(metric.experimentId), locale);
     if (measured && !measured.descriptive) pane.append(makeChart(measured.records, labelFor, locale));
     if (!chartsOnly) {
       const rows = (measured?.records ?? individual).map(metric => [
-        anchor(labelFor(metric), fragment('run', metric.experimentId)), number(metric.value, locale), valueOf(metric.unit, locale),
+        runs.has(metric.experimentId) ? anchor(labelFor(metric), fragment('run', metric.experimentId)) : ui.notInformed,
+        number(metric.value, locale), valueOf(metric.unit, locale),
         valueOf(metric.referenceType, locale), valueOf(metric.calculationMethod, locale),
         fraction(metric.validityMask?.validFraction, locale),
       ]);
@@ -341,11 +344,15 @@ export function renderComparator(region, data, state, locale, context) {
   const group = context.groups.find(item => item.comparisonIds.includes(pair.id));
   article.append(anchor(group ? words(locale, 'Voltar à investigação', 'Back to investigation') : ui.explore,
     group ? fragment('group', group.id) : '#/resultados'),
-  node('h3', pairName(pair, runs, locale)), badge(pair.status, locale));
+  node('h3', pairName(pair, runs, locale)));
   const reasons = [...new Set([...(pair.limitations ?? []), ...pair.conditions.flatMap(condition => condition.reasons)])];
-  const status = pair.status === 'blocked' ? ui.comparisonBlocked
+  const metricIndex = index(data.metrics);
+  const hasInvalidProtocol = pair.conditions.some(condition => condition.status !== 'blocked'
+    && !measureComparison(pair, condition, metricIndex, runs));
+  const status = pair.status === 'blocked' || hasInvalidProtocol ? ui.comparisonBlocked
     : pair.status === 'descriptive_only' ? ui.comparisonWarning
       : words(locale, 'Condições quantitativas verificadas para este protocolo.', 'Quantitative conditions verified for this protocol.');
+  article.append(badge(hasInvalidProtocol ? 'blocked' : pair.status, locale));
   const eligibility = node('div', null, 'eligibility-summary');
   eligibility.append(node('p', status));
   if (reasons.length) eligibility.append(audit(words(locale, `Ver condições e limitações (${reasons.length})`,

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { approvedFigures, figurePath, index, measureComparison, validateCollection } from '../assets/js/science/contracts.mjs';
 import { byRunTime, catalogFilters, catalogURL, matchesRun, reynoldsGroup, runTime, runsOverTime, validTimestamp } from '../assets/js/science/catalog-data.mjs';
+import { validateEditorial } from '../assets/js/data.js';
 import { routeFor } from '../assets/js/science/portal.mjs';
 import { collectLocalReview, collectSite } from '../scripts/build_site.mjs';
 import { createRelease, example } from './fixtures/science.mjs';
@@ -197,4 +198,35 @@ test('approved release contains six investigations with public artifacts and omi
   assert(read('experiments').every(run => !run.reynolds.includes(32000)));
   assert.deepEqual(read('training'), []);
   assert(![...files.keys()].some(path => /managed|public_release_manifest|reports|\.experiment-import/.test(path)));
+});
+
+test('quantitative comparison rejects undocumented or different training controls and conflicting masks', () => {
+  const compatible = () => {
+    const data = example();
+    data.comparisons[0].status = 'compatible';
+    data.comparisons[0].conditions[0].status = 'compatible';
+    return data;
+  };
+  assert(compare(compatible()));
+  for (const mutate of [
+    data => { data.experiments[1].trainingBudget.batchSize *= 2; },
+    data => { data.experiments[1].seed = null; },
+    data => { data.metrics[1].validityMask.validCount -= 1; },
+    data => { data.metrics[1].validityMask.policy = 'different_policy'; },
+    data => { data.experiments[1].reynolds = [36000]; },
+    data => { data.experiments[1].turbulenceModel = 'k_epsilon'; },
+    data => { data.experiments[1].datasetHash = 'another'; },
+  ]) {
+    const data = compatible();
+    mutate(data);
+    assert.equal(compare(data), null);
+  }
+});
+
+test('editorial source validation accepts the current project and rejects broken records', async () => {
+  const project = JSON.parse(await readFile(new URL('../data/project.json', import.meta.url)));
+  assert.equal(validateEditorial('project', project), project);
+  assert.throws(() => validateEditorial('project', { ...project, lastUpdated: '2026-02-29' }), /project.json/);
+  const priority = { id: 'same', title: 'Review', order: 1, status: 'open' };
+  assert.throws(() => validateEditorial('priorities', [priority, priority]), /priorities.json/);
 });

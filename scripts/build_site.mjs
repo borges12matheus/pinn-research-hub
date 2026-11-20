@@ -1,3 +1,4 @@
+import { validateEditorial } from '../assets/js/data.js';
 import { createHash } from 'node:crypto';
 import { lstat, mkdir, mkdtemp, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { basename, dirname, join, resolve } from 'node:path';
@@ -9,6 +10,7 @@ import {
 const root = fileURLToPath(new URL('..', import.meta.url));
 const editorialFiles = ['project', 'roadmap', 'priorities', 'updates', 'resources', 'publications', 'scientific-context'];
 const importerFiles = ['experiments', 'comparisons', 'metrics', 'timeline'];
+// Ownership marker for replacing existing distributions, independent of the portal version.
 const marker = 'pinn-research-hub-static-v0.3\n';
 const encode = value => JSON.stringify(value, null, 2) + '\n';
 const hash = contents => createHash('sha256').update(contents).digest('hex');
@@ -165,7 +167,7 @@ async function collect({ source, release, approvals, localReview }) {
     const contents = await readWithin(source, path);
     data[name] = JSON.parse(contents);
     inspect(data[name]);
-
+    if (name !== 'scientific-context') validateEditorial(name, data[name]);
   }
   for (const name of editorialFiles.filter(name => !['project', 'scientific-context'].includes(name))) {
     if (!Array.isArray(data[name]) || !data[name].every(record => record && id(record.id))

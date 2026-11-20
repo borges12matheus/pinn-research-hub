@@ -5,7 +5,6 @@
   "summary": "Restrições físicas e estratégias de otimização podem reduzir a dependência de dados de alta fidelidade na correção de escoamentos sobre um degrau descendente (BFS), preservando a precisão preditiva e a consistência física? A pesquisa investiga essa questão com modelos MLP e PINN.",
   "currentPhase": "bfs-physics-informed-learning",
   "lastUpdated": "2026-11-19",
-  "isDemoData": true,
   "repositoryUrl": "https://github.com/borges12matheus/bfs-physics-informed-learning",
   "en": {
     "researchTitle": "Physics-informed learning for CFD flow field correction",

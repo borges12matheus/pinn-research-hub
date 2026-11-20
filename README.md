@@ -1,17 +1,18 @@
-# PINN Research Hub · v0.3
+# PINN Research Hub · v0.5
 
 Portal estático de acompanhamento da pesquisa de mestrado em aprendizado informado por física aplicado à correção de campos CFD. O painel registra a primeira fase, `bfs_2d_pinn_corrector`, e a etapa atual, `bfs-physics-informed-learning`.
 
 ## Executar localmente
 
-Monte e sirva a distribuição estática na raiz do projeto:
+Use Node.js 24, a mesma versão do workflow. A partir da raiz do projeto, instale as dependências de desenvolvimento, monte a distribuição aprovada e sirva o resultado em loopback.
 
 ```sh
-node scripts/build_site.mjs
-python3 -m http.server 8000 --directory dist
+npm ci
+npm run build -- --approved
+python3 -m http.server 8000 --bind 127.0.0.1 --directory dist
 ```
 
-Abra [localhost:8000](http://localhost:8000/). Node.js 22+ é usado na montagem. O navegador usa HTML, CSS e JavaScript nativos e recebe somente os arquivos da distribuição.
+Abra [127.0.0.1:8000](http://127.0.0.1:8000/). O navegador usa HTML, CSS e módulos ES nativos. Para conferir a edição exclusivamente editorial, execute `npm run build`. Ela usa as mesmas telas com as coleções experimentais vazias.
 
 ## Validar a coleção científica privada
 
@@ -23,7 +24,7 @@ node scripts/preview_site.mjs
 
 Acesse [127.0.0.1:8000](http://127.0.0.1:8000/). A página indica **Revisão local**. O servidor escuta apenas em loopback e serve em memória o frontend e os arquivos gerenciados de `.experiment-import/featured/`, após conferir seus hashes. O comando preserva a visibilidade privada dos registros e usa os mesmos critérios de comparabilidade do portal. `dist/` e `public/` permanecem separados da revisão.
 
-Para validar a navegação da v0.4, abra [Evolução](http://127.0.0.1:8000/#/evolucao), escolha um marco e selecione **Explorar resultados**. A investigação reúne as comparações, métricas e figuras vinculadas. Para testar um link direto, abra a [investigação das réplicas k–ε](http://127.0.0.1:8000/#/resultados/replicas-ke).
+Para validar a navegação científica, abra [Evolução](http://127.0.0.1:8000/#/evolucao), escolha um marco e selecione **Explorar resultados**. A investigação reúne as comparações, métricas e figuras vinculadas. Para testar um link direto, abra a [investigação das réplicas k–ε](http://127.0.0.1:8000/#/resultados/replicas-ke).
 
 Para rever dados atualizados, gere novamente o staging com `python scripts/import_experiments.py export --config config/featured_experiments.yaml` e reinicie a prévia. Se necessário, passe `--port 8011` para escolher outra porta. Para testar o fluxo completo no Chromium com o acervo real, use `node tests/browser_science.mjs --local-review`.
 
@@ -33,7 +34,7 @@ Edite os arquivos editoriais em `data/`, remonte `dist/` e recarregue a página.
 
 | Arquivo | Campos e apresentação |
 | --- | --- |
-| `project.json` | `id` identifica o projeto, `name` nomeia o portal, `researchTitle` e `summary` apresentam a pesquisa e `currentPhase` alimenta o badge de fase. `lastUpdated` é a data da revisão editorial. `isDemoData` controla o aviso de dados demonstrativos. `repositoryUrl` registra a referência ao repositório técnico. Para publicar ou atualizar um link exibido, edite `resources.json`. |
+| `project.json` | `id` identifica o projeto, `name` nomeia o portal, `researchTitle` e `summary` apresentam a pesquisa e `currentPhase` alimenta o badge de fase. `lastUpdated` é a data da revisão editorial. `repositoryUrl` registra a referência ao repositório técnico. Para publicar ou atualizar um link exibido, edite `resources.json`. |
 | `roadmap.json` | `id`, `order` numérico, `title`, `description`, `status` e `targetDate` opcional. Estados aceitos: `planned`, `in_progress`, `completed` e `blocked`. Ordenação crescente por `order`. |
 | `updates.json` | `id`, `date`, `title`, `summary` e `category` em texto livre. As cinco atualizações mais recentes aparecem primeiro, com expansão para as demais. |
 | `priorities.json` | `id`, `order` numérico, `title`, `status` e `roadmapId` opcional para apontar a um marco. Estados aceitos: `open`, `in_progress` e `done`. As cinco primeiras ações ativas aparecem em ordem crescente. |
@@ -46,7 +47,7 @@ O português é o idioma padrão. Para traduzir um texto, inclua um objeto opcio
 
 ## Publicar no GitHub Pages
 
-O workflow [Publicar no GitHub Pages](./.github/workflows/pages.yml) executa o typecheck, os testes e o build com as coleções aprovadas em `public/`. O artefato enviado ao Pages é `dist/`. O build verifica os hashes de `config/public_release_manifest.json`. Os dados e relatórios da revisão local permanecem em `.experiment-import/`.
+O workflow [Publicar no GitHub Pages](./.github/workflows/pages.yml) executa o typecheck, os testes e o build com as coleções aprovadas em `public/`. O artefato enviado ao Pages é `dist/`. O build verifica os hashes de `config/public_release_manifest.json`. Os dados e relatórios da revisão local permanecem em `.experiment-import/`. O acionamento segue manual para separar o envio de código da decisão de publicar a seleção científica. O manifesto verifica integridade, e a aprovação de conteúdo ocorre na curadoria.
 
 1. Integre a versão revisada à branch padrão do repositório (`main`).
 2. Em **Settings → Pages**, no próprio repositório, selecione **GitHub Actions** como source.
@@ -67,29 +68,30 @@ npm run build -- --approved
 
 Versione `public/` e o manifesto juntos. A branch utilizada no GitHub Actions precisa conter ambos. Na primeira exportação feita em outro checkout, o importador exige o índice de propriedade local para atualizar arquivos públicos já existentes. O manifesto versionado pode ser usado como índice em `.experiment-import/public-audit/managed.json` para essa atualização.
 
-## Escopo dos dados iniciais
+## Escopo editorial e científico
 
-A descrição editorial das fases foi preparada a partir da documentação local dos dois projetos de pesquisa. Os marcos e prioridades são exemplos para revisão. A data inicial registra a criação do conteúdo do portal. A pasta `lab_experimentos` continua sendo a fonte local dos experimentos e não é lida pelo site. A distribuição padrão inclui o recorte editorial. Resultados experimentais são adicionados após curadoria e exportação pública.
+O dashboard, o roadmap e as prioridades descrevem o acompanhamento editorial. O catálogo, a timeline científica e as figuras usam os artefatos curados. Cada registro experimental indica seu estado de evidência. A versão pública inclui resultados verificados e preliminares autorizados. O boletim bibliográfico semanal está em construção.
 
 ## Importação experimental
 
 O importador offline gera dados curados em staging local. Consulte os comandos, os critérios de comparabilidade e a política de aprovação em [Importação experimental](./docs/EXPERIMENT_IMPORT.md).
 
-## Portal científico v0.3
+## Testes e arquitetura
 
-A montagem padrão inclui os dados editoriais e coleções experimentais vazias. Após uma curadoria e uma exportação pública explícitas pelo [importador](./docs/EXPERIMENT_IMPORT.md), execute `node scripts/build_site.mjs --approved` para montar a versão com evidências aprovadas. O comando exige que os arquivos em `public/` correspondam aos hashes gerenciados em `.experiment-import/public-audit/managed.json`. O staging privado, relatórios, configurações e artefatos pesados ficam fora do pacote. A coleção `featured` permanece restrita ao staging conforme sua política.
-
-Os textos editoriais de fases, hipóteses e grupos estão em `data/scientific-context.json`. A montagem gera `data/overview.json` com índices e referências aprovadas. Valores de métricas seguem no catálogo, carregado sob demanda. `data/literature.json` é opcional e aceita registros públicos validados.
+Os textos editoriais de fases, hipóteses e grupos estão em `data/scientific-context.json`. O build gera `data/overview.json` com índices e referências. O catálogo de métricas é carregado sob demanda. O build estático usa Node.js e o importador offline usa Python. O typecheck cobre a camada analítica tipada em módulos ES. Os contratos de runtime validam o restante do conteúdo.
 
 ```sh
-node --test --test-isolation=none tests/science.test.mjs
+npm ci
+npm run typecheck
+npm test
+npm run build -- --approved
 python3 -B -m unittest discover -s tests -v
-node tests/browser_science.mjs
+node tests/browser_science.mjs --approved --local-review
 ```
 
-O teste de navegador exige Chromium Headless ou Google Chrome e acesso ao loopback. Se necessário, defina `CHROME_BIN` com o executável disponível. Ele serve em memória o pacote editorial e um pacote sintético isolado, com verificação na raiz e no subdiretório de projeto. [Plano de migração](./docs/MIGRACAO_V0.3.md)
+A suíte do navegador exige Chromium Headless ou Google Chrome e loopback. Use `CHROME_BIN` para indicar outro executável. A opção `--approved` exercita o recorte público e `--local-review` exercita os dois perfis privados já gerados. Acrescente `--production` para verificar a URL pública. Os testes Python usam as [dependências do importador](./scripts/requirements-experiment-import.txt).
 
-A auditoria e o registro de implementação da v0.4 estão em [UX_AUDIT_v0.4.md](./docs/UX_AUDIT_v0.4.md).
+As especificações anteriores e o [plano v0.3](./docs/MIGRACAO_V0.3.md) registram a evolução histórica. A [migração v0.5](./docs/MIGRACAO_V0.5.md) e a [auditoria técnica](./docs/AUDIT_REPORT.md) descrevem a implementação atual.
 
 ## Validar o catálogo analítico v0.5
 
@@ -102,15 +104,5 @@ node scripts/preview_site.mjs --catalog
 ```
 
 Consulte [Visão geral](http://127.0.0.1:8000/#overview), [Execuções](http://127.0.0.1:8000/#/execucoes) ou [Reavaliações](http://127.0.0.1:8000/#/reavaliacoes). O dashboard exclui horários inferidos da série temporal. O catálogo conserva a origem de cada horário. Os relatórios de cobertura ficam sob `.experiment-import/<perfil>/reports/`.
-
-```sh
-npm ci
-npm run typecheck
-npm test
-npm run build
-node tests/browser_science.mjs --local-review
-```
-
-O typecheck verifica os seletores e tipos da camada analítica em módulos ES. O build usa o empacotador estático existente e o TypeScript é uma dependência de desenvolvimento. [Auditoria e migração v0.5](./docs/MIGRACAO_V0.5.md)
 
 As 23 referências fornecidas em `references.bib` são mantidas como metadados bibliográficos em `data/literature.json`. A seção Literatura oferece busca por título, autor, ano ou DOI. O boletim bibliográfico semanal tem uma rota própria e está em construção.

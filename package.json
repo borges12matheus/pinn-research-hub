@@ -1,6 +1,7 @@
 {
   "name": "pinn-research-hub",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "node scripts/build_site.mjs",
     "typecheck": "tsc -p tsconfig.json",

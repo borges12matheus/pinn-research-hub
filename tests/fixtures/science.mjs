@@ -16,7 +16,7 @@ const metric = (owner, value) => ({
   value, unit: 'm/s', referenceType: 'fine_rans', calculationMethod: 'pointwise_field_error',
   evaluationSet: 'test', definition: 'Vector RMSE fixture', lowerIsBetter: true, source: provenance,
   operatorParameters: {}, pointCount: 4,
-  validityMask: { evaluationFingerprint: 'same', fingerprint: 'all', validCount: 4, validFraction: 1 },
+  validityMask: { policy: 'common_mask', evaluationFingerprint: 'same', fingerprint: 'all', validCount: 4, validFraction: 1 },
 });
 const run = (id, model) => ({
   ...common, id, runId: id, model, phaseId, type: 'baseline', date: '2026-11-13', modelFamily: model, reynolds: [5100], seed: 42,
@@ -27,7 +27,10 @@ const run = (id, model) => ({
   } : {
     executedAt: '2026-11-13T08:22:00', executedAtConfidence: 'inferred', executedAtSource: 'run_name', timezone: null,
   },
-  metrics: [`metric-${id}`], figures: [], trainingBudget: { supervisedFraction: null },
+  metrics: [`metric-${id}`], figures: [], features: ['x', 'y'], targets: ['u'], architecture: { width: 32 },
+  trainingBudget: { supervisedFraction: 1, supervisedEpochLimit: 10, batchSize: 16, learningRate: .001,
+    weightDecay: 0, earlyStoppingPatience: 3, schedulerPatience: 2, schedulerFactor: .5 },
+
 });
 const condition = {
   metric: 'rmse_uv_corrected', scope: 'test', status: 'descriptive_only', measurementCompatible: true,
